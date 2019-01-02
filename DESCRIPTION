@@ -1,0 +1,76 @@
+Package: Modstrings
+Type: Package
+Title: Modstrings: implementation of Biostrings to work with nucleotide 
+    sequences containing modified nucleotides
+Version: 0.98.0
+Date: 2018-12-15
+Authors@R: c(person("Felix G.M.", 
+                    "Ernst", 
+                    email = "felix.g.m.ernst@outlook.com", 
+                    role = c("aut", "cre")),
+             person("Denis L.J.", 
+                    "Lafontaine", 
+                    email = "denis.lafontaine@ulb.ac.be", 
+                    role = c("ctb")))
+Description: Representing nucleotide modifications in a nucleotide sequence
+    is usually done via special characters from a number of sources. This 
+    represents a challenge to work with in R and the Biostrings package.
+    The Modstrings package implements this functionallity for RNA and DNA 
+    sequences containing modified nucleotides by translating the character 
+    internally in order to work with the infrastructure of the Biostrings 
+    package.
+    For this the ModRNAString and ModDNAString classes and derivates and 
+    functions to construct and modify these objects despite the encoding issues 
+    are implemenented. In addition the conversion from sequences to list like 
+    location information (and the reverse operation) is implemented as well.
+License: Artistic-2.0
+Encoding: UTF-8
+biocViews:
+    DataImport, DataRepresentation, Infrastructure, Sequencing, Software
+Depends:
+    R (>= 3.5),
+    Biostrings
+Imports:
+    methods,
+    assertive,
+    BiocGenerics,
+    GenomicRanges,
+    S4Vectors,
+    IRanges,
+    XVector,
+    stringi,
+    stringr
+Suggests: 
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    testthat,
+    usethis,
+    sessioninfo
+Collate:
+    'Modstrings.R'
+    'AllClasses.R'
+    'AllGenerics.R'
+    'Modstrings-ModStringCodec.R'
+    'Modstrings-ModString.R'
+    'Modstrings-ModStringSet.R'
+    'Modstrings-ModStringViews.R'
+    'Modstrings-MaskedModString.R'
+    'Modstrings-ModStringCodec-data.R'
+    'Modstrings-ModStringSet-io.R'
+    'Modstrings-ModStringSetList.R'
+    'Modstrings-QualityScaledModStringSet.R'
+    'Modstrings-letter.R'
+    'Modstrings-letterFrequency.R'
+    'Modstrings-matchPattern.R'
+    'Modstrings-matchLRPattern.R'
+    'Modstrings-matching-lowlevel.R'
+    'Modstrings-modifyNucleotide.R'
+    'Modstrings-replaceAt.R'
+    'Modstrings-replaceLetterAt.R'
+    'Modstrings-sanitize.R'
+    'Modstrings-separate.R'
+    'Modstrings-seqtype.R'
+    'datasets.R'
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1

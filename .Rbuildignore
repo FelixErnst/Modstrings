@@ -1,0 +1,9 @@
+^Meta$
+^doc$
+^.*\.Rproj$
+^\.Rproj\.user$
+Biostrings
+IRanges
+S4Vectors
+XVector
+GenomicRanges

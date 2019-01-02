@@ -1,0 +1,45 @@
+---
+title: "ModDNAString alphabet"
+author: "Felix G.M. Ernst & Denis L.J. Lafontaine"
+date: "`r Sys.Date()`"
+package: Modstrings
+abstract: >
+  Details on the DNA modification alphabet used by the Modstrings package
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{Modstrings-DNA-alphabet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = c("custom.css"))
+```
+
+The alphabets for the modifications used in this package are based on the 
+compilation of DNA modifications https://dnamod.hoffmanlab.org
+by the Hoffman lab. The alphabet was modified to make it compatible for the
+`Modstrings` package.
+
+If modifications are missing, let us know.
+
+```{r alphabet, echo=FALSE}
+suppressPackageStartupMessages(library(Modstrings))
+df <- as.data.frame(Modstrings:::MOD_DNA_STRING_CODEC@additionalInfo)
+colnames(df) <- c("modification",
+                  "short name",
+                  "nomenclature",
+                  "orig. base",
+                  "abbreviation")
+knitr::kable(
+  df, caption = 'List of supported DNA modifications by ModDNAString objects.'
+)
+```
+
+```{r sessioninfo}
+sessioninfo::session_info()
+```

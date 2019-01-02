@@ -1,0 +1,45 @@
+---
+title: "ModRNAString alphabet"
+author: "Felix G.M. Ernst & Denis L.J. Lafontaine"
+date: "`r Sys.Date()`"
+package: Modstrings
+abstract: >
+  Details on the RNA modification alphabet used by the Modstrings package
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{Modstrings-RNA-alphabet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = c("custom.css"))
+```
+
+The alphabets for the modifications used in this package are based on the 
+compilation of RNA modifications by http://modomics.genesilico.pl by
+the Bujnicki lab. The alphabet was modified to remove some incompatible
+characters.
+
+If modifications are missing, let us know.
+
+```{r alphabet, echo=FALSE}
+suppressPackageStartupMessages(library(Modstrings))
+df <- as.data.frame(Modstrings:::MOD_RNA_STRING_CODEC@additionalInfo)
+colnames(df) <- c("modification",
+                  "short name",
+                  "nomenclature",
+                  "orig. base",
+                  "abbreviation")
+knitr::kable(
+  df, caption = 'List of supported RNA modifications by ModRNAString objects.'
+)
+```
+
+```{r sessioninfo}
+sessioninfo::session_info()
+```

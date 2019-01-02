@@ -1,0 +1,293 @@
+---
+title: "Modstrings"
+author: "Felix G.M. Ernst & Denis L.J. Lafontaine"
+date: "`r Sys.Date()`"
+package: Modstrings
+abstract: >
+  Classes for RNA and DNA sequences containing modified nucleotides
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{Modstrings}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = c('custom.css'))
+```
+
+# Introduction
+
+RNA are usually in some form post-transcriptionally modified. Most prominent
+examples are of course rRNA and tRNA, but in recent years mRNA was also 
+discovered to be post-transcriptionally modified.
+
+In many resources, like the tRNAdb [@Juehling.2009] or the modomics database 
+[@Boccaletto.2018], modified nucleotides are given. However in the Bioconductor
+universe these information were not accessible, since they rely extensively on
+special characters in the RNA modification alphabet.
+
+Therefore, the `ModRNAString` class was implemented extending the `BString`
+class from the `Biostrings` [@Pages.2017] package. It can store RNA sequences
+containing special characters of the RNA modification alphabet and thus can
+store location and identity of modifications. Functions for conversion to a
+tabular format are implemented as well.
+
+The implemented classes inherit most of the functions from the parental 
+`BString` class and it derivatives, which allows them to behave like the 
+normal `XString` classes within the bioconductor universe. Most of the 
+functionality is directly inherited and derived from the `Biostrings` package.
+
+Since a DNA modification alphabet also exists, a `ModDNAString` class was 
+implemented as well. For details on the available letters have a look at the
+[RNA modification](ModRNAString-alphabet.html) and 
+[DNA modification](ModDNAString-alphabet.html alphabet vignettes.
+
+# Creating a ModRNAString object
+
+In principle `ModRNAString` and `ModDNAString` objects can be created as any 
+other `XString` object. However encoding issue will most certainly come into
+play, depending on the modification, the operation system and probably the R
+version. This is not a problem of how the data is internally used, but how the
+letter is transfered from the console to R and back.
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages({
+  library(Modstrings)
+  library(GenomicRanges)
+})
+```
+
+```{r, eval=FALSE}
+library(Modstrings)
+library(GenomicRanges)
+```
+
+```{r object_creation, error=TRUE, purl=FALSE}
+# This works
+mr <- ModRNAString("ACGU7")
+# This might work on Linux, but does not on Windows
+ModRNAString("ACGU≈")
+# This cause a misinterpretation on Windows. Omega gets added as O. 
+# This modifys the information from yW-72 (7-aminocarboxypropylwyosine) to 
+# m1I (1-methylinosine)
+ModRNAString("ACGUΩ")
+```
+
+To eliminate this issue the function `modifyNucleotide()` is implemented,
+which can use short names or the nomenclature of a modification to add it at the 
+desired position.
+
+```{r alphabet, error=TRUE, purl=FALSE}
+head(shortName(ModRNAString()))
+head(nomenclature(ModRNAString()))
+```
+
+```{r object_creation2}
+r <- RNAString("ACGUG")
+mr2 <- modifyNucleotides(r,5,"m7G")
+mr2
+mr3 <- modifyNucleotides(r,5,"7G",nc.type = "nc")
+mr3
+```
+
+In addition, one can also use the `alphabet()` function and subset to the desired
+modifications.
+
+```{r object_creation3, }
+mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33]))
+```
+
+# Streamlining objection creation and modification
+
+To offer a more streamlined functionality, which can take more information as
+input, the function `combineIntoModstrings()` is implemented. It takes a
+`XString` object and a `GRanges` object with a `mod` column and returns a
+`ModString` object. The information in the `mod` column must match the short
+name or nomenclature of the particular modification of interest as returned by
+the `shortName()` or `nomenclature()` functions as seen above.
+
+```{r object_creation4}
+gr <- GRanges(seqnames = "1",
+              ranges = IRanges(5,width = 1),
+              mod = "m7G")
+mr5 <- combineIntoModstrings(r,
+                             gr)
+```
+
+`combineIntoModstrings()` is also implemented for `ModStringSet` objects.
+
+```{r object_creation5}
+rs <- RNAStringSet(list(r,r,r,r,r))
+names(rs) <- paste0("Sequence", seq_along(rs))
+gr2 <- GRanges(seqnames = names(rs)[c(1,1,2,3,3,4,5,5)],
+               ranges = IRanges(start = c(4,5,5,4,5,5,4,5),width = 1),
+               mod = c("D","m7G","m7G","D","m7G","m7G","D","m7G"))
+gr2
+mrs <- combineIntoModstrings(rs, gr2)
+mrs
+```
+
+The reverse operation is also available via the function `separate()`, which
+allows the positions of modifications to be transfered into a tabular format.
+
+```{r object_separation}
+gr3 <- separate(mrs)
+rs2 <- RNAStringSet(mrs)
+gr3
+rs2
+```
+
+`modifyNucleotides()` and therefore also `combineIntoModstrings()` requires,
+that the nucleotides to be modified match the originating base for the
+modification. The next chunk fails, since the originating base for m7G is of
+course G.
+
+```{r object_creation_test, error=TRUE, purl=FALSE}
+modifyNucleotides(r,4,"m7G")
+```
+
+Calls for both functions check the sanity for this operation, so that the next
+bit is always `TRUE`.
+
+```{r object_comparison_teaser}
+r <- RNAString("ACGUG")
+mr2 <- modifyNucleotides(r,5,"m7G")
+r == RNAString(mr2)
+```
+
+# Comparing ModString objects
+
+`ModString` objects can be directly compared to `RNAString` or `DNAString` 
+objects depending on the type (`ModRNA` to `RNA` and `ModDNA` to `DNA`).
+
+```{r object_comparison}
+r == ModRNAString(r)
+r == mr
+rs == ModRNAStringSet(rs)
+rs == c(mrs[1:3],rs[4:5])
+```
+
+# Conversion of ModString objects
+
+`ModString` objects can be converted into each other. However any conversion 
+will remove any information on modifications and revert each nucleotide back to 
+its originating nucleotide.
+
+```{r object_conversion}
+RNAString(mr)
+```
+
+# Quality scaled ModString
+
+Quality information can be encoded alongside `ModString` objects by combining it
+with a `XStringQuality` object inside a `QualityScaledModStringSet` object. Two
+class are implemented: `QualityScaledModRNAStringSet` and 
+`QualityScaledModDNAStringSet`. They are usable as expected from a 
+`QualityScaledXStringSet` object.
+
+```{r object_qual}
+qmrs <- QualityScaledModRNAStringSet(mrs,
+                                     PhredQuality(c("!!!!h","!!!!h","!!!!h",
+                                                    "!!!!h","!!!!h")))
+qmrs
+```
+
+They can also be constructed/deconstructed using the functions
+`combineIntoModstrings()` and `separate()` and use an additional metadata column
+named `quality`. For quality information to persist during construction, set the
+argument `with.qualities = TRUE`. If a `QualityScaledModStringSet` is used as an
+input to separate, the quality information are returned in the `quality column`.
+We choose to avoid clashes with the `score` column and not to recycle it.
+
+```{r object_qual_sep_combine}
+qgr <- separate(qmrs)
+qgr
+combineIntoModstrings(mrs,qgr)
+```
+
+# Saving and reading ModString objects to file
+
+The nucleotide sequences with modifications can be be saved to a `fasta` or
+`fastq` file using the functions `writeModStringSet()`. Reading of these files
+is achieved using `readModRNAStringSet()` or `readModDNAStringSet()`. In case of
+`fastq` files, the sequences can be automatically read as a
+`QualityScaledModRNAStringSet` using `readQualityScaledModRNAStringSet()`
+function.
+
+```{r object_io}
+writeModStringSet(mrs, file = "test.fasta")
+# note the different function name. Otherwise empty qualities will be written
+writeQualityScaledModStringSet(qmrs, file = "test.fastq")
+mrs2 <- readModRNAStringSet("test.fasta", format = "fasta")
+mrs2
+qmrs2 <- readQualityScaledModRNAStringSet("test.fastq")
+qmrs2
+```
+
+```{r object_io_unlink, include=FALSE}
+unlink("test.fasta")
+unlink("test.fastq")
+```
+
+# Pattern matching
+
+Pattern matching is implemented as well as expected for `XString` objects.
+
+```{r object_pattern}
+matchPattern("U7",mr)
+vmatchPattern("D7",mrs)
+mrl <- unlist(mrs)
+matchLRPatterns("7ACGU","U7ACG",100,mrl)
+```
+
+# Future development
+
+In principle post-translational modifications of proteins can also be 
+implemented. However, a one letter alphabet of post-translational modifications
+must be developed first. (Or does this already exist? Let us know.)
+
+# Import example
+
+This is a quick example shwoing how sequence information containing modified
+nucleotides can be imported into an R session using the `Modstrings` package.
+The file needs to be UTF-8 encoded.
+
+```{r cars}
+# read the lines
+test <- readLines(system.file("extdata","test.fasta",package = "Modstrings"),
+                      encoding = "UTF-8")
+# keep every second line as sequence, the other one as name
+names <- test[seq.int(from = 1, to = 104, by = 2)]
+seq <- test[seq.int(from = 2, to = 104, by = 2)]
+# sanitize input. This needs to be adapt to the individual case
+names <- gsub(" ","_",
+              gsub("> ","",
+                   gsub(" \\| ","-",
+                        names)))
+seq <- gsub("-","",gsub("_","",seq))
+names(seq) <- names
+
+# sanitize special characters to Modstrings equivalent
+seq <- sanitizeFromModomics(seq)
+seq <- ModRNAStringSet(seq)
+seq
+
+# convert the contained modifications into a tabular format
+separate(seq)
+```
+
+# Sessioninfo
+
+```{r sessioninfo}
+sessioninfo::session_info()
+```
+
+# Literature
