@@ -11,7 +11,7 @@ Authors@R: c(person("Felix G.M.",
              person("Denis L.J.", 
                     "Lafontaine", 
                     email = "denis.lafontaine@ulb.ac.be", 
-                    role = c("ctb")))
+                    role = c("ctb", "fnd")))
 Description: Representing nucleotide modifications in a nucleotide sequence
     is usually done via special characters from a number of sources. This 
     represents a challenge to work with in R and the Biostrings package.

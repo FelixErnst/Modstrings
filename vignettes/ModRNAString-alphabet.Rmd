@@ -7,13 +7,12 @@ abstract: >
   Details on the RNA modification alphabet used by the Modstrings package
 output:
   BiocStyle::html_document:
-    toc: true
-    toc_float: true
     df_print: paged
 vignette: >
   %\VignetteIndexEntry{Modstrings-RNA-alphabet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -22,8 +21,8 @@ BiocStyle::markdown(css.files = c("custom.css"))
 
 The alphabets for the modifications used in this package are based on the 
 compilation of RNA modifications by http://modomics.genesilico.pl by
-the Bujnicki lab. The alphabet was modified to remove some incompatible
-characters.
+the Bujnicki lab [@Boccaletto.2018]. The alphabet was modified to remove some 
+incompatible characters.
 
 If modifications are missing, let us know.
 

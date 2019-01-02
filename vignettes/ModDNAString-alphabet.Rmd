@@ -7,8 +7,6 @@ abstract: >
   Details on the DNA modification alphabet used by the Modstrings package
 output:
   BiocStyle::html_document:
-    toc: true
-    toc_float: true
     df_print: paged
 vignette: >
   %\VignetteIndexEntry{Modstrings-DNA-alphabet}

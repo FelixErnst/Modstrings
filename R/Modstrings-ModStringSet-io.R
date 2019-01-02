@@ -540,7 +540,6 @@ readModRNAStringSet <- function(filepath,
   f <- rep(seq_len(no_of_chunks),
            c(rep(chunk_size,no_of_chunks - 1),length %% chunk_size))
   splitX <- split(x,f)
-  browser()
   if (is.null(qualities)) {
     qualities <- unname(BStringSet(unlist(lapply(mapply(rep,
                                                         "!",

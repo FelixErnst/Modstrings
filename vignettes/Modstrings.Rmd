@@ -103,6 +103,7 @@ modifications.
 
 ```{r object_creation3, }
 mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33]))
+mr4
 ```
 
 # Streamlining objection creation and modification
@@ -120,6 +121,7 @@ gr <- GRanges(seqnames = "1",
               mod = "m7G")
 mr5 <- combineIntoModstrings(r,
                              gr)
+mr5
 ```
 
 `combineIntoModstrings()` is also implemented for `ModStringSet` objects.
@@ -210,7 +212,7 @@ We choose to avoid clashes with the `score` column and not to recycle it.
 ```{r object_qual_sep_combine}
 qgr <- separate(qmrs)
 qgr
-combineIntoModstrings(mrs,qgr)
+combineIntoModstrings(mrs,qgr, with.qualities = TRUE)
 ```
 
 # Saving and reading ModString objects to file
@@ -264,6 +266,7 @@ The file needs to be UTF-8 encoded.
 # read the lines
 test <- readLines(system.file("extdata","test.fasta",package = "Modstrings"),
                       encoding = "UTF-8")
+head(test,2)
 # keep every second line as sequence, the other one as name
 names <- test[seq.int(from = 1, to = 104, by = 2)]
 seq <- test[seq.int(from = 2, to = 104, by = 2)]
