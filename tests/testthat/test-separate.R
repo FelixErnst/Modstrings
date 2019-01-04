@@ -63,7 +63,8 @@ test_that("ModString separate/combine:",{
   expect_s4_class(actual,"QualityScaledModRNAStringSet")
   expect_equal(as.character(actual),as.character(qset))
   expect_equal(as.character(quality(actual)),as.character(quality(qset)))
-  expect_warning(expect_equal(unique(as.integer(quality(actual))),0))
+  expect_equal(unique(as(quality(actual),"IntegerList")),
+               IntegerList(0,0,0))
   mcols(gr[2,])$quality <- 10
   actual <- combineIntoModstrings(as(qset,"RNAStringSet"),
                                 gr,
@@ -71,5 +72,6 @@ test_that("ModString separate/combine:",{
   expect_s4_class(actual,"ModRNAStringSet")
   expect_s4_class(actual,"QualityScaledModRNAStringSet")
   expect_equal(as.character(actual),as.character(qset))
-  expect_warning(expect_equal(unique(as.integer(quality(actual))),c(0,10)))
+  expect_equal(unique(as(quality(actual),"IntegerList")),
+                              IntegerList(c(0,10),c(0),c(0)))
 })
