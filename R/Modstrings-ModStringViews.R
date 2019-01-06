@@ -172,7 +172,6 @@ ModStringViews.get_view <- function(x,
         sep = "")
 }
 
-### nchar(XStringViews.get_snippet(x, start, end, snippetWidth)) is <= snippetWidth
 ModStringViews.get_snippet <- function(x,
                                        start,
                                        end,
@@ -289,7 +288,8 @@ setMethod("show", "ModStringViews",
     subject <- subject(object)
     lsub <- length(subject)
     cat("  Views on a ", lsub, "-letter ", class(subject), " subject", sep = "")
-    cat("\nsubject:", Biostrings:::toSeqSnippet(subject, getOption("width") - 9))
+    cat("\nsubject:", Biostrings:::toSeqSnippet(subject,
+                                                getOption("width") - 9))
     ModStringViews.show_vframe(object)
   }
 )

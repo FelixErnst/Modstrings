@@ -119,11 +119,12 @@ NULL
                        (cutsEnd - cutsBegin + 1), 
                        SIMPLIFY = FALSE))
     # get a list if seqtype strings
-    ans_add <- lapply(split(lines, f),
-                      function(nextLines){
-                        .parse_fasta_block(nextLines[stringr::str_trim(nextLines) != ""],
-                                           seqtype)
-                      })
+    ans_add <- 
+      lapply(split(lines, f),
+             function(nextLines){
+               .parse_fasta_block(nextLines[stringr::str_trim(nextLines) != ""],
+                                  seqtype)
+             })
     # if the last of the already read in and first of the new ones need merging 
     if(mergePrevious){
       ans[[length(ans)]] <- Biostrings::xscat(ans[[length(ans)]],

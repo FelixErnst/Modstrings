@@ -43,7 +43,7 @@ NULL
       stop("'at' must be a matrix or list of logicals",
            call. = FALSE)
     }
-    if (nrow(at) != length(x) || ncol(at) != x_width){
+    if (nrow(at) != length(x) || any(ncol(at) != x_width)){
       stop("'x' and 'at' must have the same dimensions",
            call. = FALSE)
     }
