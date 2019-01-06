@@ -28,7 +28,7 @@ NULL
                             argname = "pattern"){
   subject_baseclass <- Biostrings:::xsbaseclass(subject)
   if (is(pattern, "ModString")) {
-    if (Biostrings:::xsbaseclass(pattern) == subject_baseclass){
+    if (base_class_name(pattern) == subject_baseclass){
       return(pattern)
     }
   } else if (!assertive::is_a_non_empty_string(pattern)){

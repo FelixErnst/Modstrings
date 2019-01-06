@@ -85,4 +85,11 @@ test_that("Matching:",{
   expect_equal(start(actual),13)
   expect_equal(end(actual),82)
   expect_equal(width(actual),70)
+  #
+  seq <- ModRNAString("A7UC")
+  set <- ModRNAStringSet(c("A7UC","A7UC"))
+  expect_false(isMatchingAt("7U",seq,1))
+  expect_true(isMatchingAt("7U",seq,2))
+  expect_equal(isMatchingAt("7U",set,1),matrix(FALSE,ncol = 2))
+  expect_equal(isMatchingAt("7U",set,2),matrix(TRUE,ncol = 2))
 })

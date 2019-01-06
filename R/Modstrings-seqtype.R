@@ -106,6 +106,8 @@ setMethod("nomenclature", "ModStringSet",
 
 
 # derived from Biostrings/R/seqtype.R ------------------------------------------
+base_class_name <- function(x) paste(seqtype(x), "String", sep="")
+
 modscodec <- function(x){
   switch(x,
          ModDNA = MOD_DNA_STRING_CODEC,
