@@ -73,8 +73,8 @@ setMethod("initialize",
             .Object@originatingBase <- c(orig_base,names(extra_letters))
             .Object@values <- c(values,unname(extra_letters))
             .Object@additionalInfo <- additionalInfo
-            # originating base must be in the extra_letter
-            if(!all(.Object@originatingBase %in% names(extra_letters))){
+            # originating base must be in the extra_letter or empty
+            if(!all(.Object@originatingBase %in% c(names(extra_letters),""))){
               stop("Not all originating bases are in the extra letters.")
             }
             # order

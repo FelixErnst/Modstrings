@@ -1,4 +1,4 @@
-name	short_name	nc	orig_base	abbrev	value	oneByteInteger
+﻿name	short_name	nc	orig_base	abbrev	value	oneByteInteger
 1,2'-O-dimethyladenosine	m1Am	01A	A	œ	3	1
 1,2'-O-dimethylguanosine	m1Gm	01G	G	ε	5	2
 1,2'-O-dimethylinosine	m1Im	019A	A	ξ	6	3
@@ -143,3 +143,4 @@ uridine 5-oxyacetic acid	cmo5U	502U	U	V	149	86
 uridine 5-oxyacetic acid methyl ester	mcmo5U	503U	U	υ	150	151
 wybutosine	yW	3483G	G	Y	151	89
 wyosine	imG	34G	G	€	152	152
+N2,N2,7-trimethylguanosine cap (cap TMG)	m2,2,7Gpp(pN)	2279553N		¶	153	153
