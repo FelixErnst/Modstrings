@@ -63,7 +63,6 @@ load("data/MOD_RNA_DICT_TRNADB.rda")
 }
 
 .construct_translation_table <- function(dict,seqtype){
-  browser()
   if(!is(dict,"DataFrame")){
     stop("Dictionary must be a DataFrame with at least two columns ",
          "'mods_abbrev' and 'short_name'. 'short_name' must match the ",
