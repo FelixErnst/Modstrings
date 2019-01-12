@@ -180,7 +180,7 @@ setMethod("separate",
   if(is.null(nc)){
     return(gr)
   }
-  tmp <- CharacterList(strsplit(nc,""))
+  tmp <- IRanges::CharacterList(strsplit(nc,""))
   f <- tmp %in% (seq_len(10)-1L)
   base <- unique(unlist(tmp[!f]))
   if(length(base) != 1L){
