@@ -27,7 +27,7 @@ NULL
   at
 }
 
-.check_replace_pos_ModStringSet <- function(x,at){
+.norm_replace_pos_ModStringSet <- function(x,at){
   x_width <- width(x)
   if(is.list(at)){
     if(!is.logical(unlist(at))){
@@ -194,8 +194,8 @@ setMethod(
     if (length(x) == 0L){
       stop("'x' has no element")
     }
-    .check_replace_pos_ModStringSet(x,
-                                    at)
+    .norm_replace_pos_ModStringSet(x,
+                                   at)
     if (is(letter, "ModStringSet")){
       letter <- as.character(letter)
     }

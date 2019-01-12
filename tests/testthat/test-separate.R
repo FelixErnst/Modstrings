@@ -17,6 +17,34 @@ test_that("ModString separate/combine:",{
   expect_s4_class(seq2,"ModRNAString")
   #
   dnaTestSeq <- paste(alphabet(ModDNAString()), collapse = "")
+  set <- ModDNAStringSet(c("A" = dnaTestSeq,
+                           "B" = dnaTestSeq,
+                           "C" = dnaTestSeq))
+  gr <- separate(set)
+  expect_equal(length(gr),141)
+  set2 <- combineIntoModstrings(as(set,"DNAStringSet"),gr)
+  expect_equal(as.character(set2),as.character(set))
+  expect_s4_class(set2,"ModDNAStringSet")
+  grl <- split(gr,seqnames(gr))
+  set3 <- combineIntoModstrings(as(set,"DNAStringSet"),grl)
+  expect_equal(as.character(set3),as.character(set))
+  expect_s4_class(set3,"ModDNAStringSet")
+  #
+  rnaTestSeq <- paste(alphabet(ModRNAString()), collapse = "")
+  set <- ModRNAStringSet(c("A" = rnaTestSeq,
+                           "B" = rnaTestSeq,
+                           "C" = rnaTestSeq))
+  gr <- separate(set)
+  expect_equal(length(gr),435)
+  set2 <- combineIntoModstrings(as(set,"RNAStringSet"),gr)
+  expect_equal(as.character(set2),as.character(set))
+  expect_s4_class(set2,"ModRNAStringSet")
+  grl <- split(gr,seqnames(gr))
+  set3 <- combineIntoModstrings(as(set,"RNAStringSet"),grl)
+  expect_equal(as.character(set3),as.character(set))
+  expect_s4_class(set3,"ModRNAStringSet")
+  #
+  dnaTestSeq <- paste(alphabet(ModDNAString()), collapse = "")
   seq <- ModDNAString(dnaTestSeq)
   qseq <- PhredQuality(paste0(rep("!",
                                   length(seq)),
@@ -51,7 +79,7 @@ test_that("ModString separate/combine:",{
                               collapse = ""))
   qset <- QualityScaledModRNAStringSet(ModRNAStringSet(list(seq,seq,seq)),
                                        c(qseq,qseq,qseq))
-  names(qset) <- c("A","B","c")
+  names(qset) <- c("A","B","C")
   gr <- separate(qset)
   actual <- combineIntoModstrings(as(qset,"RNAStringSet"),gr)
   expect_s4_class(actual,"ModRNAStringSet")

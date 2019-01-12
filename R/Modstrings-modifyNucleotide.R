@@ -1,6 +1,39 @@
 #' @include Modstrings.R
 NULL
 
+# return the nc independent whether shortName or nomenclature was used
+.get_nc_ident <- function(mod,seqtype,nc_type){
+  if(nc_type == "short"){
+    modNames <- names(modsshortnames(seqtype))
+    f <- match(mod,modNames)
+    return(names(modsnomenclature(seqtype))[f])
+  }
+  if(nc_type == "nc"){
+    return(mod)
+  }
+  stop("Something went wrong.",
+       call. = FALSE)
+}
+
+# normalize the modification type using the nomenclature type
+.norm_seqtype_modtype <- function(mod,
+                                  seqtype,
+                                  nc_type){
+  modNames <- switch(nc_type,
+                     "short" = modsshortnames(seqtype),
+                     "nc" = modsnomenclature(seqtype))
+  modValues <- modNames[match(mod,names(modNames))]
+  modValues <- modValues[!is.na(modValues)]
+  if(length(modValues) != length(mod)){
+    stop("No modification for the identifiers '",
+         paste(mod[!(mod %in% names(modNames))],
+               collapse = "','"),
+         "' for a '",paste(seqtype,"String",sep=""),"' found.",
+         call. = FALSE)
+  }
+  modValues
+}
+
 #' @rdname modifyNucleotides
 #' 
 #' @title Modifying nucleotides in a nucleotide sequence (or set of sequences) 
@@ -82,17 +115,7 @@ setMethod(
       stop("lengths of 'at' and 'mod' need to be equal.",
            call. = FALSE)
     }
-    modNames <- switch(nc.type,
-                       "short" = modsshortnames(seqtype(x)),
-                       "nc" = modsnomenclature(seqtype(x)))
-    modValues <- modNames[match(mod,names(modNames))]
-    modValues <- modValues[!is.na(modValues)]
-    if(length(modValues) != length(mod)){
-      stop("No modification for the identifiers '",
-           paste(mod[!(mod %in% names(modNames))],
-                 collapse = "','"),
-           "' found.")
-    }
+    modValues <- .norm_seqtype_modtype(mod,seqtype(x),nc.type)
     codec <- modscodec(seqtype(x))
     f <- codec@values[match(modValues,codec@values)]
     current_letter <- unlist(lapply(at,
@@ -146,7 +169,7 @@ setMethod(
     if (length(x) == 0L){
       stop("'x' has no element")
     }
-    .check_replace_pos_ModStringSet(x,at)
+    .norm_replace_pos_ModStringSet(x,at)
     if (is(mod, "ModStringSet")) {
       mod <- lapply(mod,
                     function(m){

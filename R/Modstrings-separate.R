@@ -148,15 +148,98 @@ setMethod("separate",
 
 # combine ----------------------------------------------------------------------
 
-.check_GRanges_for_combine <- function(x,gr) {
-  seqnames <- seqnames(gr)
-  names <- names(gr)
-  if(!all(unique(seqnames) %in% names(x)) && 
-     !all(unique(names) %in% names(x))){
-    stop("Names of XStringSet object do not match the seqnames or names in the",
-         " elements of the GRanges object.",
+# remove any unneccessary information
+# warn if minus strand information are present
+.norm_GRanges <- function(gr){
+  mcols <- mcols(gr)[,colnames(mcols(gr)) %in% c("mod","quality"),drop = FALSE]
+  gr <- GRanges(seqnames = as.character(seqnames(gr)),
+                ranges = ranges(gr),
+                strand = strand(gr),
+                mcols)
+  if(any(as.character(strand(gr)) == "-")){
+    warning("Annotations on the minus strand will not be used.",
+            call. = FALSE)
+  }
+  gr[as.character(strand(gr)) %in% c("*","+")]
+}
+.norm_GRangesList <- function(gr){
+  ans <- unlist(gr)
+  ans <- .norm_GRanges(ans)
+  split(ans,
+        seqnames(ans))
+}
+
+
+# trying to combine modifications if possible ----------------------------------
+
+# assembles a new modification from nomenclature and checks if the new type
+# is valid
+.combine_to_new_nc_ident <- function(gr,seqtype){
+  nc_type <- .get_nc_type(gr$mod,seqtype)
+  nc <- .get_nc_ident(gr$mod,seqtype,nc_type)
+  if(is.null(nc)){
+    return(gr)
+  }
+  tmp <- CharacterList(strsplit(nc,""))
+  f <- tmp %in% (seq_len(10)-1L)
+  base <- unique(unlist(tmp[!f]))
+  if(length(base) != 1L){
+    stop("Multiple modifications found for position '",unique(start(gr)),"'.",
+         "They could not be combined into a single modification since the base ",
+         "nucleotides do not match.",
          call. = FALSE)
   }
+  newnc <- vapply(tmp[f],
+                  paste0,
+                  character(1),
+                  collapse = "")
+  # order the nc base on first digit
+  newnc <- newnc[order(unlist(tmp[f][,1]))]
+  newnc <- paste0(paste0(newnc,collapse = ""),base)
+  newnc <- newnc[newnc %in% names(modsnomenclature(seqtype))]
+  if(length(newnc) == 0L){
+    stop("Multiple modifications found for position '",unique(start(gr)),"'.",
+         "They could not be combined into a single modification.",
+         call. = FALSE)
+  }
+  if(nc_type == "short"){
+    f <- match(newnc,names(modsnomenclature(seqtype)))
+    newnc <- names(modsshortnames(seqtype))[f]
+  }
+  GRanges(seqnames = unique(as.character(seqnames(gr))),
+          ranges = unique(ranges(gr)),
+          strand = unique(as.character(strand(gr))),
+          mod = newnc)
+}
+
+# sort in new modification annotation
+.combine_modifications <- function(gr,seqtype){
+  overlappingPos <- start(gr)[duplicated(start(gr))]
+  if(length(overlappingPos) > 0L){
+    newgr <- lapply(overlappingPos,
+                    function(i){
+                      .combine_to_new_nc_ident(gr[start(gr) == i,],seqtype)
+                    })
+    gr <- gr[!(start(gr) %in% overlappingPos)]
+    gr <- unlist(GRangesList(c(list(gr),newgr)))
+    gr <- gr[order(start(gr))]
+  }
+  gr
+}
+.combine_modifications_in_GRanges <- function(gr,seqtype){
+  .combine_modifications(gr,seqtype)
+}
+.combine_modifications_in_GRangesList <- function(gr,seqtype){
+  gr <- GRangesList(lapply(gr,
+               function(g){
+                 .combine_modifications(g,seqtype)
+               }))
+  gr
+}
+
+# normalize GRanges inputs and check compatibility for combineIntoModstrings
+.norm_GRanges_for_combine <- function(x,gr) {
+  gr <- .norm_GRanges(gr)
   if(any(max(end(gr)) > length(x))){
     stop("GRanges object contains coordinates out of bounds for the ",
          "XStringSet object.",
@@ -166,20 +249,35 @@ setMethod("separate",
     stop("width() of GRanges elements must all be == 1",
          call. = FALSE)
   }
-  # this can also be done with checking the findOverlaps(gr) length. This
-  # should however be faster
-  if(any(duplicated(start(gr)))){
-    f <- which(duplicated(start(gr)))
-    stop("Multiple modifications found for position '",start(gr)[f],"'.",
-         call. = FALSE)
-  }
   if(!("mod" %in% colnames(S4Vectors::mcols(gr)))){
     stop("GRanges object does not contain a 'mod' column.",
          call. = FALSE)
   }
+  # check if modifications are compatible with type of input string
+  seqtype <- seqtype(x)
+  if(!stringr::str_detect(seqtype,"Mod")){
+    seqtype <- paste0("Mod",seqtype)
+  }
+  .get_nc_type(gr$mod,seqtype)
+  # this can also be done with checking the findOverlaps(gr) length. This
+  # should however be faster
+  if(any(duplicated(start(gr)))){
+    if(!is.null(mcols(gr)$quality)){
+      stop("Multiple modifications found for position '",start(gr)[f],"'.",
+           call. = FALSE)
+    }
+    gr <- .combine_modifications_in_GRanges(gr,seqtype)
+    if(any(duplicated(start(gr)))){
+      f <- which(duplicated(start(gr)))
+      stop("Multiple modifications found for position '",start(gr)[f],"'.",
+           call. = FALSE)
+    }
+  }
+  gr
 }
 
-.check_GRangesList_for_combine <- function(x,gr) {
+.norm_GRangesList_for_combine <- function(x,gr) {
+  gr <- .norm_GRangesList(gr)
   seqnames <- lapply(gr, function(z){as.character(seqnames(z))})
   names <- lapply(gr, function(z){names(z)})
   if(!all(unique(unlist(seqnames)) %in% names(x)) && 
@@ -197,13 +295,6 @@ setMethod("separate",
     stop("width() of GRangesList elements must all be == 1",
          call. = FALSE)
   }
-  starts <- start(gr)
-  starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
-  if(any(starts)){
-    stop("Multiple modifications found for position in element '",which(starts),
-         "'.",
-         call. = FALSE)
-  }
   modCol <- vapply(gr,
                    function(z){"mod" %in% colnames(S4Vectors::mcols(z))},
                    logical(1))
@@ -211,32 +302,62 @@ setMethod("separate",
     stop("Elements of the GRangesList object do not contain a 'mod' column.",
          call. = FALSE)
   }
+  # check if modifications are compatible with type of input string
+  seqtype <- seqtype(x)
+  if(!stringr::str_detect(seqtype,"Mod")){
+    seqtype <- paste0("Mod",seqtype)
+  }
+  vapply(gr,
+         function(g){
+           .get_nc_type(g$mod,seqtype)
+         },
+         character(1))
+  #
+  starts <- start(gr)
+  starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
+  if(any(starts)){
+    qualityCol <- 
+      vapply(gr,
+             function(z){"quality" %in% colnames(S4Vectors::mcols(z))},
+             logical(1))
+    if(any(qualityCol)){
+      stop("Multiple modifications found for position in element '",
+           which(starts),"'.",
+           call. = FALSE)
+    }
+    gr <- .combine_modifications_in_GRangesList(gr,seqtype)
+    starts <- start(gr)
+    starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
+    if(any(starts)){
+      stop("Multiple modifications found for position in element '",
+           which(starts),"'.",
+           call. = FALSE)
+    }
+  }
+  gr
 }
 
-# remove minus strand informations
-.norm_GRanges <- function(gr){
-  gr[as.character(strand(gr)) %in% c("*","+")]
-}
-.norm_GRangesList <- function(gr){
-  ans <- unlist(gr)
-  ans <- .norm_GRanges(ans)
-  split(ans,
-        seqnames(ans))
-}
-
-.get_nc.type <- function(x,gr){
-  sn <- shortName(x)
-  nc <- nomenclature(x)
-  if(all(gr$mod %in% sn)){
+# check which annotation types is it. If nothing is found the seqtype is not
+# compatible with the mod type
+.get_nc_type <- function(mod,seqtype){
+  sn <- names(modsshortnames(seqtype))
+  nc <- names(modsnomenclature(seqtype))
+  if(all(mod %in% sn)){
     return("short")
   }
-  if(all(gr$mod %in% nc)){
+  if(all(mod %in% nc)){
     return("nc")
   }
-  stop("Nomenclature type must be unique. The 'GRanges' object contains both ",
-       "types.", call. = FALSE)
+  if(any(mod %in% sn) || any(mod %in% nc)){
+    stop("Nomenclature type of the modifications must be unique. The 'GRanges'",
+         "object contains both types.", call. = FALSE)
+  }
+  stop("Nomenclature types of modifications are not compatible with '",
+       seqtype,"String'.",
+       call. = FALSE)
 }
 
+# convert the position information into a logical list or matrix
 .pos_to_logical_list <- function(x,
                                  at){
   width <- width(x)
@@ -251,7 +372,6 @@ setMethod("separate",
     SIMPLIFY = FALSE)
   list
 }
-
 .pos_to_logical_matrix <- function(x,
                                    at){
   width <- width(x)
@@ -269,6 +389,7 @@ setMethod("separate",
   m
 }
 
+# construct a QualityScaleStringSet from information in the GRanges object
 .convert_to_QualityScaledStringSet <- function(string,
                                                gr,
                                                quality.type,
@@ -338,13 +459,12 @@ setMethod("combineIntoModstrings",
                    verbose = FALSE,
                    ...){
             .check_verbose(verbose)
-            .check_GRanges_for_combine(x,gr)
-            gr <- .norm_GRanges(gr)
             x <- as(x,
                     paste0("Mod",
                            seqtype(x),
                            "String"))
-            nc.type <- .get_nc.type(x,gr)
+            gr <- .norm_GRanges_for_combine(x,gr)
+            nc.type <- .get_nc_type(gr$mod,seqtype(x))
             at <- .pos_to_logical_matrix(as(x,
                                             paste0(seqtype(x),
                                                    "StringSet")),
@@ -385,8 +505,7 @@ setMethod("combineIntoModstrings",
             quality.type <- match.arg(quality.type,c("Phred",
                                                      "Solexa",
                                                      "Illumina"))
-            .check_GRangesList_for_combine(x,gr)
-            gr <- .norm_GRangesList(gr)
+            gr <- .norm_GRangesList_for_combine(x, gr)
             if (!S4Vectors::isConstant(width(x))){
               at <- .pos_to_logical_list(as(x,
                                               paste0(seqtype(x),
@@ -441,8 +560,7 @@ setMethod("combineIntoModstrings",
               gr <- split(gr,
                           names(gr))
             }
-            .check_GRangesList_for_combine(x,gr)
-            gr <- .norm_GRangesList(gr)
+            gr <- .norm_GRangesList_for_combine(x,gr)
             if (!S4Vectors::isConstant(width(x))){
               at <- .pos_to_logical_list(as(x,
                                             paste0(seqtype(x),
