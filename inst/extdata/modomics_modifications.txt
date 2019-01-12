@@ -1,0 +1,170 @@
+œ	m1Am	1,2′-O-dimethyladenosine
+ε	m1Gm	1,2′-O-dimethylguanosine
+ξ	m1Im	1,2′-O-dimethylinosine
+α	m1acp3Y	1-methyl-3-(3-amino-3-carboxypropyl)pseudouridine
+"	m1A	1-methyladenosine
+K	m1G	1-methylguanosine
+O	m1I	1-methylinosine
+]	m1Y	1-methylpseudouridine
+±	m2,8A	2,8-dimethyladenosine
+Γ	ges2U	2-geranylthiouridine
+}	k2C	2-lysidine
+/	m2A	2-methyladenosine
+ÿ	ms2ct6A	2-methylthio cyclic N6-threonylcarbamoyladenosine
+≠	ms2io6A	2-methylthio-N6-(cis-hydroxyisopentenyl) adenosine
+≈	ms2hn6A	2-methylthio-N6-hydroxynorvalylcarbamoyladenosine
+*	ms2i6A	2-methylthio-N6-isopentenyladenosine
+∞	ms2m6A	2-methylthio-N6-methyladenosine
+[	ms2t6A	2-methylthio-N6-threonylcarbamoyladenosine
+ω	se2U	2-selenouridine
+∏	s2Um	2-thio-2′-O-methyluridine
+%	s2C	2-thiocytidine
+2	s2U	2-thiouridine
+:	Am	2′-O-methyladenosine
+B	Cm	2′-O-methylcytidine
+#	Gm	2′-O-methylguanosine
+≤	Im	2′-O-methylinosine
+Z	Ym	2′-O-methylpseudouridine
+J	Um	2′-O-methyluridine
+Ͽ	mcmo5Um	2′-O-methyluridine 5-oxyacetic acid methyl ester
+^	Ar(p)	2′-O-ribosyladenosine (phosphate)
+ℑ	Gr(p)	2′-O-ribosylguanosine (phosphate)
+	(pN)2′3′>p	2′3′-cyclic phosphate end
+σ	m3Um	3,2′-O-dimethyluridine
+Ð	acp3D	3-(3-amino-3-carboxypropyl)-5,6-dihydrouridine
+Þ	acp3Y	3-(3-amino-3-carboxypropyl)pseudouridine
+X	acp3U	3-(3-amino-3-carboxypropyl)uridine
+'	m3C	3-methylcytidine
+κ	m3Y	3-methylpseudouridine
+δ	m3U	3-methyluridine
+†	imG-14	4-demethylwyosine
+4	s4U	4-thiouridine
+τ	m5Cm	5,2′-O-dimethylcytidine
+\	m5Um	5,2′-O-dimethyluridine
+b	mchm5Um	5-(carboxyhydroxymethyl)-2′-O-methyluridine methyl ester
+,	mchm5U	5-(carboxyhydroxymethyl)uridine methyl ester
+½	inm5s2U	5-(isopentenylaminomethyl)-2-thiouridine
+¼	inm5Um	5-(isopentenylaminomethyl)-2′-O-methyluridine
+¾	inm5U	5-(isopentenylaminomethyl)uridine
+Δ	nm5ges2U	5-aminomethyl-2-geranylthiouridine
+π	nm5se2U	5-aminomethyl-2-selenouridine
+∫	nm5s2U	5-aminomethyl-2-thiouridine
+∪	nm5U	5-aminomethyluridine
+r	nchm5U	5-carbamoylhydroxymethyluridine
+l	ncm5s2U	5-carbamoylmethyl-2-thiouridine
+~	ncm5Um	5-carbamoylmethyl-2′-O-methyluridine
+&	ncm5U	5-carbamoylmethyluridine
+≥	chm5U	5-carboxyhydroxymethyluridine
+℘	cm5s2U	5-carboxymethyl-2-thiouridine
+f	cmnm5ges2U	5-carboxymethylaminomethyl-2-geranylthiouridine
+⊥	cmnm5se2U	5-carboxymethylaminomethyl-2-selenouridine
+$	cmnm5s2U	5-carboxymethylaminomethyl-2-thiouridine
+)	cmnm5Um	5-carboxymethylaminomethyl-2′-O-methyluridine
+!	cmnm5U	5-carboxymethylaminomethyluridine
+◊	cm5U	5-carboxymethyluridine
+Ѷ	cnm5U	5-cyanomethyluridine
+°	f5Cm	5-formyl-2′-O-methylcytidine
+>	f5C	5-formylcytidine
+Ç	ho5C	5-hydroxycytidine
+∅	hm5C	5-hydroxymethylcytidine
+∝	ho5U	5-hydroxyuridine
+3	mcm5s2U	5-methoxycarbonylmethyl-2-thiouridine
+∩	mcm5Um	5-methoxycarbonylmethyl-2′-O-methyluridine
+1	mcm5U	5-methoxycarbonylmethyluridine
+5	mo5U	5-methoxyuridine
+F	m5s2U	5-methyl-2-thiouridine
+h	mnm5ges2U	5-methylaminomethyl-2-geranylthiouridine
+≅	mnm5se2U	5-methylaminomethyl-2-selenouridine
+S	mnm5s2U	5-methylaminomethyl-2-thiouridine
+{	mnm5U	5-methylaminomethyluridine
+?	m5C	5-methylcytidine
+ρ	m5D	5-methyldihydrouridine
+T	m5U	5-methyluridine
+∃	tm5s2U	5-taurinomethyl-2-thiouridine
+Ê	tm5U	5-taurinomethyluridine
+♠	CoA(pN)	5′ (3′ -dephospho-CoA)
+♣	acCoA(pN)	5′ (3′ -dephosphoacetyl-CoA)
+♥	malonyl-CoA(pN)	5′ (3′ -dephosphomalonyl-CoA)
+♦	succinyl-CoA(pN)	5′ (3′ -dephosphosuccinyl-CoA)
+ϒ	p(pN)	5′ diphosphate end
+	5′-OH-N	5′ hydroxyl end
+m	(pN)	5′ monophosphate end
+Ξ	NAD(pN)	5′ nicotinamide adenine dinucleotide
+ϖ	pp(pN)	5′ triphosphate end
+¥	yW-86	7-aminocarboxypropyl-demethylwyosine
+Ω	yW-72	7-aminocarboxypropylwyosine
+⇑	yW-58	7-aminocarboxypropylwyosine methyl ester
+∉	preQ1tRNA	7-aminomethyl-7-deazaguanosine
+φ	preQ0tRNA	7-cyano-7-deazaguanosine
+7	m7G	7-methylguanosine
+©	m7Gpp(pN)	7-methylguanosine cap (cap 0)
+â	m8A	8-methyladenosine
+γ	m2Gm	N2,2′-O-dimethylguanosine
+æ	m2,7Gm	N2,7,2′-O-trimethylguanosine
+∨	m2,7G	N2,7-dimethylguanosine
+®	m2,7Gpp(pN)	N2,7-dimethylguanosine cap (cap DMG)
+|	m2,2Gm	N2,N2,2′-O-trimethylguanosine
+∠	m2,2,7G	N2,N2,7-trimethylguanosine
+¶	m2,2,7Gpp(pN)	N2,N2,7-trimethylguanosine cap (cap TMG)
+R	m2,2G	N2,N2-dimethylguanosine
+L	m2G	N2-methylguanosine
+λ	m4Cm	N4,2′-O-dimethylcytidine
+β	m4,4Cm	N4,N4,2′-O-trimethylcytidine
+μ	m4,4C	N4,N4-dimethylcytidine
+ℵ	ac4Cm	N4-acetyl-2′-O-methylcytidine
+M	ac4C	N4-acetylcytidine
+ν	m4C	N4-methylcytidine
+χ	m6Am	N6,2′-O-dimethyladenosine
+η	m6,6Am	N6,N6,2′-O-trimethyladenosine
+ζ	m6,6A	N6,N6-dimethyladenosine
+`	io6A	N6-(cis-hydroxyisopentenyl)adenosine
+⇓	ac6A	N6-acetyladenosine
+Ϩ	f6A	N6-formyladenosine
+≡	g6A	N6-glycinylcarbamoyladenosine
+Ϫ	hm6A	N6-hydroxymethyladenosine
+√	hn6A	N6-hydroxynorvalylcarbamoyladenosine
+Θ	i6A	N6-isopentenyladenosine
+E	m6t6A	N6-methyl-N6-threonylcarbamoyladenosine
+=	m6A	N6-methyladenosine
+6	t6A	N6-threonylcarbamoyladenosine
+∴	Qbase	Qbase
+A	A	adenosine
+¿	C+	agmatidine
+	mm(pN)	alpha-dimethylmonophosphate cap
+	m(pN)	alpha-methylmonophosphate cap
+(	G+	archaeosine
+e	ct6A	cyclic N6-threonylcarbamoyladenosine
+C	C	cytidine
+D	D	dihydrouridine
+ς	oQtRNA	epoxyqueuosine
+9	galQtRNA	galactosyl-queuosine
+§	mpp(pN)	gamma-methyltriphosphate cap
+⊄	gluQtRNA	glutamyl-queuosine
+G	G	guanosine
+none	pG(pN)	guanosine added to any nucleotide
+ϑ	Gpp(pN)	guanylylated 5′ end (cap G)
+«	ht6A	hydroxy-N6-threonylcarbamoyladenosine
+⊆	OHyW	hydroxywybutosine
+I	I	inosine
+⊇	imG2	isowyosine
+8	manQtRNA	mannosyl-queuosine
+y	OHyWy	methylated undermodified hydroxywybutosine
+∑	mimG	methylwyosine
+W	o2yW	peroxywybutosine
+ψ	preQ0base	preQ0base
+∇	preQ1base	preQ1base
+P	Y	pseudouridine
+Q	QtRNA	queuosine
+š	OHyWx	undermodified hydroxywybutosine
+Î	Xm	unknown methylated base
+@	xX	unknown modification
+H	xA	unknown modified adenosine
+<	xC	unknown modified cytidine
+;	xG	unknown modified guanosine
+N	xU	unknown modified uridine
+.	N	unknown nucleotide residue
+U	U	uridine
+V	cmo5U	uridine 5-oxyacetic acid
+υ	mcmo5U	uridine 5-oxyacetic acid methyl ester
+Y	yW	wybutosine
+€	imG	wyosine

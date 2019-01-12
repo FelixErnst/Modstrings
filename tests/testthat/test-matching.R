@@ -73,8 +73,8 @@ test_that("Matching:",{
   actual <- matchLRPatterns("\"KO","RL",100,seq)
   expect_s4_class(actual,"ModStringViews")
   expect_equal(start(actual),13)
-  expect_equal(end(actual),105)
-  expect_equal(width(actual),93)
+  expect_equal(end(actual),106)
+  expect_equal(width(actual),94)
   #
   actual <- matchLRPatterns("\"KO","5F",50,seq)
   expect_s4_class(actual,"ModStringViews")
@@ -83,8 +83,8 @@ test_that("Matching:",{
   actual <- matchLRPatterns("\"KO","5F",200,seq)
   expect_s4_class(actual,"ModStringViews")
   expect_equal(start(actual),13)
-  expect_equal(end(actual),82)
-  expect_equal(width(actual),70)
+  expect_equal(end(actual),83)
+  expect_equal(width(actual),71)
   #
   seq <- ModRNAString("A7UC")
   set <- ModRNAStringSet(c("A7UC","A7UC"))

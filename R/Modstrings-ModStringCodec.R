@@ -3,12 +3,15 @@ NULL
 
 additional_base_codes <- c(N = 15L, `-` = 16L, `+` = 32L, `.` = 64L)
 
-load_mod_dictionary <- function(file){
+.load_mod_dictionary <- function(file){
   con <- file(file)
   file <- stringr::str_split(readLines(con,
                                        encoding = "UTF-8"),
                              "\t")
   close(con)
+  # remove commented lines
+  file <- file[!substr(lapply(file,"[",1),1,1) %in% c("#","")]
+  #
   m <- t(unname(data.frame(file,
                            stringsAsFactors = FALSE)))
   colnames(m) <- m[1,]
@@ -29,8 +32,8 @@ load_mod_dictionary <- function(file){
 
 #load the dictionaries from file
 
-MOD_DNA_BASE_CODES <- load_mod_dictionary("inst/extdata/Mod_DNA_codes.txt")
-MOD_RNA_BASE_CODES <- load_mod_dictionary("inst/extdata/Mod_RNA_codes.txt")
+MOD_DNA_BASE_CODES <- .load_mod_dictionary("inst/extdata/Mod_DNA_codes.txt")
+MOD_RNA_BASE_CODES <- .load_mod_dictionary("inst/extdata/Mod_RNA_codes.txt")
 
 ################################################################################
 # ModStringCodec is used to convert the ModString with multi byte letters
@@ -68,13 +71,23 @@ setMethod("initialize",
             if(length(lengths) != 1){
               stop("ModStringCodec: Input do not have the same length.")
             }
+            # remove empty letters. this is four neutrality against currently 
+            # unsupported modifications. However they can be part of the
+            # additionalInfo, which is used for the construction of the 
+            # sanitization dictionaries
+            f <- letters == ""
+            letters <- letters[!f]
+            oneByteCodes <- oneByteCodes[!f]
+            values <- values[!f]
+            orig_base <- orig_base[!f]
+            # 
             .Object@letters <- c(letters,names(extra_letters))
             .Object@oneByteCodes <- c(oneByteCodes,names(extra_letters))
             .Object@originatingBase <- c(orig_base,names(extra_letters))
             .Object@values <- c(values,unname(extra_letters))
             .Object@additionalInfo <- additionalInfo
-            # originating base must be in the extra_letter
-            if(!all(.Object@originatingBase %in% names(extra_letters))){
+            # originating base must be in the extra_letter or empty
+            if(!all(.Object@originatingBase %in% c(names(extra_letters),""))){
               stop("Not all originating bases are in the extra letters.")
             }
             # order
@@ -268,38 +281,9 @@ setMethod("initialize",
       base_codes[,c("name","short_name","nc","orig_base","abbrev")])
 }
 
-.ModDNAorRNAcodes <- function(mods,
-                              base_codes,
-                              lettersOnly,
-                              baseOnly,
-                              col_name = c("abbrev",
-                                           "short_name",
-                                           "nc")) {
-  col_name <- match.arg(col_name)
-  codes <- mods$value
-  if(is.null(mods$oneByteLetter) || lettersOnly){
-    names(codes) <- mods[,col_name]
-  } else {
-    names(codes) <- mods$oneByteLetter
-  }
-  if(baseOnly){
-    return(c(base_codes,codes))
-  } else {
-    return(c(base_codes,additional_base_codes,codes))
-  }
-}
 MOD_DNA_STRING_CODEC <- .ModStringCodec(MOD_DNA_BASE_CODES,
                                         c(Biostrings:::DNA_BASE_CODES,
                                           additional_base_codes))
 MOD_RNA_STRING_CODEC <- .ModStringCodec(MOD_RNA_BASE_CODES,
                                         c(Biostrings:::RNA_BASE_CODES,
                                           additional_base_codes))
-
-MOD_DNA_ALPHABET <- names(.ModDNAorRNAcodes(MOD_DNA_BASE_CODES,
-                                            Biostrings:::DNA_BASE_CODES,
-                                            TRUE,
-                                            FALSE))
-MOD_RNA_ALPHABET <- names(.ModDNAorRNAcodes(MOD_RNA_BASE_CODES,
-                                            Biostrings:::RNA_BASE_CODES,
-                                            TRUE,
-                                            FALSE))

@@ -2,6 +2,8 @@ context("Codec")
 test_that("Codec:",{
   dnacodec <- Modstrings:::MOD_DNA_BASE_CODES
   rnacodec <- Modstrings:::MOD_RNA_BASE_CODES
+  dnacodec <- dnacodec[dnacodec$abbrev != "",]
+  rnacodec <- rnacodec[rnacodec$abbrev != "",]
   expect_true(!any(duplicated(dnacodec$name)))
   expect_true(!any(duplicated(dnacodec$short_name)))
   expect_true(!any(duplicated(dnacodec$nc)))
