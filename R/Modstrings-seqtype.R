@@ -106,6 +106,34 @@ setMethod("nomenclature", "ModStringSet",
 
 
 # derived from Biostrings/R/seqtype.R ------------------------------------------
+
+
+.ModDNAorRNAcodes <- function(mods,
+                              base_codes,
+                              lettersOnly,
+                              baseOnly,
+                              col_name = c("abbrev",
+                                           "short_name",
+                                           "nc")) {
+  # remove empty letters. this is four neutrality against currently 
+  # unsupported modifications. 
+  # for more details have a look add the ModStringCodec class
+  mods <- mods[mods$abbrev != "",]
+  #
+  col_name <- match.arg(col_name)
+  codes <- mods$value
+  if(is.null(mods$oneByteLetter) || lettersOnly){
+    names(codes) <- mods[,col_name]
+  } else {
+    names(codes) <- mods$oneByteLetter
+  }
+  if(baseOnly){
+    return(c(base_codes,codes))
+  } else {
+    return(c(base_codes,additional_base_codes,codes))
+  }
+}
+
 base_class_name <- function(x) paste(seqtype(x), "String", sep="")
 
 modscodec <- function(x){

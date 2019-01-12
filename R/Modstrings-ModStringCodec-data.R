@@ -5,69 +5,85 @@
 # maintain the dictionaries
 ################################################################################
 
+# loading/writing tab delimeted file
+
+# .write_to_tab <- function(df,file,header = FALSE){
+#   if(header) {
+#     input <- paste0(colnames(df),collapse = "\t")
+#   } else {
+#     input <- c()
+#   }
+#   input <- c(input,
+#              unlist(lapply(seq_len(nrow(df)),
+#                            function(i){
+#                              paste0(df[i,,drop=TRUE],collapse = "\t")
+#                            })))
+#   writeLines(input,
+#              con = file,
+#              useBytes = TRUE)
+# }
+# .load_from_tab_to_DataFrame <- function(file){
+#   as(read.delim(file,
+#                 encoding = "UTF-8",
+#                 sep = "\t",
+#                 quote = "",
+#                 stringsAsFactors = FALSE),"DataFrame")
+# }
+
+# Dictionaries
+# for tRNAdb sanitization ------------------------------------------------------
+
 # MOD_RNA_DICT_TRNADB <- read.delim("inst/extdata/tRNAdb_modifications.txt",
 #                        header = FALSE,
-#                        quote = "Ü",
+#                        quote = "",
 #                        stringsAsFactors = FALSE)
 # colnames(MOD_RNA_DICT_TRNADB) <- c("rnamods_abbrev","short_name","name")
 
+# for modomics sanitization ----------------------------------------------------
+
+# MOD_RNA_DICT_MODOMICS <- read.delim("inst/extdata/modomics_modifications.txt",
+#                                     header = FALSE,
+#                                     quote = "",
+#                                     stringsAsFactors = FALSE)
+# colnames(MOD_RNA_DICT_TRNADB) <- c("rnamods_abbrev","short_name","name")
+
 ################################################################################
-# preload modification data and remove indistinguishable modifications
-# This data is UTF-8 encoded. Every change to the modification abbreviations
-# has to UTF-8 encoded as well
+
+# Working on the alphabets
+
+# ModDNA alphabet -----------------------------------------------------------------
+
 # modsDNA <- as(read.delim("inst/extdata/DNAmod_modifications.txt",
 #                       encoding = "UTF-8", sep = " ", quote = "",
 #                       stringsAsFactors = FALSE),"DataFrame")
 # modsDNA$nc <- modsDNA$short_name
-# load("data/mods.rda")
-# load("data/modsDNA.rda")
-# #
-# # # fix some abbreviations
-# mods[mods$short_name == "xX","rnamods_abbrev"] <- "÷" # @ to ¶ for fastq
+
+# ModRNA alphabet -----------------------------------------------------------------
+
+# modsDNA <- as(read.delim("inst/extdata/DNAmod_modifications.txt",
+#                       encoding = "UTF-8", sep = " ", quote = "",
+#                       stringsAsFactors = FALSE),"DataFrame")
+# modsDNA$nc <- modsDNA$short_name
+
+# fixes for certain characters, which are not compatible
+
+# mods[mods$short_name == "xX","rnamods_abbrev"] <- "÷"
 # mods[mods$short_name == "xU","rnamods_abbrev"] <- "Ü"
 # mods[mods$short_name == "mcmo5Um","rnamods_abbrev"] <- "Ä"
 # mods[mods$short_name == "m5Um","rnamods_abbrev"] <- "¤"
 # mods[mods$short_name == "f5C","rnamods_abbrev"] <- "×"
-# mods[mods$short_name == "N","rnamods_abbrev"] <- "" # available from base
-# 
-# mods <- mods[!(mods$rnamods_abbrev %in%
-#               unique(mods$rnamods_abbrev[duplicated(mods$rnamods_abbrev)])),]
-# modomicColNames <- c("name",
-#                      "short_name",
-#                      "new_nomenclature",
-#                      "originating_base",
-#                      "rnamods_abbrev",
-#                      "html_abbrev")
-# modColNames <- c("name",
-#                  "short_name",
-#                  "nc",
-#                  "orig_base",
-#                  "abbrev",
-#                  "html_abbrev")
-# mods[mods$originating_base == "preQ0base","originating_base"] <- "G"
-# mods <- mods[!stringi::stri_detect_fixed(mods[,"new_nomenclature"],"(base)"),]
-# ##############################################################################
-# # split into RNA and DNA modifications
-# RNAmods <- mods[!(mods$originating_base  %in% c("pppN")) &
-#                   !(mods$rnamods_abbrev  %in% c("","none",".")) &
-#                   # !grepl("unknown",mods$name) &
-#                   !(mods$name %in% c("adenosine",
-#                                      "uridine",
-#                                      "cytidine",
-#                                      "guanosine")),
-#                 modomicColNames]
-# DNAmods <- modsDNA
-# colnames(DNAmods) <- modColNames[c(1,2,5,4,3)]
-# colnames(RNAmods) <- modColNames
-# 
-# ##############################################################################
+# mods[mods$short_name == "N","rnamods_abbrev"] <- "" 
+
+# generating value and oneByteLetters in a sensible way for avoiding clashes
+# and other things
 # .add_oneByteLetters_to_moficiation_codes <- function(mods,
 #                                                      base_codes){
 #   mods$value <- 0L
-#   mods$oneByteLetter
+#   mods$oneByteLetter <- 0L
 #   # avoid clash with predefined codes
 #   # assumes that non are part of mods
 #   codes <- c(base_codes,additional_base_codes)
+#   browser()
 #   if(any(names(codes) %in% mods$abbrev)){
 #     stop("Abbreviations cannot be the following characters: '",
 #          paste(names(codes), collapse = "','"),
@@ -85,7 +101,7 @@
 #   # dynamic letter to be used internally. This requires additional conversion
 #   # for printing and saving, but not for computing
 #   ###########
-#   # 1. set the oneByteLetter from the abbreviations and check which are to 
+#   # 1. set the oneByteLetter from the abbreviations and check which are to
 #   # long
 #   mods$oneByteLetter <- mods$abbrev
 #   f <- vapply(mods$oneByteLetter,
@@ -93,8 +109,8 @@
 #                 length(charToRaw(obl)) > 1
 #               },
 #               logical(1))
-#   f_neg <- which(!f)
-#   f <- which(f)
+#   f_neg <- which(!f) # not too long
+#   f <- which(f) # too long
 #   # 2. get all avialble one byte letters
 #   oneByteLetter <- unlist(lapply(seq_len(255),
 #                                  function(i){rawToChar(as.raw(i))}))
@@ -115,6 +131,16 @@
 #   mods$oneByteLetter[f] <- oneByteLetter[seq_len(length(f))]
 #   mods
 # }
+
+# convert oneByteLetter back to oneByteInteger
+
+# .convert_oneByteLetters_to_oneByteInteger <- function(mods){
+#   mods$oneByteInteger <- 
+#     as.integer(unlist(lapply(mods$oneByteLetter,charToRaw)))
+#   mods$oneByteLetter <- NULL
+#   mods
+# }
+
 # 
 # MOD_DNA_BASE_CODES <- .add_oneByteLetters_to_moficiation_codes(
 #   DNAmods,
@@ -122,5 +148,7 @@
 # MOD_RNA_BASE_CODES <- .add_oneByteLetters_to_moficiation_codes(
 #   RNAmods,
 #   Biostrings:::RNA_BASE_CODES)
-# usethis::use_data(MOD_DNA_BASE_CODES, overwrite = TRUE)
-# usethis::use_data(MOD_RNA_BASE_CODES, overwrite = TRUE)
+# MOD_DNA_BASE_CODES <- 
+#   .convert_oneByteLetters_to_oneByteInteger(MOD_DNA_BASE_CODES)
+# MOD_RNA_BASE_CODES <- 
+#   .convert_oneByteLetters_to_oneByteInteger(MOD_RNA_BASE_CODES)

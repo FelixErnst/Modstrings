@@ -11,6 +11,7 @@ NULL
     names(stringset) <- seq_along(stringset)
   }
   modInfo <- codec@additionalInfo
+  modInfo <- modInfo[modInfo$abbrev %in% codec@letters,]
   pattern <- codec@letters[match(modInfo$abbrev,codec@letters)]
   # presearch
   searchstring <- unlist(stringset)

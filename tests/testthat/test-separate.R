@@ -11,7 +11,7 @@ test_that("ModString separate/combine:",{
   rnaTestSeq <- paste(alphabet(ModRNAString()), collapse = "")
   seq <- ModRNAString(rnaTestSeq)
   gr <- separate(seq)
-  expect_equal(length(gr),144)
+  expect_equal(length(gr),145)
   seq2 <- combineIntoModstrings(as(seq,"RNAString"),gr)
   expect_equal(as.character(seq2),as.character(seq))
   expect_s4_class(seq2,"ModRNAString")
