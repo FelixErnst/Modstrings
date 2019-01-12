@@ -165,6 +165,13 @@ setMethod("separate",
     stop("width() of GRanges elements must all be == 1",
          call. = FALSE)
   }
+  # this can also be done with checking the findOverlaps(gr) length. This
+  # should however be faster
+  if(any(duplicated(start(gr)))){
+    f <- which(duplicated(start(gr)))
+    stop("Multiple modifications found for position '",start(gr)[f],"'.",
+         call. = FALSE)
+  }
   if(!("mod" %in% colnames(S4Vectors::mcols(gr)))){
     stop("GRanges object does not contain a 'mod' column.",
          call. = FALSE)
@@ -187,6 +194,13 @@ setMethod("separate",
   }
   if(unique(unlist(width(gr))) != 1){
     stop("width() of GRangesList elements must all be == 1",
+         call. = FALSE)
+  }
+  starts <- start(gr)
+  starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
+  if(any(starts)){
+    stop("Multiple modifications found for position in element '",which(starts),
+         "'.",
          call. = FALSE)
   }
   modCol <- vapply(gr,

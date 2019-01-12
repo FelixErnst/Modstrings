@@ -51,6 +51,17 @@ NULL
 load("data/MOD_RNA_DICT_MODOMICS.rda")
 load("data/MOD_RNA_DICT_TRNADB.rda")
 
+# this is required since toupper() screws up the encoding of special characters
+.add_lower_to_upper_case <- function(dict){
+  caseDict <- DataFrame(old = c("a","g","c","t","u"),
+                    sn = c("A","G","C","T","U"),
+                    new = c("A","G","C","T","U"))
+  caseDict <- caseDict[!(caseDict$old %in% dict$old),]
+  dict <- rbind(dict,
+                caseDict)
+  dict
+}
+
 .construct_translation_table <- function(dict,seqtype){
   if(!is(dict,"DataFrame")){
     stop("Dictionary must be a DataFrame with at least two columns ",
@@ -76,6 +87,7 @@ load("data/MOD_RNA_DICT_TRNADB.rda")
   dict$sn <- as.character(dict$sn)
   dict$new <- as.character(dict$new)
   dict <- dict[dict$old != dict$new,]
+  dict <- .add_lower_to_upper_case(dict)
   dict
 }
 
