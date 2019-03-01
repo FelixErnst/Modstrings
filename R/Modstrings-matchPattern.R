@@ -113,13 +113,8 @@ setMethod("matchPattern", "ModString",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModString.matchPattern(pattern,
-                                    subject,
-                                    max.mismatch,
-                                    min.mismatch,
-                                    with.indels,
-                                    fixed,
-                                    algorithm)
+            .ModString.matchPattern(pattern, subject, max.mismatch, min.mismatch,
+                                    with.indels, fixed, algorithm)
 )
 
 setMethod("matchPattern", "ModStringViews",
@@ -130,12 +125,8 @@ setMethod("matchPattern", "ModStringViews",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModStringViews.matchPattern(pattern,
-                                         subject,
-                                         max.mismatch,
-                                         min.mismatch,
-                                         with.indels,
-                                         fixed,
+            .ModStringViews.matchPattern(pattern, subject, max.mismatch, 
+                                         min.mismatch, with.indels, fixed,
                                          algorithm)
 )
 
@@ -169,13 +160,8 @@ setMethod("countPattern", "ModString",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModString.matchPattern(pattern,
-                                    subject,
-                                    max.mismatch,
-                                    min.mismatch,
-                                    with.indels,
-                                    fixed,
-                                    algorithm,
+            .ModString.matchPattern(pattern, subject, max.mismatch, min.mismatch,
+                                    with.indels, fixed, algorithm, 
                                     count.only = TRUE)
 )
 
@@ -188,14 +174,9 @@ setMethod("countPattern", "ModStringViews",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModStringViews.matchPattern(pattern,
-                                         subject,
-                                         max.mismatch,
-                                         min.mismatch,
-                                         with.indels,
-                                         fixed,
-                                         algorithm,
-                                         count.only = TRUE)
+            .ModStringViews.matchPattern(pattern, subject, max.mismatch, 
+                                         min.mismatch, with.indels, fixed, 
+                                         algorithm, count.only = TRUE)
 )
 
 ### Dispatch on 'subject' (see signature of generic).
@@ -231,7 +212,8 @@ setMethod("countPattern", "MaskedModString",
                                         with.indels,
                                         fixed,
                                         algorithm,
-                                        count.only = FALSE){
+                                        count.only = FALSE)
+{
   if (!assertive::is_a_bool(count.only)) {
     stop("'count.only' must be TRUE or FALSE")
   }
@@ -289,12 +271,8 @@ setMethod("vmatchPattern","ModStringSet",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModStringSet.vmatchPattern(pattern,
-                                        subject,
-                                        max.mismatch,
-                                        min.mismatch,
-                                        with.indels,
-                                        fixed,
+            .ModStringSet.vmatchPattern(pattern, subject, max.mismatch,
+                                        min.mismatch, with.indels, fixed,
                                         algorithm)
 )
 
@@ -306,14 +284,9 @@ setMethod("vcountPattern", "ModStringSet",
                    with.indels = FALSE,
                    fixed = TRUE,
                    algorithm = "auto")
-            .ModStringSet.vmatchPattern(pattern,
-                                        subject,
-                                        max.mismatch,
-                                        min.mismatch,
-                                        with.indels,
-                                        fixed,
-                                        algorithm,
-                                        count.only = TRUE)
+            .ModStringSet.vmatchPattern(pattern, subject, max.mismatch,
+                                        min.mismatch, with.indels, fixed,
+                                        algorithm, count.only = TRUE)
 )
 
 setMethod("vcountPattern", "ModStringViews",

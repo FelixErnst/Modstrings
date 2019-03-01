@@ -49,7 +49,6 @@ Suggests:
     sessioninfo
 Collate:
     'Modstrings.R'
-    'AllClasses.R'
     'AllGenerics.R'
     'Modstrings-ModStringCodec.R'
     'Modstrings-ModString.R'

@@ -166,22 +166,22 @@ setMethod("seqtype", "ModDNAString", function(x) "ModDNA")
 #' @export
 setMethod("seqtype", "ModRNAString", function(x) "ModRNA")
 #' @export
-setReplaceMethod("seqtype", "ModString",
-                 function(x, value)
-                 {
-                   ans_class <- paste(value, "String", sep="")
-                   if(is(x,ans_class)){
-                     return(x)
-                   }
-                   ans_seq <- .Call2("new_CHARACTER_from_XString",
-                                     x, 
-                                     NULL,
-                                     PACKAGE = "Biostrings")
-                   ans_seq <- .convert_one_byte_codes_to_originating_base(
-                     ans_seq,
-                     modscodec(seqtype(x)))
-                   do.call(ans_class,list(ans_seq))
-                 }
+setReplaceMethod(
+  "seqtype", "ModString",
+  function(x, value)
+  {
+    ans_class <- paste(value, "String", sep="")
+    if(is(x,ans_class)){
+      return(x)
+    }
+    ans_seq <- .Call2("new_CHARACTER_from_XString",
+                      x, 
+                      NULL,
+                      PACKAGE = "Biostrings")
+    ans_seq <- 
+      .convert_one_byte_codes_to_originating_base(ans_seq, modscodec(seqtype(x)))
+    do.call(ans_class,list(ans_seq))
+  }
 )
 
 # derived from Biostrings/R/XString-class.R ------------------------------------
@@ -193,21 +193,14 @@ ModString.read <- function(x,
                                  x@offset + i,
                                  x@offset + imax,
                                  dec_lkup = NULL)
-  ans <- .convert_one_byte_codes_to_letters(ans,
-                                            modscodec(seqtype(x)))
+  ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
   ans
 }
 
 # derived from Biostrings/R/XString-class.R ------------------------------------
 
-.charToModString <- function(seqtype,
-                             x,
-                             start,
-                             end,
-                             width){
-  classname <- paste(seqtype,
-                     "String",
-                     sep = "")
+.charToModString <- function(seqtype, x, start, end, width){
+  classname <- paste0(seqtype, "String")
   x <- .convert_letters_to_one_byte_codes(x,
                                           modscodec(seqtype))
   solved_SEW <- IRanges::solveUserSEW(width(x),
@@ -230,23 +223,25 @@ setGeneric("ModString", signature="x",
 )
 
 #' @export
-setMethod("ModString", "factor",
-          function(seqtype, x, start=NA, end=NA, width=NA)
-          {
-            if (is.null(seqtype))
-              seqtype <- "B"
-            .charToModString(seqtype, as.character(x), start, end, width)
-          }
+setMethod(
+  "ModString", "factor",
+  function(seqtype, x, start=NA, end=NA, width=NA)
+  {
+    if (is.null(seqtype))
+      seqtype <- "B"
+    .charToModString(seqtype, as.character(x), start, end, width)
+  }
 )
 
 #' @export
-setMethod("ModString", "character",
-          function(seqtype, x, start=NA, end=NA, width=NA)
-          {
-            if (is.null(seqtype))
-              seqtype <- "B"
-            .charToModString(seqtype, x, start, end, width)
-          }
+setMethod(
+  "ModString", "character",
+  function(seqtype, x, start=NA, end=NA, width=NA)
+  {
+    if (is.null(seqtype))
+      seqtype <- "B"
+    .charToModString(seqtype, x, start, end, width)
+  }
 )
 
 .XString_to_ModString <- function(seqtype,
@@ -268,52 +263,53 @@ setMethod("ModString", "character",
 }
 
 #' @export
-setMethod("ModString", "ModString",
-          function(seqtype, x, start = NA, end = NA, width = NA){
-            ans <- subseq(x,
-                          start = start,
-                          end = end,
-                          width = width)
-            ans_class <- paste(seqtype, "String", sep="")
-            if(is(ans,ans_class)){
-              return(ans)
-            }
-            # convert over "base" classes to convert T/U
-            seqtype(ans) <- gsub("Mod","",seqtype(ans))
-            seqtype(ans) <- gsub("Mod","",seqtype)
-            seqtype(ans) <- seqtype
-            ans
-          }
+setMethod(
+  "ModString", "ModString",
+  function(seqtype, x, start = NA, end = NA, width = NA)
+  {
+    ans <- subseq(x, start = start, end = end, width = width)
+    ans_class <- paste(seqtype, "String", sep="")
+    if(is(ans,ans_class)){
+      return(ans)
+    }
+    # convert over "base" classes to convert T/U
+    seqtype(ans) <- gsub("Mod","",seqtype(ans))
+    seqtype(ans) <- gsub("Mod","",seqtype)
+    seqtype(ans) <- seqtype
+    ans
+  }
 )
+
 #' @export
-setMethod("ModString", "XString",
-          function(seqtype, x, start = NA, end = NA, width = NA){
-            ans <- subseq(x,
-                          start = start,
-                          end = end,
-                          width = width)
-            ## `seqtype<-` must be called even when user supplied 'seqtype' is
-            ## NULL because we want to enforce downgrade to a B/DNA/RNA/AAString
-            ## instance
-            if (is.null(seqtype))
-              seqtype <- seqtype(x)
-            seqtype(ans) <- seqtype
-            ans
-          }
+setMethod(
+  "ModString", "XString",
+  function(seqtype, x, start = NA, end = NA, width = NA)
+  {
+    ans <- subseq(x, start = start, end = end, width = width)
+    ## `seqtype<-` must be called even when user supplied 'seqtype' is
+    ## NULL because we want to enforce downgrade to a B/DNA/RNA/AAString
+    ## instance
+    if (is.null(seqtype)){
+      seqtype <- seqtype(x)
+    }
+    seqtype(ans) <- seqtype
+    ans
+  }
 )
 
 # Should not be necessary since this is dealed ok for ModString
 # setMethod("ModString", "XString", ...)
 
 #' @export
-setMethod("ModString", "AsIs",
-          function(seqtype, x, start=NA, end=NA, width=NA)
-          {
-            if (!is.character(x))
-              stop("unsuported input type")
-            class(x) <- "character" # keeps the names (unlike as.character())
-            ModString(seqtype, x, start=start, end=end, width=width)
-          }
+setMethod(
+  "ModString", "AsIs",
+  function(seqtype, x, start=NA, end=NA, width=NA)
+  {
+    if (!is.character(x))
+      stop("unsuported input type")
+    class(x) <- "character" # keeps the names (unlike as.character())
+    ModString(seqtype, x, start=start, end=end, width=width)
+  }
 )
 
 
@@ -351,29 +347,30 @@ setAs("character", "ModDNAString", function(from) ModDNAString(from))
 #' @export
 setAs("character", "ModRNAString", function(from) ModRNAString(from))
 #' @export
-setMethod("as.character", "ModString",
-          function(x) {
-            ans <- .Call2("new_CHARACTER_from_XString",
-                          x, 
-                          NULL,
-                          PACKAGE="Biostrings")
-            ans <- .convert_one_byte_codes_to_letters(ans,
-                                                      modscodec(seqtype(x)))
-            ans
-          }
-)
+setMethod(
+  "as.character", "ModString",
+  function(x)
+  {
+  ans <- .Call2("new_CHARACTER_from_XString",
+                x, 
+                NULL,
+                PACKAGE="Biostrings")
+  ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
+  ans
+})
 
 #' @export
-setMethod("as.vector", "ModString",
-          function(x){
-            codec <- modscodec(seqtype(x))
-            x_alphabet <- codec@letters
-            code2pos <- as.integer(unlist(lapply(codec@oneByteCodes,charToRaw)))
-            x_alphabet <- x_alphabet[order(code2pos)]
-            ans <- as.integer(x)
-            attributes(ans) <- list(levels = x_alphabet, class = "factor")
-            as.vector(ans)
-          }
+setMethod(
+  "as.vector", "ModString",
+  function(x){
+    codec <- modscodec(seqtype(x))
+    x_alphabet <- codec@letters
+    code2pos <- as.integer(unlist(lapply(codec@oneByteCodes,charToRaw)))
+    x_alphabet <- x_alphabet[order(code2pos)]
+    ans <- as.integer(x)
+    attributes(ans) <- list(levels = x_alphabet, class = "factor")
+    as.vector(ans)
+  }
 )
 
 # derived from Biostrings/R/XString-class.R ------------------------------------

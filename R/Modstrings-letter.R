@@ -30,35 +30,38 @@ NULL
 ### Return a character vector of length 1.
 #' @rdname letter
 #' @export
-setMethod("letter", "ModString",
-          function(x, i)
-          {
-            if (!is.numeric(i) || any(is.na(i)))
-              stop("'i' must be an NA-free numeric vector")
-            if (!all(i >= 1) || !all(i <= x@length))
-              stop("subscript out of bounds")
-            ModString.read(x, i)
-          }
+setMethod(
+  "letter", "ModString",
+  function(x, i)
+  {
+    if (!is.numeric(i) || any(is.na(i)))
+      stop("'i' must be an NA-free numeric vector")
+    if (!all(i >= 1) || !all(i <= x@length))
+      stop("subscript out of bounds")
+    ModString.read(x, i)
+  }
 )
 ### Return a character vector of the same length as 'x'.
 #' @rdname letter
 #' @export
-setMethod("letter", "ModStringViews",
-          function(x, i){
-            if (!is.numeric(i) || any(is.na(i))){
-              stop("'i' must be an NA-free numeric vector")
-            }
-            if (length(x) == 0){
-              return(character(0))
-            }
-            imax <- min(nchar(x))
-            if (!all(i >= 1) || !all(i <= imax)){
-              stop("subscript out of bounds")
-            }
-            vapply(seq_len(length(x)), 
-                   function(n) {
-                     ModString.read(x[[n]], i)
-                   },
-                   character(1))
-          }
+setMethod(
+  "letter", "ModStringViews",
+  function(x, i)
+  {
+    if (!is.numeric(i) || any(is.na(i))){
+      stop("'i' must be an NA-free numeric vector")
+    }
+    if (length(x) == 0){
+      return(character(0))
+    }
+    imax <- min(nchar(x))
+    if (!all(i >= 1) || !all(i <= imax)){
+      stop("subscript out of bounds")
+    }
+    vapply(seq_len(length(x)), 
+           function(n) {
+             ModString.read(x[[n]], i)
+           },
+           character(1))
+  }
 )

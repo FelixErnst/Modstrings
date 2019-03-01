@@ -35,7 +35,11 @@ NULL
 #' @import Biostrings
 #' @import GenomicRanges
 #' @import S4Vectors
-NULL
+requireNamespace("BiocGenerics")
+requireNamespace("Biostrings")
+requireNamespace("GenomicRanges")
+requireNamespace("IRanges")
+requireNamespace("S4Vectors")
 
 #' @name Modstrings-internals
 #' @aliases seqtype,ModDNAString-method seqtype,ModRNAString-method 

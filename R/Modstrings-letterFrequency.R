@@ -70,9 +70,8 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
 
 # derived from Biostrings/R/letterFrequency.R ----------------------------------
 
-.ModString.nucleotide_frequency <- function(x,
-                                            as.prob,
-                                            baseOnly){
+.ModString.nucleotide_frequency <- function(x, as.prob, baseOnly)
+{
   if (!assertive::is_a_bool(as.prob)){
     stop("'as.prob' must be TRUE or FALSE", call. = FALSE)
   }
@@ -93,10 +92,8 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
   ans
 }
 
-.ModStringSet.nucleotide_frequency <- function(x,
-                                               as.prob,
-                                               collapse,
-                                               baseOnly){
+.ModStringSet.nucleotide_frequency <- function(x, as.prob, collapse, baseOnly)
+{
   if (!assertive::is_a_bool(as.prob)){
     stop("'as.prob' must be TRUE or FALSE", call. = FALSE)
   }

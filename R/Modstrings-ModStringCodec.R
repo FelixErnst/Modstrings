@@ -36,98 +36,24 @@ MOD_DNA_BASE_CODES <- .load_mod_dictionary("inst/extdata/Mod_DNA_codes.txt")
 MOD_RNA_BASE_CODES <- .load_mod_dictionary("inst/extdata/Mod_RNA_codes.txt")
 
 ################################################################################
-# ModStringCodec is used to convert the ModString with multi byte letters
-# into string with one byte letters
-# This can then be used as BString. However, this requires the conversion
-# during printing or export. --> see below for conversion functions
+# ModStringCodec is used to convert a strubg with multi byte letters into string
+# with one byte letters. The resulting object can then be used like a BString.
+# 
+# However, this requires the conversion during printing or export. --> see below
+# for conversion functions. These function are used by the Mod*String class
 ################################################################################
 
 setClass("ModStringCodec",
-         slots = c(
-           letters = "character",
-           oneByteCodes = "character",
-           conversion = "logical",
-           originatingBase = "character",
-           values = "integer",
-           lettersEscaped = "character",
-           oneByteCodesEscaped = "character",
-           lettersNeedEscape = "logical",
-           oneByteCodesNeedEscape = "logical",
-           additionalInfo = "DataFrame"
-         ))
-setMethod("initialize",
-          "ModStringCodec",
-          function(.Object,
-                   letters,
-                   oneByteCodes,
-                   orig_base,
-                   values,
-                   extra_letters,
-                   additionalInfo){
-            lengths <- unique(c(length(letters),
-                                length(oneByteCodes),
-                                length(values),
-                                length(orig_base)))
-            if(length(lengths) != 1){
-              stop("ModStringCodec: Input do not have the same length.")
-            }
-            # remove empty letters. this is four neutrality against currently 
-            # unsupported modifications. However they can be part of the
-            # additionalInfo, which is used for the construction of the 
-            # sanitization dictionaries
-            f <- letters == ""
-            letters <- letters[!f]
-            oneByteCodes <- oneByteCodes[!f]
-            values <- values[!f]
-            orig_base <- orig_base[!f]
-            # 
-            .Object@letters <- c(letters,names(extra_letters))
-            .Object@oneByteCodes <- c(oneByteCodes,names(extra_letters))
-            .Object@originatingBase <- c(orig_base,names(extra_letters))
-            .Object@values <- c(values,unname(extra_letters))
-            .Object@additionalInfo <- additionalInfo
-            # originating base must be in the extra_letter or empty
-            if(!all(.Object@originatingBase %in% c(names(extra_letters),""))){
-              stop("Not all originating bases are in the extra letters.")
-            }
-            # order
-            .Object@letters <- .Object@letters[order(.Object@values)]
-            .Object@oneByteCodes <- .Object@oneByteCodes[order(.Object@values)]
-            .Object@originatingBase <- 
-              .Object@originatingBase[order(.Object@values)]
-            .Object@values <- .Object@values[order(.Object@values)]
-            # escape necessary values:
-            # -
-            # -
-            .Object@lettersEscaped <- 
-              .escape_special_charactes(.Object@letters)
-            .Object@lettersNeedEscape <- 
-              .Object@letters != .Object@lettersEscaped
-            #
-            .Object@oneByteCodesEscaped <- 
-              .escape_special_charactes(.Object@oneByteCodes)
-            .Object@oneByteCodesNeedEscape <- 
-              .Object@oneByteCodes != .Object@oneByteCodesEscaped
-            # check which letters need conversion
-            # and control input
-            f <- vapply(.Object@letters,
-                        function(l){
-                          length(charToRaw(l)) > 1
-                        },
-                        logical(1))
-            .Object@conversion <- f
-            f <- vapply(c(.Object@letters[!which(f)],
-                          .Object@oneByteCodes[which(f)]),
-                        function(l){
-                          length(charToRaw(l)) > 1
-                        },
-                        logical(1))
-            if(any(f)){
-              stop("Not all letters have a proper one byte conversion.")
-            }
-            .Object
-          }
-)
+         slots = c(letters = "character",
+                   oneByteCodes = "character",
+                   conversion = "logical",
+                   originatingBase = "character",
+                   values = "integer",
+                   lettersEscaped = "character",
+                   oneByteCodesEscaped = "character",
+                   lettersNeedEscape = "logical",
+                   oneByteCodesNeedEscape = "logical",
+                   additionalInfo = "DataFrame"))
 
 #' @importFrom stringr str_detect
 .escape_special_charactes <- function(x){
@@ -194,7 +120,7 @@ setMethod("initialize",
 }
 
 #' @importFrom stringi stri_locate_all_fixed stri_sub
-.str_replace_all_fixed_custom_c <- function(string,
+.str_replace_all_fixed_custom <- function(string,
                                             pattern,
                                             replacement){
   locations <- stringi::stri_locate_all_fixed(string,
@@ -212,7 +138,7 @@ setMethod("initialize",
   string
 }
 #' @importFrom stringi stri_locate_all_regex stri_sub
-.str_replace_all_regex_custom_c <- function(string,
+.str_replace_all_regex_custom <- function(string,
                                             pattern,
                                             replacement){
   locations <- stringi::stri_locate_all_regex(string,
@@ -229,11 +155,6 @@ setMethod("initialize",
   }
   string
 }
-.str_replace_all_regex_custom <- 
-  compiler::cmpfun(.str_replace_all_regex_custom_c)
-.str_replace_all_fixed_custom <- 
-  compiler::cmpfun(.str_replace_all_fixed_custom_c)
-
 
 .convert_letters_to_originating_base <- function(string,
                                                  codec){
@@ -270,20 +191,77 @@ setMethod("initialize",
 # the codec object is not inherited from Biostrings package, but is
 # used for one byte conversion only
 
-.ModStringCodec <- function(base_codes,
-                            biostrings_base_codes){
-  new("ModStringCodec", 
-      base_codes$abbrev,
-      base_codes$oneByteLetter,
-      base_codes$orig_base,
-      base_codes$value,
-      biostrings_base_codes,
-      base_codes[,c("name","short_name","nc","orig_base","abbrev")])
+.new_ModStringCodec <- function(base_codes, biostrings_base_codes){
+  letters <- base_codes$abbrev
+  oneByteCodes <- base_codes$oneByteLetter
+  orig_base <- base_codes$orig_base
+  values <- base_codes$value
+  extra_letters <- biostrings_base_codes
+  additionalInfo <- base_codes[,c("name","short_name","nc","orig_base","abbrev")]
+    lengths <- unique(c(length(letters),
+                        length(oneByteCodes),
+                        length(values),
+                        length(orig_base)))
+  if(length(lengths) != 1){
+    stop("ModStringCodec: Input do not have the same length.")
+  }
+  # remove empty letters. this is four neutrality against currently 
+  # unsupported modifications. However they can be part of the
+  # additionalInfo, which is used for the construction of the 
+  # sanitization dictionaries
+  f <- letters == ""
+  letters <- letters[!f]
+  oneByteCodes <- oneByteCodes[!f]
+  values <- values[!f]
+  orig_base <- orig_base[!f]
+  # 
+  letters <- c(letters,names(extra_letters))
+  oneByteCodes <- c(oneByteCodes,names(extra_letters))
+  originatingBase <- c(orig_base,names(extra_letters))
+  values <- c(values,unname(extra_letters))
+  # originating base must be in the extra_letter or empty
+  if(!all(originatingBase %in% c(names(extra_letters),""))){
+    stop("Not all originating bases are in the extra letters.")
+  }
+  # order based on the values in ascending order
+  f <- order(values)
+  letters <- letters[f]
+  oneByteCodes <- oneByteCodes[f]
+  originatingBase <- originatingBase[f]
+  values <- values[f]
+  # escape necessary values:
+  lettersEscaped <- .escape_special_charactes(letters)
+  lettersNeedEscape <- letters != lettersEscaped
+  oneByteCodesEscaped <- .escape_special_charactes(oneByteCodes)
+  oneByteCodesNeedEscape <- oneByteCodes != oneByteCodesEscaped
+  # check which letters need conversion
+  # and control input
+  conversion <- vapply(letters,
+                       function(l){
+                         length(charToRaw(l)) > 1
+                       },
+                       logical(1))
+  checkConversionValid <- vapply(c(letters[!which(conversion)],
+                                   oneByteCodes[which(conversion)]),
+                                 function(l){
+                                   length(charToRaw(l)) > 1
+                                 },
+                                 logical(1))
+  if(any(checkConversionValid)){
+    stop("Not all letters have a proper one byte conversion.")
+  }
+  new("ModStringCodec", letters = letters, oneByteCodes = oneByteCodes, 
+      conversion = conversion, originatingBase = originatingBase,
+      values = values, lettersEscaped = lettersEscaped,
+      oneByteCodesEscaped = oneByteCodesEscaped, 
+      lettersNeedEscape = lettersNeedEscape,
+      oneByteCodesNeedEscape = oneByteCodesNeedEscape, 
+      additionalInfo = additionalInfo)
 }
 
-MOD_DNA_STRING_CODEC <- .ModStringCodec(MOD_DNA_BASE_CODES,
-                                        c(Biostrings:::DNA_BASE_CODES,
-                                          additional_base_codes))
-MOD_RNA_STRING_CODEC <- .ModStringCodec(MOD_RNA_BASE_CODES,
-                                        c(Biostrings:::RNA_BASE_CODES,
-                                          additional_base_codes))
+MOD_DNA_STRING_CODEC <- .new_ModStringCodec(MOD_DNA_BASE_CODES,
+                                            c(Biostrings:::DNA_BASE_CODES,
+                                              additional_base_codes))
+MOD_RNA_STRING_CODEC <- .new_ModStringCodec(MOD_RNA_BASE_CODES,
+                                            c(Biostrings:::RNA_BASE_CODES,
+                                              additional_base_codes))

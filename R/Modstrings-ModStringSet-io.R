@@ -35,7 +35,8 @@ NULL
 .fasta.index <- function(filepath,
                          nrec = -1L,
                          skip = 0L,
-                         seek.first.rec = FALSE){
+                         seek.first.rec = FALSE)
+{
   filexp_list <- XVector:::open_input_files(filepath)
   on.exit(Biostrings:::.close_filexp_list(filexp_list))
   nrec <- Biostrings:::.normarg_nrec(nrec)
@@ -65,16 +66,16 @@ NULL
 }
 
 # read a fasta sequence from a block of lines
-.parse_fasta_block <- function(lines,
-                               seqtype){
+.parse_fasta_block <- function(lines, seqtype)
+{
   ans <- do.call(seqtype, list(paste(lines, collapse = "")))
   ans
 }
 
 #' @importFrom stringr str_trim str_sub
-.read_ModStringSet_from_fasta_file_data <- function(con,
-                                                    seqtype,
-                                                    nLines = 10000L){
+.read_ModStringSet_from_fasta_file_data <- function(con, seqtype,
+                                                    nLines = 10000L)
+{
   ans <- list()
   lines <- readLines(con,
                      nLines,
@@ -148,7 +149,8 @@ NULL
 ### Fasta index 'ssorted_fai' must be strictly sorted by "recno". This is NOT
 ### checked!
 .read_ModStringSet_from_ssorted_fasta_index <- function(ssorted_fai,
-                                                        elementType){
+                                                        elementType)
+{
   ## Prepare 'nrec_list' and 'offset_list'.
   fasta_blocks <-
     Biostrings:::.compute_sorted_fasta_blocks_from_ssorted_fasta_index(
@@ -192,9 +194,8 @@ NULL
   ans
 }
 
-.read_ModStringSet_from_fasta_index <- function(fai,
-                                                use.names,
-                                                elementType){
+.read_ModStringSet_from_fasta_index <- function(fai, use.names, elementType)
+{
   Biostrings:::.check_fasta_index(fai)
   ## Create a "strictly sorted" version of 'fai' by removing duplicated rows
   ## and sorting the remaining rows by ascending "recno".
@@ -213,7 +214,8 @@ NULL
 
 # Fastq ------------------------------------------------------------------------
 
-.check_fastq_markup <- function(lines, nlines){
+.check_fastq_markup <- function(lines, nlines)
+{
   if(nlines != 4){
     stop("Partial fastq block found. Aborting...")
   }
@@ -225,8 +227,8 @@ NULL
   }
 }
 
-.get_names_from_fastq_block <- function(lines,
-                                        with.qualities){
+.get_names_from_fastq_block <- function(lines, with.qualities)
+{
   name_seq <- substr(lines[1],2,nchar(lines[1]))
   if(with.qualities){
     name_qual <- substr(lines[3],2,nchar(lines[3]))
@@ -239,9 +241,8 @@ NULL
   name_seq
 }
 
-.get_sequences_from_fastq_block <- function(lines,
-                                            seqtype,
-                                            with.qualities){
+.get_sequences_from_fastq_block <- function(lines, seqtype, with.qualities)
+{
   seq <- do.call(seqtype, list(lines[2]))
   if(with.qualities){
     attr(seq,"qualities") <- BString(lines[4])
@@ -249,11 +250,10 @@ NULL
   seq
 }
 
-.read_ModStringSet_from_fastq_file_data <- function(con,
-                                                    seqtype,
+.read_ModStringSet_from_fastq_file_data <- function(con, seqtype,
                                                     with.qualities,
-                                                    seek.first.rec,
-                                                    use.names){
+                                                    seek.first.rec, use.names)
+{
   ans <- list()
   names <- NULL
   # Search for the first @
@@ -297,13 +297,10 @@ NULL
   ans
 }
 
-.read_ModStringSet_from_fastq <- function(filepath,
-                                          nrec,
-                                          skip,
-                                          seek.first.rec,
-                                          use.names,
-                                          elementType,
-                                          with.qualities){
+.read_ModStringSet_from_fastq <- function(filepath, nrec, skip, seek.first.rec,
+                                          use.names, elementType,
+                                          with.qualities)
+{
   cons <- lapply(filepath, file, "rt")
   on.exit(lapply(cons,close))
   nrec <- Biostrings:::.normarg_nrec(nrec)
@@ -356,14 +353,10 @@ NULL
   ans
 }
 
-.read_ModStringSet <- function(filepath,
-                               format,
-                               nrec = -1L,
-                               skip = 0L,
-                               seek.first.rec = FALSE,
-                               use.names = TRUE,
-                               seqtype = "B",
-                               with.qualities = FALSE){
+.read_ModStringSet <- function(filepath, format, nrec = -1L, skip = 0L,
+                               seek.first.rec = FALSE, use.names = TRUE,
+                               seqtype = "B", with.qualities = FALSE)
+{
   if (!assertive::is_a_string(format)){
     stop("'format' must be a single string")
   }
@@ -371,16 +364,11 @@ NULL
   if (!assertive::is_a_bool(use.names)){
     stop("'use.names' must be TRUE or FALSE")
   }
-  elementType <- paste(seqtype, "String", sep = "")
+  elementType <- paste0(seqtype, "String")
   # fastq
   if (format == "fastq") {
-    ans <- .read_ModStringSet_from_fastq(filepath,
-                                         nrec,
-                                         skip,
-                                         seek.first.rec,
-                                         use.names,
-                                         elementType,
-                                         with.qualities)
+    ans <- .read_ModStringSet_from_fastq(filepath, nrec, skip, seek.first.rec,
+                                         use.names, elementType, with.qualities)
     return(ans)
   }
   # fasta
@@ -398,53 +386,33 @@ NULL
     }
     fai <- filepath
   } else {
-    fai <- .fasta.index(filepath,
-                        nrec = nrec,
-                        skip = skip,
+    fai <- .fasta.index(filepath, nrec = nrec, skip = skip,
                         seek.first.rec = seek.first.rec)
   }
-  .read_ModStringSet_from_fasta_index(fai,
-                                      use.names,
-                                      elementType)
+  .read_ModStringSet_from_fasta_index(fai, use.names, elementType)
 }
 
 
 #' @rdname ModStringSet-io
 #' @export
-readModDNAStringSet <- function(filepath,
-                                format = "fasta",
-                                nrec = -1L,
-                                skip = 0L,
-                                seek.first.rec = FALSE,
-                                use.names = TRUE,
-                                with.qualities = FALSE) {
-  ans <- .read_ModStringSet(filepath,
-                            format = format,
-                            nrec = nrec,
-                            skip = skip,
+readModDNAStringSet <- function(filepath, format = "fasta", nrec = -1L,
+                                skip = 0L, seek.first.rec = FALSE,
+                                use.names = TRUE, with.qualities = FALSE) {
+  ans <- .read_ModStringSet(filepath, format = format, nrec = nrec, skip = skip,
                             seek.first.rec = seek.first.rec,
-                            use.names = use.names,
-                            seqtype = "ModDNA",
+                            use.names = use.names, seqtype = "ModDNA",
                             with.qualities = with.qualities)
   ans
 }
 
 #' @rdname ModStringSet-io
 #' @export
-readModRNAStringSet <- function(filepath,
-                                format = "fasta",
-                                nrec = -1L,
-                                skip = 0L,
-                                seek.first.rec = FALSE,
-                                use.names = TRUE,
-                                with.qualities = FALSE) {
-  ans <- .read_ModStringSet(filepath,
-                            format = format,
-                            nrec = nrec,
-                            skip = skip,
+readModRNAStringSet <- function(filepath, format = "fasta", nrec = -1L,
+                                skip = 0L, seek.first.rec = FALSE,
+                                use.names = TRUE, with.qualities = FALSE) {
+  ans <- .read_ModStringSet(filepath, format = format, nrec = nrec, skip = skip,
                             seek.first.rec = seek.first.rec,
-                            use.names = use.names,
-                            seqtype = "ModRNA",
+                            use.names = use.names, seqtype = "ModRNA",
                             with.qualities = with.qualities)
   ans
 }
@@ -455,8 +423,7 @@ readModRNAStringSet <- function(filepath,
 # course be faster. This would mean that the one byte lookup would be also done
 # in C.
 
-.format_as_fasta <- function(x,
-                             width){
+.format_as_fasta <- function(x, width){
   names <- paste0(">",names(x))
   x <- as.list(as.character(x))
   x <- mapply(function(z,
@@ -477,10 +444,8 @@ readModRNAStringSet <- function(filepath,
   unlist(x)
 }
 
-.write_ModStringSet_to_fasta <- function(x,
-                                         con,
-                                         width = 80L,
-                                         ...){
+.write_ModStringSet_to_fasta <- function(x, con, width = 80L, ...)
+{
   if (!assertive::is_a_number(width)){
     stop("'width' must be a single integer")
   }
@@ -503,8 +468,8 @@ readModRNAStringSet <- function(filepath,
   NULL
 }
 
-.format_as_fastq <- function(x,
-                             qualities){
+.format_as_fastq <- function(x, qualities)
+{
   namesSeq <- paste0("@",names(x))
   namesQual <- paste0("+",names(x))
   x <- as.list(as.character(x))
@@ -523,10 +488,8 @@ readModRNAStringSet <- function(filepath,
   unlist(x)
 }
 
-.write_ModStringSet_to_fastq <- function(x,
-                                         con,
-                                         qualities = NULL,
-                                         ...){
+.write_ModStringSet_to_fastq <- function(x, con, qualities = NULL, ...)
+{
   if (is.null(qualities))
     qualities <- mcols(x)$qualities
   if (!is.null(qualities)) {
@@ -564,13 +527,9 @@ readModRNAStringSet <- function(filepath,
 
 #' @rdname ModStringSet-io
 #' @export
-writeModStringSet <- function(x,
-                              filepath,
-                              append = FALSE,
-                              compress = FALSE,
-                              compression_level = NA,
-                              format = "fasta",
-                              ...){
+writeModStringSet <- function(x, filepath, append = FALSE, compress = FALSE,
+                              compression_level = NA, format = "fasta", ...)
+{
   if (missing(x) || !is(x, "ModStringSet"))
     stop("'x' must be an ModStringSet object")
   if (missing(filepath) || !assertive::is_a_string(filepath))
@@ -583,15 +542,13 @@ writeModStringSet <- function(x,
   compress <- XVector:::.normarg_compress(compress)
   filepath2 <- path.expand(filepath)
   conFUN <- switch(compress,
-                   no = "file",
-                   gzip = "gzfile",
-                   bzip2 = "bzfile",
-                   xz = "xzfile")
-  con <- do.call(conFUN,
-                 list(description = filepath2,
-                      open = ifelse(append,"ab","wb")
-                      , encoding = "UTF-8"))
-                 # ))
+                   no = file,
+                   gzip = gzfile,
+                   bzip2 = bzfile,
+                   xz = xzfile)
+  con <- conFUN(description = filepath2,
+                open = ifelse(append,"ab","wb"),
+                encoding = "UTF-8")
   res <- try(switch(format,
                     "fasta" = .write_ModStringSet_to_fasta(x, con, ...),
                     "fastq" = .write_ModStringSet_to_fastq(x, con, ...)),

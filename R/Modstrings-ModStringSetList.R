@@ -62,8 +62,8 @@ setClass("ModRNAStringSetList",
 
 # derived from Biostrings/R/XStringSetList-class.R -----------------------------
 
-.new_ModStringSetList_from_list <- function(seqtype,
-                                            x){
+.new_ModStringSetList_from_list <- function(seqtype, x)
+{
   x_eltNROWS <- S4Vectors::elementNROWS(x)
   empty_idx <- which(x_eltNROWS == 0L)
   if (length(empty_idx) != 0L) {
@@ -89,8 +89,8 @@ setClass("ModRNAStringSetList",
   relist(unlisted_ans, x)
 }
 
-.new_ModStringSetList_from_List <- function(seqtype,
-                                            x){
+.new_ModStringSetList_from_List <- function(seqtype, x)
+{
   unlisted_x <- unlist(x,
                        use.names = FALSE)
   unlisted_ans <- ModStringSet(seqtype,
@@ -101,9 +101,8 @@ setClass("ModRNAStringSetList",
   ans
 }
 
-ModStringSetList <- function(seqtype,
-                             ...,
-                             use.names = TRUE){
+ModStringSetList <- function(seqtype, ..., use.names = TRUE)
+{
   if (!assertive::is_a_bool(use.names)){
     stop("'use.names' must be TRUE or FALSE")
   }
@@ -131,17 +130,11 @@ ModStringSetList <- function(seqtype,
 
 #' @rdname ModStringSetList
 #' @export
-ModDNAStringSetList <- function(...,
-                                use.names = TRUE){
-  ModStringSetList("ModDNA",
-                   ...,
-                   use.names = use.names)
+ModDNAStringSetList <- function(..., use.names = TRUE){
+  ModStringSetList("ModDNA", ..., use.names = use.names)
 }
 #' @rdname ModStringSetList
 #' @export
-ModRNAStringSetList <- function(...,
-                                use.names = TRUE){
-  ModStringSetList("ModRNA",
-                   ...,
-                   use.names = use.names)
+ModRNAStringSetList <- function(..., use.names = TRUE){
+  ModStringSetList("ModRNA", ..., use.names = use.names)
 }

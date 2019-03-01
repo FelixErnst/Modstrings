@@ -1,5 +1,7 @@
 # Modstrings: implementation of Biostrings to work with nucleotide sequences containing modified nucleotides
 
+<img src="https://github.com/FelixErnst/BiocStickers/blob/Modstrings/Modstrings/Modstrings.png" height="300" align="right">
+
 RNA are usually in some form post-transcriptionally modified. Most prominent
 examples are of course rRNA and tRNA, but in recent years mRNA was also
 discovered to be post-transcriptionally modified.

@@ -102,11 +102,8 @@ NULL
 setMethod(
   "modifyNucleotides",
   signature = "ModString",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type =  c("short","nc"),
-                        verbose = FALSE){
+  definition = function(x, at, mod, nc.type =  c("short","nc"), verbose = FALSE)
+  {
     .check_verbose(verbose)
     nc.type <- match.arg(nc.type)
     at <- .check_replace_pos_ModString(x,at)
@@ -159,11 +156,8 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "ModStringSet",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type = c("short","nc"),
-                        verbose = FALSE){
+  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  {
     .check_verbose(verbose)
     nc.type <- match.arg(nc.type)
     if (length(x) == 0L){
@@ -200,15 +194,9 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "DNAString",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type = c("short","nc"),
-                        verbose = FALSE){
-    modifyNucleotides(as(x,"ModDNAString"),
-                      at,
-                      mod,
-                      nc.type = nc.type,
+  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  {
+    modifyNucleotides(as(x,"ModDNAString"), at, mod, nc.type = nc.type,
                       verbose = verbose)
   }
 )
@@ -217,15 +205,9 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "RNAString",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type = c("short","nc"),
-                        verbose = FALSE){
-    modifyNucleotides(as(x,"ModRNAString"),
-                      at,
-                      mod,
-                      nc.type = nc.type,
+  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  {
+    modifyNucleotides(as(x,"ModRNAString"), at, mod, nc.type = nc.type,
                       verbose = verbose)
   }
 )
@@ -234,15 +216,9 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "DNAStringSet",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type = c("short","nc"),
-                        verbose = FALSE){
-    modifyNucleotides(as(x,"ModDNAStringSet"),
-                      at,
-                      mod,
-                      nc.type = nc.type,
+  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  {
+    modifyNucleotides(as(x,"ModDNAStringSet"), at, mod, nc.type = nc.type,
                       verbose = verbose)
   }
 )
@@ -251,15 +227,9 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "RNAStringSet",
-  definition = function(x,
-                        at,
-                        mod,
-                        nc.type = c("short","nc"),
-                        verbose = FALSE){
-    modifyNucleotides(as(x,"ModRNAStringSet"),
-                      at,
-                      mod,
-                      nc.type = nc.type,
+  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  {
+    modifyNucleotides(as(x,"ModRNAStringSet"), at, mod, nc.type = nc.type,
                       verbose = verbose)
   }
 )
