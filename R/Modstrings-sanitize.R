@@ -52,7 +52,8 @@ load("data/MOD_RNA_DICT_MODOMICS.rda")
 load("data/MOD_RNA_DICT_TRNADB.rda")
 
 # this is required since toupper() screws up the encoding of special characters
-.add_lower_to_upper_case <- function(dict){
+.add_lower_to_upper_case <- function(dict)
+{
   caseDict <- DataFrame(old = c("a","g","c","t","u"),
                     sn = c("A","G","C","T","U"),
                     new = c("A","G","C","T","U"))
@@ -62,7 +63,8 @@ load("data/MOD_RNA_DICT_TRNADB.rda")
   dict
 }
 
-.construct_translation_table <- function(dict,seqtype){
+.construct_translation_table <- function(dict, seqtype)
+{
   if(!is(dict,"DataFrame")){
     stop("Dictionary must be a DataFrame with at least two columns ",
          "'mods_abbrev' and 'short_name'. 'short_name' must match the ",
@@ -93,8 +95,8 @@ load("data/MOD_RNA_DICT_TRNADB.rda")
 
 #' @rdname sanitizeInput
 #' @export
-sanitizeInput <- function(input,
-                          dictionary){
+sanitizeInput <- function(input, dictionary)
+{
   if(is.list(input)){
     input <- unlist(input)
   }
@@ -129,13 +131,11 @@ sanitizeInput <- function(input,
 #' @rdname sanitizeInput
 #' @export
 sanitizeFromModomics <- function(input){
-  sanitizeInput(input,
-                MOD_RNA_DICT_MODOMICS)
+  sanitizeInput(input, MOD_RNA_DICT_MODOMICS)
 }
 
 #' @rdname sanitizeInput
 #' @export
 sanitizeFromtRNAdb <- function(input){
-  sanitizeInput(input,
-                MOD_RNA_DICT_TRNADB)
+  sanitizeInput(input, MOD_RNA_DICT_TRNADB)
 }

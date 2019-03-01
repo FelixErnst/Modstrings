@@ -80,10 +80,10 @@ readQualityScaledModDNAStringSet <- function(filepath,
                                              quality.scoring = c("phred",
                                                                  "solexa",
                                                                  "illumina"),
-                                             nrec = -1L,
-                                             skip = 0L,
+                                             nrec = -1L, skip = 0L,
                                              seek.first.rec = FALSE,
-                                             use.names = TRUE){
+                                             use.names = TRUE)
+{
   quality.scoring <- match.arg(quality.scoring)
   x <- readModDNAStringSet(filepath,
                            format = "fastq",
@@ -109,7 +109,8 @@ readQualityScaledModRNAStringSet <- function(filepath,
                                              nrec = -1L,
                                              skip = 0L,
                                              seek.first.rec = FALSE,
-                                             use.names = TRUE){
+                                             use.names = TRUE)
+{
   quality.scoring <- match.arg(quality.scoring)
   x <- readModRNAStringSet(filepath,
                            format = "fastq",
@@ -128,11 +129,10 @@ readQualityScaledModRNAStringSet <- function(filepath,
 
 #' @rdname QualityScaledModStringSet
 #' @export
-writeQualityScaledModStringSet <- function(x,
-                                           filepath,
-                                           append = FALSE,
+writeQualityScaledModStringSet <- function(x, filepath, append = FALSE,
                                            compress = FALSE,
-                                           compression_level = NA){
+                                           compression_level = NA)
+{
   if (!is(x, "QualityScaledXStringSet")){
     stop("'x' must be a QualityScaledXStringSet object",
          call. = FALSE)

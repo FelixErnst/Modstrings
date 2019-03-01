@@ -6,8 +6,8 @@ NULL
 # files (like matchPattern(), matchPDict(), etc...) to check and normalize
 # their arguments.
 
-.normargSubject <- function(subject,
-                            argname = "subject"){
+.normargSubject <- function(subject, argname = "subject")
+{
   if (is(subject, "ModString") || is(subject, "ModStringSet")){
     return(subject)
   }
@@ -23,9 +23,8 @@ NULL
   subject
 }
 
-.normargPattern <- function(pattern,
-                            subject,
-                            argname = "pattern"){
+.normargPattern <- function(pattern, subject, argname = "pattern")
+{
   subject_baseclass <- Biostrings:::xsbaseclass(subject)
   if (is(pattern, "ModString")) {
     if (base_class_name(pattern) == subject_baseclass){
@@ -67,7 +66,8 @@ NULL
                             with.indels,
                             fixed,
                             ans.type,
-                            auto.reduce.pattern = FALSE){
+                            auto.reduce.pattern = FALSE)
+{
   subject <- .normargSubject(subject)
   pattern <- .normargPattern(pattern, subject)
   if (!is.numeric(at)) {
@@ -134,20 +134,10 @@ NULL
 # derived from Biostrings/R/lowlevel-matching.R --------------------------------
 
 setMethod("neditStartingAt", "ModString",
-          function(pattern,
-                   subject,
-                   starting.at = 1,
-                   with.indels = FALSE,
+          function(pattern, subject, starting.at = 1, with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            NA,
-                            NA,
-                            with.indels,
-                            fixed,
-                            0L)
+            .matchPatternAt(pattern, subject, starting.at, 0L, NA, NA, 
+                            with.indels, fixed, 0L)
 )
 
 setMethod("neditStartingAt", "ModStringSet",
@@ -156,15 +146,8 @@ setMethod("neditStartingAt", "ModStringSet",
                    starting.at = 1,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            NA,
-                            NA,
-                            with.indels,
-                            fixed,
-                            0L)
+            .matchPatternAt(pattern, subject, starting.at, 0L, NA, NA, 
+                            with.indels, fixed, 0L)
 )
 
 setMethod("neditEndingAt", "ModString",
@@ -173,15 +156,8 @@ setMethod("neditEndingAt", "ModString",
                    ending.at = 1,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            1L,
-                            NA,
-                            NA,
-                            with.indels,
-                            fixed,
-                            0L)
+            .matchPatternAt(pattern, subject, ending.at, 1L, NA, NA, 
+                            with.indels, fixed, 0L)
 )
 
 setMethod("neditEndingAt", "ModStringSet",
@@ -190,15 +166,8 @@ setMethod("neditEndingAt", "ModStringSet",
                    ending.at = 1,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            1L,
-                            NA,
-                            NA,
-                            with.indels,
-                            fixed,
-                            0L)
+            .matchPatternAt(pattern, subject, ending.at, 1L, NA, NA, 
+                            with.indels, fixed, 0L)
 )
 
 
@@ -219,15 +188,8 @@ setMethod("isMatchingStartingAt", "ModString",
                    min.mismatch = 0,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
-                            1L)
+            .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed, 1L)
 )
 
 setMethod("isMatchingStartingAt", "ModStringSet",
@@ -238,15 +200,8 @@ setMethod("isMatchingStartingAt", "ModStringSet",
                    min.mismatch = 0,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
-                            1L)
+            .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed, 1L)
 )
 
 setMethod("isMatchingEndingAt", "ModString",
@@ -257,15 +212,8 @@ setMethod("isMatchingEndingAt", "ModString",
                    min.mismatch = 0,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
-                            1L)
+            .matchPatternAt(pattern, subject, ending.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed, 1L)
 )
 
 setMethod("isMatchingEndingAt", "ModStringSet",
@@ -276,15 +224,8 @@ setMethod("isMatchingEndingAt", "ModStringSet",
                    min.mismatch = 0,
                    with.indels = FALSE,
                    fixed = TRUE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
-                            1L)
+            .matchPatternAt(pattern, subject, ending.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed, 1L)
 )
 
 
@@ -308,14 +249,8 @@ setMethod("which.isMatchingStartingAt", "ModString",
                    fixed = TRUE,
                    follow.index = FALSE,
                    auto.reduce.pattern = FALSE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
+            .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed,
                             Biostrings:::.to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
@@ -330,14 +265,8 @@ setMethod("which.isMatchingStartingAt", "ModStringSet",
                    fixed = TRUE,
                    follow.index = FALSE,
                    auto.reduce.pattern = FALSE)
-            .matchPatternAt(pattern,
-                            subject,
-                            starting.at,
-                            0L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
+            .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
+                            min.mismatch, with.indels, fixed,
                             Biostrings:::.to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
@@ -352,14 +281,8 @@ setMethod("which.isMatchingEndingAt", "ModString",
                    fixed = TRUE,
                    follow.index = FALSE,
                    auto.reduce.pattern = FALSE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            1L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
+            .matchPatternAt(pattern, subject, ending.at, 1L, max.mismatch,
+                            min.mismatch, with.indels, fixed,
                             Biostrings:::.to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
@@ -374,14 +297,8 @@ setMethod("which.isMatchingEndingAt", "ModStringSet",
                    fixed = TRUE,
                    follow.index = FALSE,
                    auto.reduce.pattern = FALSE)
-            .matchPatternAt(pattern,
-                            subject,
-                            ending.at,
-                            1L,
-                            max.mismatch,
-                            min.mismatch,
-                            with.indels,
-                            fixed,
+            .matchPatternAt(pattern, subject, ending.at, 1L, max.mismatch,
+                            min.mismatch, with.indels, fixed,
                             Biostrings:::.to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
@@ -390,7 +307,8 @@ setMethod("which.isMatchingEndingAt", "ModStringSet",
 # derived from Biostrings/R/lowlevel-matching.R --------------------------------
 # hasLetterAt()
 
-hasLetterAt <- function(x, letter, at, fixed=TRUE){
+hasLetterAt <- function(x, letter, at, fixed=TRUE)
+{
   if (!is(x, "ModStringSet")) {
     if (!is.character(x) && !is(x, "ModString")){
       stop("'x' must be a character vector, or an ModString or ModStringSet ",

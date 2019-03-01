@@ -1,10 +1,9 @@
 #' @include Modstrings.R
 NULL
 
-.from_ModStringSet_to_GRanges <- function(stringset,
-                                          qualities,
-                                          codec,
-                                          nc.type = "short"){
+.from_ModStringSet_to_GRanges <- function(stringset, qualities, codec,
+                                          nc.type = "short")
+{
   nlength <- length(stringset)
   # we need names for factor generation latter on
   if(is.null(names(stringset))){
@@ -109,48 +108,46 @@ NULL
 #' seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
 #' gr <- separate(seq)
 #' seq <- combineIntoModstrings(as(seq,"DNAString"),gr)
-setMethod("separate",
-          signature = "ModString",
-          function(x,
-                   nc.type = c("short","nc")){
-            nc.type <- match.arg(nc.type)
-            codec <- modscodec(seqtype(x))
-            ans <- .from_ModStringSet_to_GRanges(as(x,
-                                                    paste0(seqtype(x),
-                                                           "StringSet")),
-                                                 rep(NA,length(x)),
-                                                 codec = codec,
-                                                 nc.type = nc.type)
-            ans 
-          }
+setMethod(
+  "separate",
+  signature = "ModString",
+  function(x, nc.type = c("short","nc"))
+  {
+    nc.type <- match.arg(nc.type)
+    codec <- modscodec(seqtype(x))
+    ans <- .from_ModStringSet_to_GRanges(as(x, paste0(seqtype(x), "StringSet")),
+                                         rep(NA,length(x)), codec = codec,
+                                         nc.type = nc.type)
+    ans 
+  }
 )
 #' @rdname separate
 #' @export
-setMethod("separate",
-          signature = "ModStringSet",
-          function(x,
-                   nc.type = c("short","nc")){
-            nc.type <- match.arg(nc.type)
-            if(is(x,"QualityScaledModStringSet")){
-              qualities <- quality(x)
-              qualities <- as(qualities,"IntegerList")
-            } else {
-              qualities <- lapply(width(x),function(i)rep(NA,i))
-            }
-            codec <- modscodec(seqtype(x))
-            ans <- .from_ModStringSet_to_GRanges(x,
-                                                 qualities,
-                                                 codec = codec,
-                                                 nc.type = nc.type)
-            ans
-          }
+setMethod(
+  "separate",
+  signature = "ModStringSet",
+  function(x, nc.type = c("short","nc"))
+  {
+    nc.type <- match.arg(nc.type)
+    if(is(x,"QualityScaledModStringSet")){
+      qualities <- quality(x)
+      qualities <- as(qualities,"IntegerList")
+    } else {
+      qualities <- lapply(width(x),function(i)rep(NA,i))
+    }
+    codec <- modscodec(seqtype(x))
+    ans <- .from_ModStringSet_to_GRanges(x, qualities, codec = codec,
+                                         nc.type = nc.type)
+    ans
+  }
 )
 
 # combine ----------------------------------------------------------------------
 
 # remove any unneccessary information
 # warn if minus strand information are present
-.norm_GRanges <- function(gr){
+.norm_GRanges <- function(gr)
+{
   mcols <- mcols(gr)[,colnames(mcols(gr)) %in% c("mod","quality"),drop = FALSE]
   gr <- GRanges(seqnames = as.character(seqnames(gr)),
                 ranges = ranges(gr),
@@ -162,7 +159,8 @@ setMethod("separate",
   }
   gr[as.character(strand(gr)) %in% c("*","+")]
 }
-.norm_GRangesList <- function(gr){
+.norm_GRangesList <- function(gr)
+{
   ans <- unlist(gr)
   ans <- .norm_GRanges(ans)
   split(ans,
@@ -174,7 +172,8 @@ setMethod("separate",
 
 # assembles a new modification from nomenclature and checks if the new type
 # is valid
-.combine_to_new_nc_ident <- function(gr,seqtype){
+.combine_to_new_nc_ident <- function(gr, seqtype)
+{
   nc_type <- .get_nc_type(gr$mod,seqtype)
   nc <- .get_nc_ident(gr$mod,seqtype,nc_type)
   if(is.null(nc)){
@@ -213,7 +212,8 @@ setMethod("separate",
 }
 
 # sort in new modification annotation
-.combine_modifications <- function(gr,seqtype){
+.combine_modifications <- function(gr, seqtype)
+{
   overlappingPos <- start(gr)[duplicated(start(gr))]
   if(length(overlappingPos) > 0L){
     newgr <- lapply(overlappingPos,
@@ -238,7 +238,8 @@ setMethod("separate",
 }
 
 # normalize GRanges inputs and check compatibility for combineIntoModstrings
-.norm_GRanges_for_combine <- function(x,gr) {
+.norm_GRanges_for_combine <- function(x,gr)
+{
   gr <- .norm_GRanges(gr)
   if(any(max(end(gr)) > length(x))){
     stop("GRanges object contains coordinates out of bounds for the ",
@@ -276,7 +277,8 @@ setMethod("separate",
   gr
 }
 
-.norm_GRangesList_for_combine <- function(x,gr) {
+.norm_GRangesList_for_combine <- function(x,gr)
+{
   gr <- .norm_GRangesList(gr)
   seqnames <- lapply(gr, function(z){as.character(seqnames(z))})
   names <- lapply(gr, function(z){names(z)})
@@ -339,7 +341,8 @@ setMethod("separate",
 
 # check which annotation types is it. If nothing is found the seqtype is not
 # compatible with the mod type
-.get_nc_type <- function(mod,seqtype){
+.get_nc_type <- function(mod,seqtype)
+{
   sn <- names(modsshortnames(seqtype))
   nc <- names(modsnomenclature(seqtype))
   if(all(mod %in% sn)){
@@ -358,8 +361,8 @@ setMethod("separate",
 }
 
 # convert the position information into a logical list or matrix
-.pos_to_logical_list <- function(x,
-                                 at){
+.pos_to_logical_list <- function(x, at)
+{
   width <- width(x)
   list <- lapply(width,function(w){rep(FALSE,w)})
   list <- mapply(
@@ -372,8 +375,8 @@ setMethod("separate",
     SIMPLIFY = FALSE)
   list
 }
-.pos_to_logical_matrix <- function(x,
-                                   at){
+.pos_to_logical_matrix <- function(x, at)
+{
   width <- width(x)
   m <- matrix(rep(FALSE,sum(width)),length(x))
   m <- mapply(
@@ -390,10 +393,8 @@ setMethod("separate",
 }
 
 # construct a QualityScaleStringSet from information in the GRanges object
-.convert_to_QualityScaledStringSet <- function(string,
-                                               gr,
-                                               quality.type,
-                                               ...){
+.convert_to_QualityScaledStringSet <- function(string, gr, quality.type, ...)
+{
   qualityCol <- vapply(gr,
                        function(g){
                          "quality" %in% colnames(S4Vectors::mcols(g))
@@ -419,10 +420,9 @@ setMethod("separate",
                qualities))
 }
 
-.get_XStringQuality_from_GRanges <- function(string,
-                                             gr,
-                                             quality.type,
-                                             default.quality){
+.get_XStringQuality_from_GRanges <- function(string, gr, quality.type,
+                                             default.quality)
+{
   if(is(string,"ModString")){
     width  <- length(string)
     pos <- list(start(gr[[1]]))
@@ -449,143 +449,134 @@ setMethod("separate",
 
 #' @rdname separate
 #' @export
-setMethod("combineIntoModstrings",
-          signature = c(x = "XString",
-                        gr = "GRanges"),
-          function(x,
-                   gr,
-                   with.qualities = FALSE,
-                   quality.type = "Phred",
-                   verbose = FALSE,
-                   ...){
-            .check_verbose(verbose)
-            x <- as(x,
-                    paste0("Mod",
-                           seqtype(x),
-                           "String"))
-            gr <- .norm_GRanges_for_combine(x,gr)
-            nc.type <- .get_nc_type(gr$mod,seqtype(x))
-            at <- .pos_to_logical_matrix(as(x,
-                                            paste0(seqtype(x),
-                                                   "StringSet")),
-                                         list(start(gr)))
-            ans_seq <- modifyNucleotides(x,
-                                         as.vector(at),
-                                         S4Vectors::mcols(gr)$mod,
-                                         nc.type = nc.type,
-                                         verbose = verbose)
-            if(!with.qualities){
-              return(ans_seq)
-            }
-            quality.type <- match.arg(quality.type,c("Phred",
-                                                     "Solexa",
-                                                     "Illumina"))
-            .convert_to_QualityScaledStringSet(ans_seq,
-                                               gr,
-                                               quality.type,
-                                               ...)
-          }
+setMethod(
+  "combineIntoModstrings",
+  signature = c(x = "XString", gr = "GRanges"),
+  function(x, gr, with.qualities = FALSE, quality.type = "Phred",
+           verbose = FALSE, ...)
+  {
+    .check_verbose(verbose)
+    x <- as(x,
+            paste0("Mod",
+                   seqtype(x),
+                   "String"))
+    gr <- .norm_GRanges_for_combine(x,gr)
+    nc.type <- .get_nc_type(gr$mod,seqtype(x))
+    at <- .pos_to_logical_matrix(as(x,
+                                    paste0(seqtype(x),
+                                           "StringSet")),
+                                 list(start(gr)))
+    ans_seq <- modifyNucleotides(x,
+                                 as.vector(at),
+                                 S4Vectors::mcols(gr)$mod,
+                                 nc.type = nc.type,
+                                 verbose = verbose)
+    if(!with.qualities){
+      return(ans_seq)
+    }
+    quality.type <- match.arg(quality.type,c("Phred",
+                                             "Solexa",
+                                             "Illumina"))
+    .convert_to_QualityScaledStringSet(ans_seq,
+                                       gr,
+                                       quality.type,
+                                       ...)
+  }
 )
 
 #' @rdname separate
 #' @export
-setMethod("combineIntoModstrings",
-          signature = c(x = "XStringSet",
-                        gr = "GRangesList"),
-          function(x,
-                   gr,
-                   with.qualities = FALSE,
-                   quality.type = "Phred",
-                   verbose = FALSE,
-                   ...){
-            .check_verbose(verbose)
-            if(!assertive::is_a_bool(with.qualities)){
-              stop("with.qualities has to be TRUE or FALSE.")
-            }
-            quality.type <- match.arg(quality.type,c("Phred",
-                                                     "Solexa",
-                                                     "Illumina"))
-            gr <- .norm_GRangesList_for_combine(x, gr)
-            if (!S4Vectors::isConstant(width(x))){
-              at <- .pos_to_logical_list(as(x,
-                                              paste0(seqtype(x),
-                                                     "StringSet")),
-                                           lapply(gr, start))
-            } else {
-              at <- .pos_to_logical_matrix(as(x,
-                                              paste0(seqtype(x),
-                                                     "StringSet")),
-                                           lapply(gr, start))
-            }
-            ans_seq <- modifyNucleotides(x,
-                                         at,
-                                         lapply(gr,function(z){
-                                           S4Vectors::mcols(z)$mod
-                                         }),
-                                         verbose = verbose)
-            if(!with.qualities){
-              return(ans_seq)
-            }
-            .convert_to_QualityScaledStringSet(ans_seq,
-                                               gr,
-                                               quality.type,
-                                               ...)
-          }
+setMethod(
+  "combineIntoModstrings",
+  signature = c(x = "XStringSet", gr = "GRangesList"),
+  function(x, gr, with.qualities = FALSE, quality.type = "Phred",
+           verbose = FALSE, ...)
+  {
+    .check_verbose(verbose)
+    if(!assertive::is_a_bool(with.qualities)){
+      stop("with.qualities has to be TRUE or FALSE.")
+    }
+    quality.type <- match.arg(quality.type,c("Phred",
+                                             "Solexa",
+                                             "Illumina"))
+    gr <- .norm_GRangesList_for_combine(x, gr)
+    if (!S4Vectors::isConstant(width(x))){
+      at <- .pos_to_logical_list(as(x,
+                                    paste0(seqtype(x),
+                                           "StringSet")),
+                                 lapply(gr, start))
+    } else {
+      at <- .pos_to_logical_matrix(as(x,
+                                      paste0(seqtype(x),
+                                             "StringSet")),
+                                   lapply(gr, start))
+    }
+    ans_seq <- modifyNucleotides(x,
+                                 at,
+                                 lapply(gr,function(z){
+                                   S4Vectors::mcols(z)$mod
+                                 }),
+                                 verbose = verbose)
+    if(!with.qualities){
+      return(ans_seq)
+    }
+    .convert_to_QualityScaledStringSet(ans_seq,
+                                       gr,
+                                       quality.type,
+                                       ...)
+  }
 )
 
 #' @rdname separate
 #' @export
-setMethod("combineIntoModstrings",
-          signature = c(x = "XStringSet",
-                        gr = "GRanges"),
-          function(x,
-                   gr,
-                   with.qualities = FALSE,
-                   quality.type = "Phred",
-                   verbose = FALSE,
-                   ...){
-            .check_verbose(verbose)
-            if(!assertive::is_a_bool(with.qualities)){
-              stop("with.qualities has to be TRUE or FALSE.")
-            }
-            quality.type <- match.arg(quality.type,c("Phred",
-                                                     "Solexa",
-                                                     "Illumina"))
-            # If names are set use these. Otherwise use seqnames
-            if(is.null(names(gr))){
-              gr <- split(gr,
-                          seqnames(gr))
-              gr <- gr[!vapply(gr,is.null,logical(1))]
-            } else {
-              gr <- split(gr,
-                          names(gr))
-            }
-            gr <- .norm_GRangesList_for_combine(x,gr)
-            if (!S4Vectors::isConstant(width(x))){
-              at <- .pos_to_logical_list(as(x,
-                                            paste0(seqtype(x),
-                                                   "StringSet")),
-                                         lapply(gr,
-                                                start))
-            } else {
-              at <- .pos_to_logical_matrix(as(x,
-                                              paste0(seqtype(x),
-                                                     "StringSet")),
-                                           lapply(gr,
-                                                  start))
-            }
-            ans_seq <- modifyNucleotides(x,
-                                         at,
-                                         lapply(gr,function(z){
-                                           S4Vectors::mcols(z)$mod
-                                         }),
-                                         verbose = verbose)
-            if(!with.qualities){
-              return(ans_seq)
-            }
-            .convert_to_QualityScaledStringSet(ans_seq,
-                                               gr,
-                                               quality.type,
-                                               ...)
-          }
+setMethod(
+  "combineIntoModstrings",
+  signature = c(x = "XStringSet", gr = "GRanges"),
+  function(x, gr, with.qualities = FALSE, quality.type = "Phred",
+           verbose = FALSE, ...)
+  {
+    .check_verbose(verbose)
+    if(!assertive::is_a_bool(with.qualities)){
+      stop("with.qualities has to be TRUE or FALSE.")
+    }
+    quality.type <- match.arg(quality.type,c("Phred",
+                                             "Solexa",
+                                             "Illumina"))
+    # If names are set use these. Otherwise use seqnames
+    if(is.null(names(gr))){
+      gr <- split(gr,
+                  seqnames(gr))
+      gr <- gr[!vapply(gr,is.null,logical(1))]
+    } else {
+      gr <- split(gr,
+                  names(gr))
+    }
+    gr <- .norm_GRangesList_for_combine(x,gr)
+    if (!S4Vectors::isConstant(width(x))){
+      at <- .pos_to_logical_list(as(x,
+                                    paste0(seqtype(x),
+                                           "StringSet")),
+                                 lapply(gr,
+                                        start))
+    } else {
+      at <- .pos_to_logical_matrix(as(x,
+                                      paste0(seqtype(x),
+                                             "StringSet")),
+                                   lapply(gr,
+                                          start))
+    }
+    ans_seq <- modifyNucleotides(x,
+                                 at,
+                                 lapply(gr,function(z){
+                                   S4Vectors::mcols(z)$mod
+                                 }),
+                                 verbose = verbose)
+    if(!with.qualities){
+      return(ans_seq)
+    }
+    .convert_to_QualityScaledStringSet(ans_seq,
+                                       gr,
+                                       quality.type,
+                                       ...)
+  }
 )

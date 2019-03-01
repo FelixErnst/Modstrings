@@ -3,8 +3,8 @@ NULL
 
 # derived from Biostrings/R/replaceLetterAt.R ----------------------------------
 
-.check_replace_pos_ModString <- function(x,
-                                         at){
+.check_replace_pos_ModString <- function(x, at)
+{
   if (is(at, "Rle")){
     at <- as.vector(at)
   }
@@ -27,7 +27,8 @@ NULL
   at
 }
 
-.norm_replace_pos_ModStringSet <- function(x,at){
+.norm_replace_pos_ModStringSet <- function(x, at)
+{
   x_width <- width(x)
   if(is.list(at)){
     if(!is.logical(unlist(at))){
@@ -50,11 +51,8 @@ NULL
   }
 }
 
-.check_letter_ModStringSet <- function(
-  x,
-  at,
-  letter,
-  .xname = assertive::get_name_in_parent(letter))
+.check_letter_ModStringSet <- 
+  function(x, at,letter, .xname = assertive::get_name_in_parent(letter))
 {
   if (length(letter) != length(x)){
     stop("'x' and '",.xname,"' must have the same length",
@@ -78,7 +76,8 @@ NULL
   }
 }
 
-.check_verbose <- function(verbose){
+.check_verbose <- function(verbose)
+{
   if (!assertive::is_a_bool(verbose)){
     stop("'verbose' must be TRUE or FALSE",
          call. = FALSE)
@@ -152,10 +151,8 @@ NULL
 setMethod(
   "replaceLetterAt",
   signature = "ModString",
-  definition = function(x,
-                        at,
-                        letter,
-                        verbose = FALSE){
+  definition = function(x, at, letter, verbose = FALSE)
+  {
     .check_verbose(verbose)
     at <- .check_replace_pos_ModString(x,at)
     if (is(letter, "ModString")){
@@ -165,10 +162,8 @@ setMethod(
       stop("'letter' must be a ModString object or a character vector",
            call. = FALSE)
     }
-    letter <- vapply(letter,
-                     .convert_letters_to_one_byte_codes,
-                     character(1),
-                     modscodec(seqtype(x)),
+    letter <- vapply(letter, .convert_letters_to_one_byte_codes,
+                     character(1), modscodec(seqtype(x)),
                      USE.NAMES = FALSE)
     .Call2("XString_replace_letter_at",
            x,
@@ -186,10 +181,8 @@ setMethod(
 setMethod(
   "replaceLetterAt",
   signature = "ModStringSet",
-  definition = function(x,
-                        at,
-                        letter,
-                        verbose = FALSE){
+  definition = function(x, at, letter, verbose = FALSE)
+  {
     .check_verbose(verbose)
     if (length(x) == 0L){
       stop("'x' has no element")
@@ -209,9 +202,7 @@ setMethod(
     } else {
       at <- as.vector(t(at))
     }
-    unlisted_ans <- replaceLetterAt(unlisted_x,
-                                    at,
-                                    letter,
+    unlisted_ans <- replaceLetterAt(unlisted_x, at, letter,
                                     if.not.extending = "replace",
                                     verbose = verbose)
     relist(unlisted_ans, x)

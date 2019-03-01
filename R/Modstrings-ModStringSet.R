@@ -89,35 +89,37 @@ setClass("ModRNAStringSet",
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
 #' @export
-setReplaceMethod("seqtype", "ModStringSet",
-                 function(x, value)
-                 {
-                   ans_class <- paste(value, "StringSet", sep = "")
-                   if(is(x,ans_class)){
-                     return(x)
-                   }
-                   ans_seq <- .Call2("new_CHARACTER_from_XStringSet",
-                                     x,
-                                     NULL,
-                                     PACKAGE="Biostrings")
-                   ans_seq <- unlist(
-                     lapply(ans_seq,
-                            function(a){
-                              .convert_one_byte_codes_to_originating_base(
-                                a,
-                                modscodec(seqtype(x)))
-                            }))
-                   if (!is.null(names(x))) {
-                     names(ans_seq) <- names(x)
-                   }
-                   do.call(ans_class,list(ans_seq))
-                 }
+setReplaceMethod(
+  "seqtype", "ModStringSet",
+  function(x, value)
+  {
+    ans_class <- paste0(value, "StringSet")
+    if(is(x,ans_class)){
+      return(x)
+    }
+    ans_seq <- .Call2("new_CHARACTER_from_XStringSet",
+                      x,
+                      NULL,
+                      PACKAGE="Biostrings")
+    ans_seq <- unlist(
+      lapply(ans_seq,
+             function(a){
+               .convert_one_byte_codes_to_originating_base(
+                 a,
+                 modscodec(seqtype(x)))
+             }))
+    if (!is.null(names(x))) {
+      names(ans_seq) <- names(x)
+    }
+    do.call(ans_class,list(ans_seq))
+  }
 )
 
 
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
-.oneSeqToModStringSet <- function(seqtype, x, start, end, width, use.names){
+.oneSeqToModStringSet <- function(seqtype, x, start, end, width, use.names)
+{
   if(is.null(modscodec(seqtype))){
     stop("'seqtype' invalid: '",seqtype,"'given.", call. = FALSE)
   }
@@ -129,7 +131,7 @@ setReplaceMethod("seqtype", "ModStringSet",
                                       rep.refwidths = TRUE)
   ## We mimic how substring() replicates the name of a single string (try
   ## 'substring(c(A="abcdefghij"), 2, 6:2)').
-  if (!is(x, "ModString") && Biostrings:::normargUseNames(use.names)) {
+  if (!is(x, "ModString") && Biostrings:::normargUseNames(use.names)){
     x_names <- names(x)
     if (!is.null(x_names)) {
       ans_names <- rep.int(x_names, length(ans_ranges))
@@ -139,12 +141,8 @@ setReplaceMethod("seqtype", "ModStringSet",
   IRanges::extractList(ans_xvector, ans_ranges)
 }
 
-.charToModStringSet <- function(seqtype,
-                                x,
-                                start,
-                                end,
-                                width,
-                                use.names){
+.charToModStringSet <- function(seqtype, x, start, end, width, use.names)
+{
   if(is.null(modscodec(seqtype))){
     stop("'seqtype' invalid: '",seqtype,"'given.", call. = FALSE)
   }
@@ -190,204 +188,132 @@ setReplaceMethod("seqtype", "ModStringSet",
 #' @export
 setGeneric("ModStringSet", 
            signature = "x",
-           function(seqtype,
-                    x,
-                    start = NA,
-                    end = NA,
-                    width = NA,
+           function(seqtype, x, start = NA, end = NA, width = NA, 
                     use.names = TRUE)
              standardGeneric("ModStringSet")
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "character",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            if (is.null(seqtype)){
-              return(Biostrings:::XStringSet("B",
-                                             x,
-                                             start = start,
-                                             end = end,
-                                             width = width,
-                                             use.names = use.names))
-            }
-            .charToModStringSet(seqtype,
-                                x,
-                                start,
-                                end,
-                                width,
-                                use.names)
-          }
+setMethod(
+  "ModStringSet",
+  signature = "character",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
+    if (is.null(seqtype)){
+      return(Biostrings:::XStringSet("B", x, start = start, end = end,
+                                     width = width, use.names = use.names))
+    }
+    .charToModStringSet(seqtype, x, start, end, width, use.names)
+  }
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "factor",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            if (is.null(seqtype))
-              seqtype <- "B"
-            if (length(x) < nlevels(x)) {
-              ans <- .charToModStringSet(seqtype,
-                                         as.character(x),
-                                         start,
-                                         end,
-                                         width,
-                                         use.names)
-              return(ans)
-            }
-            ## If 'x' has less levels than elements, then it's cheaper to
-            ## operate on its levels. In case of equality (i.e. if
-            ## length(x) == nlevels(x)), the price is the same but the final
-            ## XStringSet object obtained by operating on the levels might use
-            ## less memory (if 'x' contains duplicated values).
-            ans <- .charToModStringSet(seqtype,
-                                       levels(x),
-                                       start,
-                                       end,
-                                       width,
-                                       use.names)
-            ans[as.integer(x)]
-          }
+setMethod(
+  "ModStringSet",
+  signature = "factor",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    if (is.null(seqtype)){
+      seqtype <- "B"
+    }
+    if (length(x) < nlevels(x)) {
+      ans <- .charToModStringSet(seqtype, as.character(x), start, end, width,
+                                 use.names)
+      return(ans)
+    }
+    ## If 'x' has less levels than elements, then it's cheaper to
+    ## operate on its levels. In case of equality (i.e. if
+    ## length(x) == nlevels(x)), the price is the same but the final
+    ## XStringSet object obtained by operating on the levels might use
+    ## less memory (if 'x' contains duplicated values).
+    ans <- .charToModStringSet(seqtype, levels(x), start, end, width,
+                               use.names)
+    ans[as.integer(x)]
+  }
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "ModString",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE)
-            .oneSeqToModStringSet(seqtype,
-                                  x,
-                                  start,
-                                  end,
-                                  width,
-                                  use.names)
+setMethod(
+  "ModStringSet",
+  signature = "ModString",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+    .oneSeqToModStringSet(seqtype, x, start, end, width, use.names)
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "ModStringSet",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            ans <- narrow(x,
-                          start = start,
-                          end = end,
-                          width = width,
-                          use.names = use.names)
-            ans_class <- paste(seqtype, "StringSet", sep="")
-            if(is(ans,ans_class)){
-              return(ans)
-            }
-            # convert over "base" classes to convert T/U
-            seqtype(ans) <- gsub("Mod","",seqtype(ans))
-            seqtype(ans) <- gsub("Mod","",seqtype)
-            seqtype(ans) <- seqtype
-            ans
-          }
+setMethod(
+  "ModStringSet",
+  signature = "ModStringSet",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    ans <- narrow(x, start = start, end = end, width = width, 
+                  use.names = use.names)
+    ans_class <- paste(seqtype, "StringSet", sep="")
+    if(is(ans,ans_class)){
+      return(ans)
+    }
+    # convert over "base" classes to convert T/U
+    seqtype(ans) <- gsub("Mod","",seqtype(ans))
+    seqtype(ans) <- gsub("Mod","",seqtype)
+    seqtype(ans) <- seqtype
+    ans
+  }
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "list",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            x_len <- length(x)
-            if (x_len == 0L) {
-              tmp_elementType <- "BString"
-            } else {
-              tmp_elementType <- paste(seqtype(x[[1L]]),
-                                       "String",
-                                       sep = "")
-            }
-            tmp_class <- paste(tmp_elementType,
-                               "Set",
-                               sep = "")
-            tmp <- XVector:::new_XVectorList_from_list_of_XVector(tmp_class,
-                                                                  x)
-            ModStringSet(seqtype,
-                         tmp,
-                         start = start,
-                         end = end,
-                         width = width,
-                         use.names = use.names)
-          }
+setMethod(
+  "ModStringSet",
+  signature = "list",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    x_len <- length(x)
+    if (x_len == 0L) {
+      tmp_elementType <- "BString"
+    } else {
+      tmp_elementType <- paste0(seqtype(x[[1L]]), "String")
+    }
+    tmp_class <- paste0(tmp_elementType, "Set")
+    tmp <- XVector:::new_XVectorList_from_list_of_XVector(tmp_class, x)
+    ModStringSet(seqtype, tmp, start = start, end = end, width = width,
+                 use.names = use.names)
+  }
 )
 
 ### 2 extra "XStringSet" methods to deal with the probe sequences stored
 ### in the *probe annotation packages (e.g. drosophila2probe).
 
 #' @export
-setMethod("ModStringSet",
-          signature = "AsIs",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            if (!is.character(x))
-              stop("unsuported input type")
-            class(x) <- "character" # keeps the names (unlike as.character())
-            .charToModStringSet(seqtype,
-                                x,
-                                start,
-                                end,
-                                width,
-                                use.names)
-          }
+setMethod(
+  "ModStringSet",
+  signature = "AsIs",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
+    if (!is.character(x))
+      stop("unsuported input type")
+    class(x) <- "character" # keeps the names (unlike as.character())
+    .charToModStringSet(seqtype, x, start, end,  width, use.names)
+  }
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "ANY",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE)
-            ModStringSet(seqtype,
-                         as.character(x),
-                         start = start,
-                         end = end,
-                         width = width,
-                         use.names = use.names)
+setMethod(
+  "ModStringSet",
+  signature = "ANY",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    ModStringSet(seqtype, as.character(x),  start = start, end = end,
+                 width = width, use.names = use.names)
+  }
 )
 
 #' @export
-setMethod("ModStringSet",
-          signature = "missing",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            ModStringSet(seqtype,
-                         NULL)
-            
-          }
+setMethod(
+  "ModStringSet",
+  signature = "missing",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    ModStringSet(seqtype,
+                 NULL)
+    
+  }
 )
 
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
@@ -397,11 +323,7 @@ setMethod("ModStringSet",
 #' @export
 ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
                             use.names = TRUE){
-  ModStringSet("ModDNA",
-               x,
-               start = start,
-               end = end,
-               width = width,
+  ModStringSet("ModDNA", x, start = start, end = end, width = width,
                use.names = use.names)
   
 }
@@ -409,11 +331,7 @@ ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
 #' @export
 ModRNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
                             use.names=TRUE){
-  ModStringSet("ModRNA",
-               x,
-               start = start,
-               end = end,
-               width = width,
+  ModStringSet("ModRNA", x, start = start, end = end, width = width,
                use.names = use.names)
 }
 
@@ -425,24 +343,25 @@ setAs("ANY", "ModDNAStringSet", function(from) ModDNAStringSet(from))
 #' @export
 setAs("ANY", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 #' @export
-setMethod("as.character", "ModStringSet",
-          function(x, use.names=TRUE)
-          {
-            use.names <- Biostrings:::normargUseNames(use.names)
-            ans <- .Call2("new_CHARACTER_from_XStringSet",
-                          x,
-                          NULL,
-                          PACKAGE="Biostrings")
-            ans <- unlist(lapply(ans,
-                                 function(a){
-                                   .convert_one_byte_codes_to_letters(
-                                     a,
-                                     modscodec(seqtype(x)))
-                                 }))
-            if (use.names)
-              names(ans) <- names(x)
-            ans
-          }
+setMethod(
+  "as.character", "ModStringSet",
+  function(x, use.names=TRUE)
+  {
+    use.names <- Biostrings:::normargUseNames(use.names)
+    ans <- .Call2("new_CHARACTER_from_XStringSet",
+                  x,
+                  NULL,
+                  PACKAGE="Biostrings")
+    ans <- unlist(lapply(ans,
+                         function(a){
+                           .convert_one_byte_codes_to_letters(
+                             a,
+                             modscodec(seqtype(x)))
+                         }))
+    if (use.names)
+      names(ans) <- names(x)
+    ans
+  }
 )
 
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
@@ -469,7 +388,7 @@ setMethod("as.character", "ModStringSet",
   if (!is.null(names(x))){
     seq_snippet <- .format_utf8(seq_snippet, width = snippetWidth)
   }
-  cat(format(paste("[", i,"]", sep = ""), width = iW, justify = "right"), " ",
+  cat(format(paste0("[", i,"]"), width = iW, justify = "right"), " ",
       format(width, width = widthW, justify = "right"), " ",
       seq_snippet,
       sep = "")
@@ -478,7 +397,7 @@ setMethod("as.character", "ModStringSet",
     if (is.na(snippet_name)){
       snippet_name <- "<NA>"
     } else if (nchar(snippet_name) > .namesW) {
-      snippet_name <- paste(substr(snippet_name, 1, .namesW-3), "...", sep = "")
+      snippet_name <- paste0(substr(snippet_name, 1, .namesW-3), "...")
     }
     cat(" ", snippet_name, sep = "")
   }
@@ -521,14 +440,16 @@ setMethod("as.character", "ModStringSet",
 }
 
 #' @export
-setMethod("show", "ModStringSet",
-          function(object){
-            cat("  A ", class(object), " instance of length ", 
-                length(object), "\n", sep = "")
-            if (length(object) != 0){
-              .ModStringSet.show_frame(object)
-            }
-          }
+setMethod(
+  "show", "ModStringSet",
+  function(object)
+  {
+    cat("  A ", class(object), " instance of length ", 
+        length(object), "\n", sep = "")
+    if (length(object) != 0){
+      .ModStringSet.show_frame(object)
+    }
+  }
 )
 
 # Comparison -------------------------------------------------------------------

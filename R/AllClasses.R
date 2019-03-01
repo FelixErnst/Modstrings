@@ -1,2 +1,0 @@
-#' @include Modstrings.R
-NULL

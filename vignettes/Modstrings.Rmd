@@ -116,9 +116,7 @@ name or nomenclature of the particular modification of interest as returned by
 the `shortName()` or `nomenclature()` functions as seen above.
 
 ```{r object_creation4}
-gr <- GRanges(seqnames = "1",
-              ranges = IRanges(5,width = 1),
-              mod = "m7G")
+gr <- GRanges("1:5", mod = "m7G")
 mr5 <- combineIntoModstrings(r,
                              gr)
 mr5

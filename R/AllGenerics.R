@@ -6,14 +6,17 @@ NULL
 #' @rdname alphabet
 #' @export
 setGeneric(name = "shortName",
+           signature = "x",
            def = function(x) standardGeneric("shortName"))
 #' @rdname alphabet
 #' @export
 setGeneric(name = "fullName",
+           signature = "x",
            def = function(x) standardGeneric("fullName"))
 #' @rdname alphabet
 #' @export
 setGeneric(name = "nomenclature",
+           signature = "x",
            def = function(x) standardGeneric("nomenclature"))
 
 
@@ -22,11 +25,8 @@ setGeneric(name = "nomenclature",
 #' @name modifyNucleotides
 #' @export
 setGeneric(name = "modifyNucleotides",
-           def = function(x,
-                          at,
-                          mod,
-                          nc.type = "short",
-                          verbose = FALSE)
+           signature = "x",
+           def = function(x, at, mod, nc.type = "short", verbose = FALSE)
              standardGeneric("modifyNucleotides"))
 
 
@@ -35,16 +35,13 @@ setGeneric(name = "modifyNucleotides",
 #' @name separate
 #' @export
 setGeneric(name = "separate",
-           def = function(x,
-                          nc.type = "short") standardGeneric("separate"))
+           signature = "x",
+           def = function(x, nc.type = "short") standardGeneric("separate"))
 
 #' @rdname separate
 #' @export
 setGeneric(name = "combineIntoModstrings",
-           def = function(x,
-                          gr,
-                          with.qualities = FALSE,
-                          quality.type = "Phred",
-                          verbose = FALSE,
-                          ...)
+           signature = c("x","gr"),
+           def = function(x, gr, with.qualities = FALSE, quality.type = "Phred",
+                          verbose = FALSE, ...)
              standardGeneric("combineIntoModstrings"))

@@ -106,32 +106,33 @@ NULL
 
 #' @rdname replaceAt
 #' @export
-setMethod("extractAt", "ModString",
-          function(x, at)
-          {
-            at <- Biostrings:::.make_IRanges_from_at(at)
-            ## extractList() will check that all the ranges in 'at' are within
-            ## the limits of sequence 'x'.
-            IRanges::extractList(x, at)
-          }
+setMethod(
+  "extractAt", "ModString",
+  function(x, at)
+  {
+    at <- Biostrings:::.make_IRanges_from_at(at)
+    ## extractList() will check that all the ranges in 'at' are within
+    ## the limits of sequence 'x'.
+    IRanges::extractList(x, at)
+  }
 )
 #' @rdname replaceAt
 #' @export
-setMethod("extractAt", "ModStringSet",
-          function(x, at)
-          {
-            at <- Biostrings:::.normarg_at2(at, x)
-            at_eltNROWS <- elementNROWS(at)
-            x2 <- rep.int(unname(x), at_eltNROWS)
-            unlisted_at <- unlist(at, use.names=FALSE)
-            unlisted_ans <- subseq(x2,
-                                   start = start(unlisted_at),
-                                   width = width(unlisted_at))
-            names(unlisted_ans) <- names(unlisted_at)
-            ans <- relist(unlisted_ans, at)
-            names(ans) <- names(x)
-            ans
-          }
+setMethod(
+  "extractAt", "ModStringSet",
+  function(x, at)
+  {
+    at <- Biostrings:::.normarg_at2(at, x)
+    at_eltNROWS <- elementNROWS(at)
+    x2 <- rep.int(unname(x), at_eltNROWS)
+    unlisted_at <- unlist(at, use.names=FALSE)
+    unlisted_ans <- subseq(x2, start = start(unlisted_at),
+                           width = width(unlisted_at))
+    names(unlisted_ans) <- names(unlisted_at)
+    ans <- relist(unlisted_ans, at)
+    names(ans) <- names(x)
+    ans
+  }
 )
 
 
@@ -140,40 +141,44 @@ setMethod("extractAt", "ModStringSet",
 
 #' @rdname replaceAt
 #' @export
-setMethod("replaceAt", "ModString",
-          function(x, at, value = ""){
-            if (length(at) == 0L && length(value) == 0L){
-              return(x)
-            }
-            at <- Biostrings:::.normarg_at1(at, x)
-            value <- .normarg_value1(value, at, seqtype(x))
-            NR <- length(at)  # same as length(value) -- nb of replacements
-            if (NR == 0L){
-              return(x)
-            }
-            .Call2("XString_replaceAt",
-                   x,
-                   at,
-                   value,
-                   PACKAGE = "Biostrings")
-          }
+setMethod(
+  "replaceAt", "ModString",
+  function(x, at, value = "")
+  {
+    if (length(at) == 0L && length(value) == 0L){
+      return(x)
+    }
+    at <- Biostrings:::.normarg_at1(at, x)
+    value <- .normarg_value1(value, at, seqtype(x))
+    NR <- length(at)  # same as length(value) -- nb of replacements
+    if (NR == 0L){
+      return(x)
+    }
+    .Call2("XString_replaceAt",
+           x,
+           at,
+           value,
+           PACKAGE = "Biostrings")
+  }
 )
 #' @rdname replaceAt
 #' @export
-setMethod("replaceAt", "ModStringSet",
-          function(x, at, value=""){
-            if (length(at) == 0L && length(value) == 0L){
-              return(x)
-            }
-            at <- Biostrings:::.normarg_at2(at, x)
-            value <- .normarg_value2(value, at, seqtype(x))
-            ans <- .Call2("XStringSet_replaceAt",
-                          x,
-                          at,
-                          value,
-                          PACKAGE = "Biostrings")
-            names(ans) <- names(x)
-            mcols(ans) <- mcols(x)
-            ans
-          }
+setMethod(
+  "replaceAt", "ModStringSet",
+  function(x, at, value="")
+  {
+    if (length(at) == 0L && length(value) == 0L){
+      return(x)
+    }
+    at <- Biostrings:::.normarg_at2(at, x)
+    value <- .normarg_value2(value, at, seqtype(x))
+    ans <- .Call2("XStringSet_replaceAt",
+                  x,
+                  at,
+                  value,
+                  PACKAGE = "Biostrings")
+    names(ans) <- names(x)
+    mcols(ans) <- mcols(x)
+    ans
+  }
 )

@@ -43,46 +43,35 @@ setClass("ModStringViews",
 # derived from Biostrings/R/XStringViews-class.R -------------------------------
 # Constructor
 
-unsafe.newModStringViews <- function(subject,
-                                     start,
-                                     width){
+unsafe.newModStringViews <- function(subject, start, width){
   new2("ModStringViews",
        subject = subject,
-       ranges = IRanges::IRanges(start = start,
-                                 width = width),
+       ranges = IRanges::IRanges(start = start, width = width),
        check = FALSE)
 }
 #' @rdname ModStringViews
 #' @export
-setMethod("Views", "ModString",
-          function(subject,
-                   start = NULL,
-                   end = NULL,
-                   width = NULL,
-                   names = NULL)
-            IRanges:::new_Views(subject,
-                                start = start,
-                                end = end,
-                                width = width,
-                                names = names,
-                                Class = "ModStringViews")
+setMethod(
+  "Views", "ModString",
+  function(subject, start = NULL, end = NULL, width = NULL, 
+           names = NULL)
+  {
+    IRanges:::new_Views(subject, start = start, end = end,
+                        width = width, names = names,
+                        Class = "ModStringViews")
+  }
 )
 #' @rdname ModStringViews
 #' @export
-setMethod("Views", "character",
-          function(subject,
-                   start = NULL,
-                   end = NULL,
-                   width = NULL,
-                   names = NULL){
-            xsubject <- ModString(NULL,
-                                  subject)
-            Views(xsubject,
-                  start = start,
-                  end = end,
-                  width = width,
-                  names = names)
-          }
+setMethod(
+  "Views", "character",
+  function(subject, start = NULL, end = NULL, width = NULL, 
+           names = NULL)
+  {
+    xsubject <- ModString(NULL, subject)
+    Views(xsubject, start = start, end = end, width = width,
+          names = names)
+  }
 )
 
 # derived from Biostrings/R/XStringViews-class.R -------------------------------
@@ -91,25 +80,18 @@ setMethod("Views", "character",
 ### We need this so that B/DNA/RNA/AAStringSet() used below work on an
 ### XStringViews object.
 
-setMethod("ModStringSet",
-          "ModStringViews",
-          function(seqtype,
-                   x,
-                   start = NA,
-                   end = NA,
-                   width = NA,
-                   use.names = TRUE){
-            y <- Biostrings:::fromXStringViewsToStringSet(
-              x,
-              out.of.limits = "warning",
-              use.names = use.names)
-            ModStringSet(seqtype,
-                         y,
-                         start = start,
-                         end = end,
-                         width = width,
-                         use.names = TRUE)
-          }
+setMethod(
+  "ModStringSet",
+  "ModStringViews",
+  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
+  {
+    y <- Biostrings:::fromXStringViewsToStringSet(x,
+                                                  out.of.limits = "warning",
+                                                  use.names = use.names)
+    
+    ModStringSet(seqtype, y, start = start, end = end, width = width,
+                 use.names = TRUE)
+  }
 )
 
 #' @export
@@ -148,9 +130,8 @@ setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 # - XString.read ==> ModString.read
 
 ### nchar(XStringViews.get_view(x, start, end)) is always end-start+1
-ModStringViews.get_view <- function(x,
-                                    start,
-                                    end){
+ModStringViews.get_view <- function(x, start, end)
+{
   lx <- length(x)
   if (end < 1 || start > lx)
     return(format("", width = end-start+1))
@@ -164,18 +145,10 @@ ModStringViews.get_view <- function(x,
     Rmargin <- format("", width = end-lx)
     end <- lx
   }
-  paste(Lmargin,
-        ModString.read(x,
-                       start,
-                       end),
-        Rmargin,
-        sep = "")
+  paste0(Lmargin, ModString.read(x, start, end), Rmargin)
 }
 
-ModStringViews.get_snippet <- function(x,
-                                       start,
-                                       end,
-                                       snippetWidth)
+ModStringViews.get_snippet <- function(x, start, end, snippetWidth)
 {
   if (snippetWidth < 7)
     snippetWidth <- 7
@@ -185,17 +158,12 @@ ModStringViews.get_snippet <- function(x,
   } else {
     w1 <- (snippetWidth - 2) %/% 2
     w2 <- (snippetWidth - 3) %/% 2
-    paste(ModStringViews.get_view(x, start, start+w1-1),
-          "...",
-          ModStringViews.get_view(x, end-w2+1, end),
-          sep = "")
+    paste0(ModStringViews.get_view(x, start, start+w1-1),"...",
+           ModStringViews.get_view(x, end-w2+1, end))
   }
 }
 
-ModStringViews.show_vframe_header <- function(iW,
-                                              startW,
-                                              endW,
-                                              widthW)
+ModStringViews.show_vframe_header <- function(iW, startW, endW, widthW)
 {
   cat(format("", width = iW+1),
       format("start", width = startW, justify = "right"), " ",
@@ -204,18 +172,13 @@ ModStringViews.show_vframe_header <- function(iW,
       sep = "")
 }
 
-ModStringViews.show_vframe_line <- function(x,
-                                            i,
-                                            iW,
-                                            startW,
-                                            endW,
-                                            widthW)
+ModStringViews.show_vframe_line <- function(x, i, iW, startW, endW, widthW)
 {
   start <- start(x)[i]
   end <- end(x)[i]
   width <- end - start + 1
   snippetWidth <- getOption("width") - 6 - iW - startW - endW - widthW
-  cat(format(paste("[", i,"]", sep = ""), width = iW, justify = "right"), " ",
+  cat(format(paste0("[", i,"]"), width = iW, justify = "right"), " ",
       format(start, width = startW, justify="right"), " ",
       format(end, width = endW, justify="right"), " ",
       format(width, width = widthW, justify="right"), " ",
@@ -272,12 +235,7 @@ ModStringViews.show_vframe <- function(x)
           " ...\n", sep = "")
       if (ntail > 0)
         for (i in (lx-ntail+1L):lx)
-          ModStringViews.show_vframe_line(x,
-                                          i,
-                                          iW,
-                                          startW,
-                                          endW,
-                                          widthW)
+          ModStringViews.show_vframe_line(x, i, iW, startW, endW,  widthW)
     }
   }
 }
@@ -288,8 +246,7 @@ setMethod("show", "ModStringViews",
     subject <- subject(object)
     lsub <- length(subject)
     cat("  Views on a ", lsub, "-letter ", class(subject), " subject", sep = "")
-    cat("\nsubject:", Biostrings:::toSeqSnippet(subject,
-                                                getOption("width") - 9))
+    cat("\nsubject:", Biostrings:::toSeqSnippet(subject,getOption("width") - 9))
     ModStringViews.show_vframe(object)
   }
 )
