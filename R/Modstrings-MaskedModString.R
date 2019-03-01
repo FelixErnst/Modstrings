@@ -140,7 +140,7 @@ toModStringViewsOrModString <- function(x){
 #' @export
 setMethod("collapse", "MaskedXString",
           function(x){
-            x@masks <- collapse(masks(x))
+            masks(x) <- collapse(masks(x))
             x
           }
 )
@@ -150,7 +150,7 @@ setMethod("collapse", "MaskedXString",
 #' @export
 setMethod("gaps", "MaskedXString",
           function(x, start = NA, end = NA){
-            x@masks <- gaps(collapse(masks(x)))
+            masks(x) <- gaps(collapse(masks(x)))
             x
           }
 )

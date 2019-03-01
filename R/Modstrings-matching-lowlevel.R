@@ -25,7 +25,7 @@ NULL
 
 .normargPattern <- function(pattern, subject, argname = "pattern")
 {
-  subject_baseclass <- Biostrings:::xsbaseclass(subject)
+  subject_baseclass <- .xsbaseclass(subject)
   if (is(pattern, "ModString")) {
     if (base_class_name(pattern) == subject_baseclass){
       return(pattern)
@@ -98,34 +98,18 @@ NULL
     if (!is.integer(min.mismatch))
       min.mismatch <- as.integer(min.mismatch)
   }
-  with.indels <- Biostrings:::normargWithIndels(with.indels)
-  fixed <- Biostrings:::normargFixed(fixed, subject)
+  with.indels <- .normargWithIndels(with.indels)
+  fixed <- .normargFixed(fixed, subject)
   if (is(subject, "ModString")){
-    ans <- .Call2("XString_match_pattern_at",
-                  pattern,
-                  subject,
-                  at,
-                  at.type,
-                  max.mismatch,
-                  min.mismatch,
-                  with.indels,
-                  fixed,
-                  ans.type,
-                  auto.reduce.pattern,
-                  PACKAGE="Biostrings")
+    ans <- .call_XString_match_pattern_at(pattern, subject, at, at.type,
+                                          max.mismatch, min.mismatch,
+                                          with.indels, fixed, ans.type,
+                                          auto.reduce.pattern)
   } else {
-    ans <- .Call2("XStringSet_vmatch_pattern_at",
-                  pattern,
-                  subject,
-                  at,
-                  at.type,
-                  max.mismatch,
-                  min.mismatch,
-                  with.indels,
-                  fixed,
-                  ans.type,
-                  auto.reduce.pattern,
-                  PACKAGE="Biostrings")
+    ans <- .call_XStringSet_vmatch_pattern_at(pattern, subject, at, at.type,
+                                              max.mismatch, min.mismatch,
+                                              with.indels, fixed, ans.type,
+                                              auto.reduce.pattern)
   }
   ans
 }
@@ -251,7 +235,7 @@ setMethod("which.isMatchingStartingAt", "ModString",
                    auto.reduce.pattern = FALSE)
             .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
                             min.mismatch, with.indels, fixed,
-                            Biostrings:::.to.ans.type(follow.index),
+                            .to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
 
@@ -267,7 +251,7 @@ setMethod("which.isMatchingStartingAt", "ModStringSet",
                    auto.reduce.pattern = FALSE)
             .matchPatternAt(pattern, subject, starting.at, 0L, max.mismatch,
                             min.mismatch, with.indels, fixed,
-                            Biostrings:::.to.ans.type(follow.index),
+                            .to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
 
@@ -283,7 +267,7 @@ setMethod("which.isMatchingEndingAt", "ModString",
                    auto.reduce.pattern = FALSE)
             .matchPatternAt(pattern, subject, ending.at, 1L, max.mismatch,
                             min.mismatch, with.indels, fixed,
-                            Biostrings:::.to.ans.type(follow.index),
+                            .to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
 
@@ -299,7 +283,7 @@ setMethod("which.isMatchingEndingAt", "ModStringSet",
                    auto.reduce.pattern = FALSE)
             .matchPatternAt(pattern, subject, ending.at, 1L, max.mismatch,
                             min.mismatch, with.indels, fixed,
-                            Biostrings:::.to.ans.type(follow.index),
+                            .to.ans.type(follow.index),
                             auto.reduce.pattern)
 )
 
@@ -338,21 +322,10 @@ hasLetterAt <- function(x, letter, at, fixed=TRUE)
   if (any(is.na(at))){
     stop("'at' cannot contain NAs")
   }
-  fixed <- Biostrings:::normargFixed(fixed, x)
-  
+  fixed <- .normargFixed(fixed, x)
   .hasLetterAt1 <- function(x, l1, at1){
-    ans <- .Call2("XStringSet_vmatch_pattern_at",
-                  l1,
-                  x,
-                  at1,
-                  0L,
-                  0L,
-                  0L,
-                  FALSE,
-                  fixed,
-                  1L,
-                  FALSE,
-                  PACKAGE="Biostrings")
+    ans <- .call_XStringSet_vmatch_pattern_at(l1, x, at1, 0L, 0L, 0L, FALSE,
+                                              fixed, 1L, FALSE)
     ans[at1 < 1 | at1 > width(x)] <- NA
     ans
   }

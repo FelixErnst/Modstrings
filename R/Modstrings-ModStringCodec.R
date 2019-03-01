@@ -1,4 +1,6 @@
 #' @include Modstrings.R
+#' @include Modstrings-external-C-calls.R
+#' @include Modstrings-external-functions.R
 NULL
 
 additional_base_codes <- c(N = 15L, `-` = 16L, `+` = 32L, `.` = 64L)
@@ -82,8 +84,8 @@ setClass("ModStringCodec",
                              codec)
   obc_string <- .str_replace_all_regex_custom(
     string,
-    codec@lettersEscaped[codec@conversion],
-    codec@oneByteCodes[codec@conversion])
+    lettersEscaped(codec)[conversion(codec)],
+    oneByteCodes(codec)[conversion(codec)])
   if(stringi::stri_enc_get() == "UTF-8"){
     return(obc_string)
   }
@@ -93,10 +95,10 @@ setClass("ModStringCodec",
 .check_for_invalid_letters <- function(string,
                                        codec){
   letters_in_string <- unique(strsplit(string,"")[[1]])
-  if(any(!(letters_in_string %in% codec@letters))){
-    print(paste(
-      letters_in_string[!(letters_in_string %in% codec@letters)],
-      collapse = ""))
+  if(any(!(letters_in_string %in% letters(codec)))){
+    # print has to be used because message changes the encoding of the output
+    cat(paste(letters_in_string[!(letters_in_string %in% letters(codec))],
+              collapse = ""))
     stop("Invalid character(s) - see above",
          call. = FALSE)
   }
@@ -108,13 +110,13 @@ setClass("ModStringCodec",
   if(stringi::stri_enc_get() == "UTF-8"){
     string <- .str_replace_all_fixed_custom(
       obc_string,
-      codec@oneByteCodes[codec@conversion],
-      codec@letters[codec@conversion])
+      oneByteCodes(codec)[conversion(codec)],
+      letters(codec)[conversion(codec)])
   } else {
     string <- .str_replace_all_regex_custom(
       obc_string,
-      codec@oneByteCodesEscaped[codec@conversion],
-      codec@letters[codec@conversion])
+      oneByteCodesEscaped(codec)[conversion(codec)],
+      letters(codec)[conversion(codec)])
   }
   return(string) 
 }
@@ -161,8 +163,8 @@ setClass("ModStringCodec",
   string <- stringi::stri_enc_toutf8(string)
   orig_string <- .str_replace_all_regex_custom(
     string,
-    codec@lettersEscaped,
-    codec@originatingBase)
+    lettersEscaped(codec),
+    originatingBase(codec))
   if(stringi::stri_enc_get() == "UTF-8"){
     return(orig_string)
   }
@@ -175,13 +177,13 @@ setClass("ModStringCodec",
   if(stringi::stri_enc_get() == "UTF-8"){
     orig_string <- .str_replace_all_fixed_custom(
       obc_string,
-      codec@oneByteCodes,
-      codec@originatingBase)
+      oneByteCodes(codec),
+      originatingBase(codec))
   } else {
     orig_string <- .str_replace_all_regex_custom(
       obc_string,
-      codec@oneByteCodesEscaped,
-      codec@originatingBase)
+      oneByteCodesEscaped(codec),
+      originatingBase(codec))
   }
   return(orig_string) 
 }
@@ -260,8 +262,31 @@ setClass("ModStringCodec",
 }
 
 MOD_DNA_STRING_CODEC <- .new_ModStringCodec(MOD_DNA_BASE_CODES,
-                                            c(Biostrings:::DNA_BASE_CODES,
+                                            c(.DNA_BASE_CODES, 
                                               additional_base_codes))
 MOD_RNA_STRING_CODEC <- .new_ModStringCodec(MOD_RNA_BASE_CODES,
-                                            c(Biostrings:::RNA_BASE_CODES,
+                                            c(.RNA_BASE_CODES,
                                               additional_base_codes))
+
+# accessors --------------------------------------------------------------------
+
+setMethod("letters", "ModStringCodec",
+          function(x) x@letters)
+setMethod("oneByteCodes", "ModStringCodec",
+          function(x) x@oneByteCodes)
+setMethod("conversion", "ModStringCodec",
+          function(x) x@conversion)
+setMethod("originatingBase", "ModStringCodec",
+          function(x) x@originatingBase)
+setMethod("values", "ModStringCodec",
+          function(x) x@values)
+setMethod("lettersEscaped", "ModStringCodec",
+          function(x) x@lettersEscaped)
+setMethod("oneByteCodesEscaped", "ModStringCodec",
+          function(x) x@oneByteCodesEscaped)
+setMethod("lettersNeedEscape", "ModStringCodec",
+          function(x) x@lettersNeedEscape)
+setMethod("oneByteCodesNeedEscape", "ModStringCodec",
+          function(x) x@oneByteCodesNeedEscape)
+setMethod("additionalInfo", "ModStringCodec",
+          function(x) x@additionalInfo)

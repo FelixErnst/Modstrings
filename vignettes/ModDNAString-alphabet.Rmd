@@ -27,7 +27,7 @@ If modifications are missing, let us know.
 
 ```{r alphabet, echo=FALSE}
 suppressPackageStartupMessages(library(Modstrings))
-df <- as.data.frame(Modstrings:::MOD_DNA_STRING_CODEC@additionalInfo)
+df <- as.data.frame(Modstrings:::additionalInfo(Modstrings:::MOD_DNA_STRING_CODEC))
 df <- df[df$abbrev != "",]
 colnames(df) <- c("modification",
                   "short name",

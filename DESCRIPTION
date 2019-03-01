@@ -2,7 +2,7 @@ Package: Modstrings
 Type: Package
 Title: Modstrings: implementation of Biostrings to work with nucleotide 
     sequences containing modified nucleotides
-Version: 0.99.14
+Version: 0.99.15
 Date: 2019-03-01
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
@@ -50,6 +50,8 @@ Suggests:
 Collate:
     'Modstrings.R'
     'AllGenerics.R'
+    'Modstrings-external-functions.R'
+    'Modstrings-external-C-calls.R'
     'Modstrings-ModStringCodec.R'
     'Modstrings-ModString.R'
     'Modstrings-ModStringSet.R'

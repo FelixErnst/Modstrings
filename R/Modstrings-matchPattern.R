@@ -14,48 +14,31 @@ NULL
                                     fixed,
                                     algorithm,
                                     count.only = FALSE){
-  algo <- Biostrings:::normargAlgorithm(algorithm)
-  if (Biostrings:::isCharacterAlgo(algo)){
-    return(Biostrings:::.character.matchPattern(pattern,
-                                                subject,
-                                                max.mismatch,
-                                                fixed,
-                                                algo,
-                                                count.only))
+  algo <- .normargAlgorithm(algorithm)
+  if (.isCharacterAlgo(algo)){
+    return(.character.matchPattern(pattern, subject, max.mismatch, fixed, algo,
+                                   count.only))
   }
   if (!is(subject, "ModString")){
     subject <- ModString(NULL, subject)
   }
   pattern <- .normargPattern(pattern, subject)
-  max.mismatch <- Biostrings:::normargMaxMismatch(max.mismatch)
-  min.mismatch <- Biostrings:::normargMinMismatch(min.mismatch, max.mismatch)
-  with.indels <- Biostrings:::normargWithIndels(with.indels)
-  fixed <- Biostrings:::normargFixed(fixed, subject)
+  max.mismatch <- .normargMaxMismatch(max.mismatch)
+  min.mismatch <- .normargMinMismatch(min.mismatch, max.mismatch)
+  with.indels <- .normargWithIndels(with.indels)
+  fixed <- .normargFixed(fixed, subject)
   if (!assertive::is_a_bool(count.only)){
     stop("'count.only' must be TRUE or FALSE")
   }
-  algo <- Biostrings:::selectAlgo(algo,
-                                  pattern,
-                                  max.mismatch,
-                                  min.mismatch,
-                                  with.indels,
-                                  fixed)
-  C_ans <- .Call2("XString_match_pattern",
-                  pattern,
-                  subject,
-                  max.mismatch,
-                  min.mismatch,
-                  with.indels,
-                  fixed,
-                  algo,
-                  count.only,
-                  PACKAGE = "Biostrings")
+  algo <- .selectAlgo(algo, pattern, max.mismatch, min.mismatch, with.indels,
+                      fixed)
+  C_ans <- .call_XString_match_pattern(pattern, subject, max.mismatch,
+                                       min.mismatch, with.indels, fixed,
+                                       algo, count.only)
   if(count.only){
     return(C_ans)
   }
-  unsafe.newModStringViews(subject,
-                           start(C_ans),
-                           width(C_ans))
+  unsafe.newModStringViews(subject, start(C_ans), width(C_ans))
 }
 
 .ModStringViews.matchPattern <- function(pattern,
@@ -66,43 +49,35 @@ NULL
                                          fixed,
                                          algorithm,
                                          count.only = FALSE){
-  algo <- Biostrings:::normargAlgorithm(algorithm)
-  if (Biostrings:::isCharacterAlgo(algo)){
+  algo <- .normargAlgorithm(algorithm)
+  if (.isCharacterAlgo(algo)){
     stop("'subject' must be a single (non-empty) string ",
          "for this algorithm")
   }
   pattern <- .normargPattern(pattern, subject)
-  max.mismatch <- Biostrings:::normargMaxMismatch(max.mismatch)
-  min.mismatch <- Biostrings:::normargMinMismatch(min.mismatch, max.mismatch)
-  with.indels <- Biostrings:::normargWithIndels(with.indels)
-  fixed <- Biostrings:::normargFixed(fixed, subject)
+  max.mismatch <- .normargMaxMismatch(max.mismatch)
+  min.mismatch <- .normargMinMismatch(min.mismatch, max.mismatch)
+  with.indels <- .normargWithIndels(with.indels)
+  fixed <- .normargFixed(fixed, subject)
   if (!assertive::is_a_bool(count.only)){
     stop("'count.only' must be TRUE or FALSE")
   }
-  algo <- Biostrings:::selectAlgo(algo,
-                                  pattern,
-                                  max.mismatch,
-                                  min.mismatch,
-                                  with.indels,
-                                  fixed)
-  C_ans <- .Call2("XStringViews_match_pattern",
-                  pattern,
-                  subject(subject),
-                  start(subject),
-                  width(subject),
-                  max.mismatch,
-                  min.mismatch,
-                  with.indels,
-                  fixed,
-                  algo,
-                  count.only,
-                  PACKAGE = "Biostrings")
+  algo <- .selectAlgo(algo, pattern, max.mismatch, min.mismatch, with.indels,
+                      fixed)
+  C_ans <- .call_XStringViews_match_pattern(pattern,
+                                            subject(subject),
+                                            start(subject),
+                                            width(subject),
+                                            max.mismatch,
+                                            min.mismatch,
+                                            with.indels,
+                                            fixed,
+                                            algo,
+                                            count.only)
   if (count.only){
     return(C_ans)
   }
-  unsafe.newModStringViews(subject(subject),
-                           start(C_ans),
-                           width(C_ans))
+  unsafe.newModStringViews(subject(subject), start(C_ans), width(C_ans))
 }
 
 setMethod("matchPattern", "ModString",
@@ -220,8 +195,8 @@ setMethod("countPattern", "MaskedModString",
   if (!is(subject, "ModStringSet")){
     subject <- ModStringSet(NULL, subject)
   }
-  algo <- Biostrings:::normargAlgorithm(algorithm)
-  if (Biostrings:::isCharacterAlgo(algo)){
+  algo <- .normargAlgorithm(algorithm)
+  if (.isCharacterAlgo(algo)){
     stop("'subject' must be a single (non-empty) string ", 
          "for this algorithm")
   }
@@ -229,30 +204,25 @@ setMethod("countPattern", "MaskedModString",
   # anything into a one byte letter. this is done automaitcally. But we need
   # the function call to a modified .normargPattern()
   pattern <- .normargPattern(pattern, subject)
-  max.mismatch <- Biostrings:::normargMaxMismatch(max.mismatch)
-  min.mismatch <- Biostrings:::normargMinMismatch(min.mismatch, max.mismatch)
-  with.indels <- Biostrings:::normargWithIndels(with.indels)
-  fixed <- Biostrings:::normargFixed(fixed, subject)
-  algo <- Biostrings:::selectAlgo(algo, 
-                                  pattern,
-                                  max.mismatch,
-                                  min.mismatch,
-                                  with.indels,
-                                  fixed)
+  max.mismatch <- .normargMaxMismatch(max.mismatch)
+  min.mismatch <- .normargMinMismatch(min.mismatch, max.mismatch)
+  with.indels <- .normargWithIndels(with.indels)
+  fixed <- .normargFixed(fixed, subject)
+  algo <- .selectAlgo(algo, pattern, max.mismatch, min.mismatch, with.indels,
+                      fixed)
   # because MIndex objects do not support variable-width matches yet
   if (algo == "indels" && !count.only){
     stop("vmatchPattern() does not support indels yet")
   }
-  C_ans <- .Call2("XStringSet_vmatch_pattern",
-                  pattern,
-                  subject,
-                  max.mismatch,
-                  min.mismatch,
-                  with.indels,
-                  fixed,
-                  algo,
-                  ifelse(count.only, "MATCHES_AS_COUNTS", "MATCHES_AS_ENDS"),
-                  PACKAGE = "Biostrings")
+  count_only <- ifelse(count.only, "MATCHES_AS_COUNTS", "MATCHES_AS_ENDS")
+  C_ans <- .call_XStringSet_vmatch_pattern(pattern,
+                                           subject,
+                                           max.mismatch,
+                                           min.mismatch,
+                                           with.indels,
+                                           fixed,
+                                           algo,
+                                           count_only)
   if (count.only){
     return(C_ans)
   }

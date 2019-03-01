@@ -114,38 +114,31 @@ setMethod(
     }
     modValues <- .norm_seqtype_modtype(mod,seqtype(x),nc.type)
     codec <- modscodec(seqtype(x))
-    f <- codec@values[match(modValues,codec@values)]
+    f <- values(codec)[match(modValues, values(codec))]
     current_letter <- unlist(lapply(at,
                                     function(i){
                                       as.character(as(
                                         subseq(x,i,i),
                                         gsub("Mod","",class(x))))
                                     }))
-    if(any(codec@originatingBase[f] != current_letter)){
-      mismatch <- which(codec@originatingBase[f] != current_letter)
+    if(any(originatingBase(codec)[f] != current_letter)){
+      mismatch <- which(originatingBase(codec)[f] != current_letter)
       stop("Modification type does not match the originating base:",
            paste("\n",
                  current_letter[mismatch],
                  "!=",
-                 codec@originatingBase[f[mismatch]],
+                 originatingBase(codec)[f[mismatch]],
                  " for ",
                  mod[mismatch]),
            call. = FALSE)
     }
-    letter <- codec@letters[f]
+    letter <- letters(codec)[f]
     letter <- vapply(letter,
                      .convert_letters_to_one_byte_codes,
                      character(1),
                      modscodec(seqtype(x)))
     for(i in seq_along(at)){
-      x <- .Call2("XString_replace_letter_at",
-                  x,
-                  at[i],
-                  letter[[i]],
-                  NULL,
-                  "replace",
-                  verbose,
-                  PACKAGE = "Biostrings")
+      x <- .call_XString_replace_letter_at(x, at[i], letter[[i]], verbose)
     }
     x
   }

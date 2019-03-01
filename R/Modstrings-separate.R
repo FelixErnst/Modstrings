@@ -9,9 +9,9 @@ NULL
   if(is.null(names(stringset))){
     names(stringset) <- seq_along(stringset)
   }
-  modInfo <- codec@additionalInfo
-  modInfo <- modInfo[modInfo$abbrev %in% codec@letters,]
-  pattern <- codec@letters[match(modInfo$abbrev,codec@letters)]
+  modInfo <- additionalInfo(codec)
+  modInfo <- modInfo[modInfo$abbrev %in% letters(codec),]
+  pattern <- letters(codec)[match(modInfo$abbrev, letters(codec))]
   # presearch
   searchstring <- unlist(stringset)
   f <- stringi::stri_detect_fixed(as.character(searchstring),pattern)

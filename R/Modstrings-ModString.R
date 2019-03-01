@@ -174,10 +174,7 @@ setReplaceMethod(
     if(is(x,ans_class)){
       return(x)
     }
-    ans_seq <- .Call2("new_CHARACTER_from_XString",
-                      x, 
-                      NULL,
-                      PACKAGE = "Biostrings")
+    ans_seq <- .call_new_CHARACTER_from_XString(x)
     ans_seq <- 
       .convert_one_byte_codes_to_originating_base(ans_seq, modscodec(seqtype(x)))
     do.call(ans_class,list(ans_seq))
@@ -186,12 +183,11 @@ setReplaceMethod(
 
 # derived from Biostrings/R/XString-class.R ------------------------------------
 
-ModString.read <- function(x,
-                           i,
-                           imax = integer(0)){
-  ans <- XVector::SharedRaw.read(x@shared,
-                                 x@offset + i,
-                                 x@offset + imax,
+ModString.read <- function(x, i, imax = integer(0))
+{
+  ans <- XVector::SharedRaw.read(sharedXVector(x),
+                                 offsetXVector(x) + i,
+                                 offsetXVector(x) + imax,
                                  dec_lkup = NULL)
   ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
   ans
@@ -207,13 +203,8 @@ ModString.read <- function(x,
                                       start = start,
                                       end = end,
                                       width = width)
-  .Call2("new_XString_from_CHARACTER",
-         classname,
-         x,
-         start(solved_SEW),
-         width(solved_SEW),
-         NULL,
-         PACKAGE = "Biostrings")
+  .call_new_XString_from_CHARACTER(classname, x, start(solved_SEW), 
+                                   width(solved_SEW))
 }
 
 #' @export
@@ -351,21 +342,19 @@ setMethod(
   "as.character", "ModString",
   function(x)
   {
-  ans <- .Call2("new_CHARACTER_from_XString",
-                x, 
-                NULL,
-                PACKAGE="Biostrings")
-  ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
-  ans
-})
+    ans <- callNextMethod()
+    ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
+    ans
+  }
+)
 
 #' @export
 setMethod(
   "as.vector", "ModString",
   function(x){
     codec <- modscodec(seqtype(x))
-    x_alphabet <- codec@letters
-    code2pos <- as.integer(unlist(lapply(codec@oneByteCodes,charToRaw)))
+    x_alphabet <- letters(codec)
+    code2pos <- as.integer(unlist(lapply(oneByteCodes(codec), charToRaw)))
     x_alphabet <- x_alphabet[order(code2pos)]
     ans <- as.integer(x)
     attributes(ans) <- list(levels = x_alphabet, class = "factor")
@@ -391,7 +380,7 @@ setMethod(
   if(!is(e2,"ModString")){
     e2 <- BString(e2)
   }
-  Biostrings:::.XString.equal(e1, e2)
+  .XString.equal(e1, e2)
 }
 
 #' @export
@@ -406,3 +395,16 @@ setMethod("==", signature(e1 = "ModString", e2 = "XString"),
 setMethod("==", signature(e1 = "XString", e2 = "ModString"),
           function(e1, e2) .compare_ModString(e1, e2)
 )
+
+# these accessors are not provided by the XVector package
+setGeneric(name = "sharedXVector",
+           signature = "x",
+           def = function(x) standardGeneric("sharedXVector"))
+setGeneric(name = "offsetXVector",
+           signature = "x",
+           def = function(x) standardGeneric("offsetXVector"))
+
+setMethod("sharedXVector","ModString",
+          function(x) x@shared)
+setMethod("offsetXVector","ModString",
+          function(x) x@offset)

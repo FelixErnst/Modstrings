@@ -78,11 +78,7 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
   codes <- modscodes(seqtype(x),
                      baseOnly = baseOnly)
   codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
-  ans <- .Call2("XString_letter_frequency",
-                x,
-                codes,
-                baseOnly,
-                PACKAGE = "Biostrings")
+  ans <- .call_XString_letter_frequency(x, codes, baseOnly)
   names(ans) <- names(modscodes(seqtype(x),
                                 lettersOnly = TRUE,
                                 baseOnly = baseOnly))
@@ -97,16 +93,11 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
   if (!assertive::is_a_bool(as.prob)){
     stop("'as.prob' must be TRUE or FALSE", call. = FALSE)
   }
-  collapse <- Biostrings:::.normargCollapse(collapse)
+  collapse <- .normargCollapse(collapse)
   codes <- modscodes(seqtype(x),
                      baseOnly = baseOnly)
   codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
-  ans <- .Call2("XStringSet_letter_frequency",
-                x, 
-                collapse,
-                codes,
-                baseOnly,
-                PACKAGE = "Biostrings")
+  ans <- .call_XStringSet_letter_frequency(x, collapse, codes, baseOnly)
   if (collapse) {
     names(ans) <- names(modscodes(seqtype(x),
                                   lettersOnly = TRUE,
@@ -152,7 +143,7 @@ setMethod("alphabetFrequency", "ModRNAStringSet",
 #' @export
 setMethod("alphabetFrequency", "ModStringViews",
           function(x, as.prob = FALSE, ...){
-            y <- Biostrings:::fromXStringViewsToStringSet(x)
+            y <- .fromXStringViewsToStringSet(x)
             alphabetFrequency(y, as.prob = as.prob, ...)
           }
 )
@@ -175,8 +166,8 @@ setMethod("alphabetFrequency", "MaskedModString",
                              collapse = FALSE){
   ## letterFrequency / letterFrequencyInSlidingView switch
   is_sliding <- !is.na(view.width)
-  single_letters <- Biostrings:::.normargLetters(letters, alphabet(x))
-  OR <- Biostrings:::.normargOR(OR)
+  single_letters <- .normargLetters(letters, alphabet(x))
+  OR <- .normargOR(OR)
   codes <- modscodes(seqtype(x))
   codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
   names(codes) <- names(modscodes(seqtype(x),
@@ -201,21 +192,12 @@ setMethod("alphabetFrequency", "MaskedModString",
                        character(1))
   }
   if (is_sliding){
-    ans <- .Call2("XString_letterFrequencyInSlidingView",
-                  x,
-                  view.width,
-                  single_codes,
-                  colmap,
-                  colnames,
-                  PACKAGE="Biostrings")
+    ans <- .call_XString_letterFrequencyInSlidingView(x, view.width, 
+                                                      single_codes, colmap, 
+                                                      colnames)
   } else {
-    ans <- .Call2("XStringSet_letterFrequency",
-                  x,
-                  single_codes,
-                  colmap,
-                  colnames,
-                  collapse,
-                  PACKAGE="Biostrings")
+    ans <- .call_XStringSet_letterFrequency(x, single_codes, colmap, colnames,
+                                            collapse)
   }
   ans
 }
@@ -223,84 +205,58 @@ setMethod("alphabetFrequency", "MaskedModString",
 ### Ensure 'view.width' is not NA
 #' @rdname letterFrequency
 #' @export
-setMethod("letterFrequencyInSlidingView", "ModString",
-          function(x,
-                   view.width,
-                   letters,
-                   OR = "|",
-                   as.prob = FALSE){
-            view.width <- Biostrings:::.normargWidth(view.width,
-                                                     "view.width")
-            if (!assertive::is_a_bool(as.prob)){
-              stop("'as.prob' must be TRUE or FALSE")
-            }
-            ans <- .letterFrequency(x,
-                                    view.width,
-                                    letters = letters,
-                                    OR = OR)
-            if (as.prob){
-              ans <- ans / view.width
-            }
-            ans
-          }
+setMethod(
+  "letterFrequencyInSlidingView", "ModString",
+  function(x, view.width, letters, OR = "|", as.prob = FALSE)
+  {
+    view.width <- .normargWidth(view.width, "view.width")
+    if (!assertive::is_a_bool(as.prob)){
+      stop("'as.prob' must be TRUE or FALSE")
+    }
+    ans <- .letterFrequency(x, view.width, letters = letters, OR = OR)
+    if (as.prob){
+      ans <- ans / view.width
+    }
+    ans
+  }
 )
 #' @rdname letterFrequency
 #' @export
-setMethod("letterFrequency", "ModStringSet",
-          function(x,
-                   letters,
-                   OR="|",
-                   as.prob = FALSE,
-                   collapse = FALSE){
-            if (!assertive::is_a_bool(as.prob)){
-              stop("'as.prob' must be TRUE or FALSE")
-            }
-            if (!assertive::is_a_bool(collapse)){
-              stop("'collapse' must be TRUE or FALSE")
-            }
-            ans <- .letterFrequency(x,
-                                    NA,
-                                    letters = letters,
-                                    OR = OR,
-                                    collapse = collapse)
-            if (as.prob) {
-              nc <- nchar(x)
-              if (collapse){
-                nc <- sum(nc)
-              }
-              ans <- ans / nc
-            }
-            ans
-          }
+setMethod(
+  "letterFrequency", "ModStringSet",
+  function(x, letters, OR="|", as.prob = FALSE, collapse = FALSE)
+  {
+    if (!assertive::is_a_bool(as.prob)){
+      stop("'as.prob' must be TRUE or FALSE")
+    }
+    if (!assertive::is_a_bool(collapse)){
+      stop("'collapse' must be TRUE or FALSE")
+    }
+    ans <- .letterFrequency(x, NA, letters = letters, OR = OR, 
+                            collapse = collapse)
+    if (as.prob) {
+      nc <- nchar(x)
+      if (collapse){
+        nc <- sum(nc)
+      }
+      ans <- ans / nc
+    }
+    ans
+  }
 )
 #' @rdname letterFrequency
 #' @export
 setMethod("letterFrequency", "ModStringViews",
-          function(x,
-                   letters,
-                   OR = "|",
-                   as.prob = FALSE,
-                   ...)
-            letterFrequency(as(x,
-                               "ModStringSet"),
-                            letters = letters,
-                            OR = OR,
-                            as.prob = as.prob,
-                            ...)
+          function(x, letters, OR = "|", as.prob = FALSE,  ...)
+            letterFrequency(as(x, "ModStringSet"), letters = letters, OR = OR,
+                            as.prob = as.prob, ...)
 )
 #' @rdname letterFrequency
 #' @export
 setMethod("letterFrequency", "MaskedModString",
-          function(x,
-                   letters,
-                   OR = "|",
-                   as.prob = FALSE)
-            letterFrequency(as(x,
-                               "ModStringViews"),
-                            letters = letters,
-                            OR = OR,
-                            as.prob = as.prob,
-                            collapse = TRUE)
+          function(x, letters, OR = "|", as.prob = FALSE)
+            letterFrequency(as(x, "ModStringViews"), letters = letters, OR = OR,
+                            as.prob = as.prob, collapse = TRUE)
 )
 
 # derived from Biostrings/R/letterFrequency.R ----------------------------------
@@ -312,49 +268,40 @@ setMethod("letterFrequency", "MaskedModString",
 # derived from Biostrings/R/letterFrequency.R ----------------------------------
 #' @rdname letterFrequency
 #' @export
-setMethod("consensusMatrix", "ModStringSet",
-          function(x,
-                   as.prob = FALSE,
-                   shift = 0L,
-                   width = NULL,
-                   baseOnly = FALSE){
-            if (!assertive::is_a_bool(as.prob)){
-              stop("'as.prob' must be TRUE or FALSE")
-            }
-            if (!is.integer(shift)){
-              shift <- as.integer(shift)
-            }
-            if (length(x) != 0 && length(shift) > length(x)){
-              stop("'shift' has more elements than 'x'")
-            }
-            if (!is.null(width)) {
-              if (!assertive::is_a_number(width) || width < 0L){
-                stop("'width' must be NULL or a single non-negative integer")
-              }
-              if (!is.integer(width)){
-                width <- as.integer(width)
-              }
-            }
-            codes <- modscodes(seqtype(x),
-                               baseOnly = baseOnly)
-            codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
-            ans <- .Call2("XStringSet_consensus_matrix",
-                          x,
-                          shift,
-                          width,
-                          baseOnly,
-                          codes,
-                          PACKAGE="Biostrings")
-            rownames(ans) <- names(modscodes(seqtype(x),
-                                             lettersOnly = TRUE))
-            ans <- ans[rowSums(ans) > 0, , drop=FALSE]
-            if (as.prob) {
-              col_sums <- colSums(ans)
-              col_sums[col_sums == 0] <- 1  # to avoid division by 0
-              ans <- ans / rep(col_sums, each = nrow(ans))
-            }
-            ans
-          }
+setMethod(
+  "consensusMatrix", "ModStringSet",
+  function(x, as.prob = FALSE, shift = 0L, width = NULL, baseOnly = FALSE)
+  {
+    if (!assertive::is_a_bool(as.prob)){
+      stop("'as.prob' must be TRUE or FALSE")
+    }
+    if (!is.integer(shift)){
+      shift <- as.integer(shift)
+    }
+    if (length(x) != 0 && length(shift) > length(x)){
+      stop("'shift' has more elements than 'x'")
+    }
+    if (!is.null(width)) {
+      if (!assertive::is_a_number(width) || width < 0L){
+        stop("'width' must be NULL or a single non-negative integer")
+      }
+      if (!is.integer(width)){
+        width <- as.integer(width)
+      }
+    }
+    codes <- modscodes(seqtype(x), baseOnly = baseOnly)
+    codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
+    ans <- .call_XStringSet_consensus_matrix(x, shift, width, baseOnly,
+                                             codes)
+    rownames(ans) <- names(modscodes(seqtype(x), lettersOnly = TRUE))
+    ans <- ans[rowSums(ans) > 0, , drop=FALSE]
+    if (as.prob) {
+      col_sums <- colSums(ans)
+      col_sums[col_sums == 0] <- 1  # to avoid division by 0
+      ans <- ans / rep(col_sums, each = nrow(ans))
+    }
+    ans
+  }
 )
 
 #' @rdname letterFrequency

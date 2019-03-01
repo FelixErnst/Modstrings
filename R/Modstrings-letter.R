@@ -34,10 +34,12 @@ setMethod(
   "letter", "ModString",
   function(x, i)
   {
-    if (!is.numeric(i) || any(is.na(i)))
+    if (!is.numeric(i) || any(is.na(i))){
       stop("'i' must be an NA-free numeric vector")
-    if (!all(i >= 1) || !all(i <= x@length))
+    }
+    if (!all(i >= 1) || !all(i <= nchar(x))){
       stop("subscript out of bounds")
+    }
     ModString.read(x, i)
   }
 )

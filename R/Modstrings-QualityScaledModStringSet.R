@@ -49,12 +49,14 @@ setClass("QualityScaledModRNAStringSet",
 )
 #' @rdname QualityScaledModStringSet
 #' @export
-QualityScaledModDNAStringSet <- function(x, quality) 
-  Biostrings:::QualityScaledXStringSet(ModDNAStringSet(x), quality)
+QualityScaledModDNAStringSet <- function(x, quality) {
+  .QualityScaledXStringSet(ModDNAStringSet(x), quality)
+}
 #' @rdname QualityScaledModStringSet
 #' @export
-QualityScaledModRNAStringSet <- function(x, quality) 
-  Biostrings:::QualityScaledXStringSet(ModRNAStringSet(x), quality)
+QualityScaledModRNAStringSet <- function(x, quality){
+  .QualityScaledXStringSet(ModRNAStringSet(x), quality)
+}
 
 
 setMethod("show", "QualityScaledModStringSet",

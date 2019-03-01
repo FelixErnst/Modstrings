@@ -97,10 +97,7 @@ setReplaceMethod(
     if(is(x,ans_class)){
       return(x)
     }
-    ans_seq <- .Call2("new_CHARACTER_from_XStringSet",
-                      x,
-                      NULL,
-                      PACKAGE="Biostrings")
+    ans_seq <- .call_new_CHARACTER_from_XStringSet(x)
     ans_seq <- unlist(
       lapply(ans_seq,
              function(a){
@@ -131,7 +128,7 @@ setReplaceMethod(
                                       rep.refwidths = TRUE)
   ## We mimic how substring() replicates the name of a single string (try
   ## 'substring(c(A="abcdefghij"), 2, 6:2)').
-  if (!is(x, "ModString") && Biostrings:::normargUseNames(use.names)){
+  if (!is(x, "ModString") && .normargUseNames(use.names)){
     x_names <- names(x)
     if (!is.null(x_names)) {
       ans_names <- rep.int(x_names, length(ans_ranges))
@@ -147,15 +144,10 @@ setReplaceMethod(
     stop("'seqtype' invalid: '",seqtype,"'given.", call. = FALSE)
   }
   if (length(x) == 1L) {
-    ans <- .oneSeqToModStringSet(seqtype,
-                                 x,
-                                 start,
-                                 end,
-                                 width,
-                                 use.names)
+    ans <- .oneSeqToModStringSet(seqtype, x, start, end, width, use.names)
     return(ans)
   }
-  use.names <- Biostrings:::normargUseNames(use.names)
+  use.names <- .normargUseNames(use.names)
   ans_elementType <- paste(seqtype, "String", sep="")
   ans_class <- paste(ans_elementType, "Set", sep="")
   # vapply construct names if they are NULL. However NULL must be an option 
@@ -172,14 +164,9 @@ setReplaceMethod(
                                       start = start,
                                       end = end,
                                       width = width)
-  ans <- .Call2("new_XStringSet_from_CHARACTER",
-                ans_class,
-                ans_elementType,
-                x,
-                start(solved_SEW),
-                width(solved_SEW),
-                NULL,
-                PACKAGE = "Biostrings")
+  ans <- .call_new_XStringSet_from_CHARACTER(ans_class, ans_elementType, x,
+                                             start(solved_SEW), 
+                                             width(solved_SEW))
   if (use.names)
     names(ans) <- names(x)
   ans
@@ -199,8 +186,8 @@ setMethod(
   signature = "character",
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
     if (is.null(seqtype)){
-      return(Biostrings:::XStringSet("B", x, start = start, end = end,
-                                     width = width, use.names = use.names))
+      return(.XStringSet("B", x, start = start, end = end, width = width,
+                         use.names = use.names))
     }
     .charToModStringSet(seqtype, x, start, end, width, use.names)
   }
@@ -272,7 +259,7 @@ setMethod(
       tmp_elementType <- paste0(seqtype(x[[1L]]), "String")
     }
     tmp_class <- paste0(tmp_elementType, "Set")
-    tmp <- XVector:::new_XVectorList_from_list_of_XVector(tmp_class, x)
+    tmp <- .new_XVectorList_from_list_of_XVector(tmp_class, x)
     ModStringSet(seqtype, tmp, start = start, end = end, width = width,
                  use.names = use.names)
   }
@@ -286,8 +273,9 @@ setMethod(
   "ModStringSet",
   signature = "AsIs",
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
-    if (!is.character(x))
+    if (!is.character(x)){
       stop("unsuported input type")
+    }
     class(x) <- "character" # keeps the names (unlike as.character())
     .charToModStringSet(seqtype, x, start, end,  width, use.names)
   }
@@ -347,19 +335,13 @@ setMethod(
   "as.character", "ModStringSet",
   function(x, use.names=TRUE)
   {
-    use.names <- Biostrings:::normargUseNames(use.names)
-    ans <- .Call2("new_CHARACTER_from_XStringSet",
-                  x,
-                  NULL,
-                  PACKAGE="Biostrings")
+    ans <- callNextMethod()
     ans <- unlist(lapply(ans,
                          function(a){
                            .convert_one_byte_codes_to_letters(
                              a,
                              modscodec(seqtype(x)))
                          }))
-    if (use.names)
-      names(ans) <- names(x)
     ans
   }
 )
@@ -384,7 +366,7 @@ setMethod(
   if (!is.null(names(x))){
     snippetWidth <- snippetWidth - .namesW - 1
   }
-  seq_snippet <- Biostrings:::toSeqSnippet(x[[i]], snippetWidth)
+  seq_snippet <- .toSeqSnippet(x[[i]], snippetWidth)
   if (!is.null(names(x))){
     seq_snippet <- .format_utf8(seq_snippet, width = snippetWidth)
   }
@@ -417,7 +399,7 @@ setMethod(
   iW <- nchar(as.character(lx)) + 2 # 2 for the brackets
   ncharMax <- max(nchar(x))
   widthW <- max(nchar(ncharMax), nchar("width"))
-  Biostrings:::.XStringSet.show_frame_header(iW, widthW, !is.null(names(x)))
+  .XStringSet.show_frame_header(iW, widthW, !is.null(names(x)))
   if (lx < (2*half_nrow+1L) | (lx < (head_nrow+tail_nrow+1L))) {
     for (i in seq_len(lx)){
       .ModStringSet.show_frame_line(x, i, iW, widthW)

@@ -17,7 +17,7 @@ NULL
 #' @return A \code{\link{ModStringSet}} of the defined type.
 #'
 #' @examples
-#' seqs <- paste0(paste(Modstrings:::MOD_DNA_BASE_CODES$abbrev, collapse = ""),
+#' seqs <- paste0(paste(alphabet(ModDNAString()), collapse = ""),
 #'                c("A","G","T"))
 #' set <- ModDNAStringSet(seqs)
 #' file <- tempfile()
@@ -37,23 +37,17 @@ NULL
                          skip = 0L,
                          seek.first.rec = FALSE)
 {
-  filexp_list <- XVector:::open_input_files(filepath)
-  on.exit(Biostrings:::.close_filexp_list(filexp_list))
-  nrec <- Biostrings:::.normarg_nrec(nrec)
-  skip <- Biostrings:::.normarg_skip(skip)
+  filexp_list <- .open_input_files(filepath)
+  on.exit(.close_filexp_list(filexp_list))
+  nrec <- .normarg_nrec(nrec)
+  skip <- .normarg_skip(skip)
   if (!assertive::is_a_bool(seek.first.rec))
     stop("'seek.first.rec' must be TRUE or FALSE")
   # Guess what!? it does not like invalid one-letter sequence codes
   # suppress the warning. Results are valid noneheless for this purpose
   # However the offset cannot be used, since readBin output cannot be encoded
   # correctly
-  suppressWarnings(ans <- .Call2("fasta_index",
-                                 filexp_list,
-                                 nrec,
-                                 skip,
-                                 seek.first.rec,
-                                 NULL,
-                                 PACKAGE = "Biostrings"))
+  ans <- .call_fasta_index(filexp_list, nrec, skip, seek.first.rec)
   ## 'expath' will usually be the same as 'filepath', except when 'filepath'
   ## contains URLs which will be replaced by the path to the downloaded file.
   expath <- vapply(filexp_list,
@@ -153,8 +147,7 @@ NULL
 {
   ## Prepare 'nrec_list' and 'offset_list'.
   fasta_blocks <-
-    Biostrings:::.compute_sorted_fasta_blocks_from_ssorted_fasta_index(
-      ssorted_fai)
+    .compute_sorted_fasta_blocks_from_ssorted_fasta_index(ssorted_fai)
   nrec_list <- split(fasta_blocks[ , "nrec"],
                      fasta_blocks[ , "fileno"],
                      drop = TRUE)
@@ -196,19 +189,19 @@ NULL
 
 .read_ModStringSet_from_fasta_index <- function(fai, use.names, elementType)
 {
-  Biostrings:::.check_fasta_index(fai)
+  .check_fasta_index(fai)
   ## Create a "strictly sorted" version of 'fai' by removing duplicated rows
   ## and sorting the remaining rows by ascending "recno".
   recno <- fai[ , "recno"]
   ssorted_recno <- sort(unique(recno))
   ssorted_fai <- fai[match(ssorted_recno, recno), , drop = FALSE]
-  ans <- .read_ModStringSet_from_ssorted_fasta_index(ssorted_fai,
-                                                       elementType)
+  ans <- .read_ModStringSet_from_ssorted_fasta_index(ssorted_fai, elementType)
   ## Re-order XStringSet object to make it parallel to 'recno'.
   ans <- ans[match(recno, ssorted_recno)]
   ## Set names on XStringSet object.
-  if (use.names)
+  if (use.names){
     names(ans) <- fai[ , "desc"]
+  }
   ans
 }
 
@@ -303,8 +296,8 @@ NULL
 {
   cons <- lapply(filepath, file, "rt")
   on.exit(lapply(cons,close))
-  nrec <- Biostrings:::.normarg_nrec(nrec)
-  skip <- Biostrings:::.normarg_skip(skip)
+  nrec <- .normarg_nrec(nrec)
+  skip <- .normarg_skip(skip)
   if (!assertive::is_a_bool(seek.first.rec)){
     stop("'seek.first.rec' must be TRUE or FALSE",
          call. = FALSE)
@@ -539,7 +532,7 @@ writeModStringSet <- function(x, filepath, append = FALSE, compress = FALSE,
   if (!assertive::is_a_bool(append))
     stop("'append' must be a single logical")
   format <- match.arg(tolower(format), c("fasta", "fastq"))
-  compress <- XVector:::.normarg_compress(compress)
+  compress <- .normarg_compress(compress)
   filepath2 <- path.expand(filepath)
   conFUN <- switch(compress,
                    no = file,
