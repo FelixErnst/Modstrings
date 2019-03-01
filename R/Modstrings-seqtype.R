@@ -31,25 +31,21 @@ NULL
 #' @export
 setMethod("alphabet", "ModString",
           function(x, baseOnly = FALSE){
-            names(Modstrings:::modscodes(seqtype(x),
-                                         lettersOnly = TRUE,
-                                         baseOnly))
+            names(modscodes(seqtype(x), lettersOnly = TRUE, baseOnly))
           })
 #' @rdname alphabet
 #' @export
 setMethod("alphabet", "ModStringSet",
           function(x, baseOnly = FALSE){
-            names(Modstrings:::modscodes(seqtype(x),
-                                         lettersOnly = TRUE,
-                                         baseOnly))
+            names(modscodes(seqtype(x), lettersOnly = TRUE, baseOnly))
           })
 #' @rdname alphabet
 #' @export
 setMethod("shortName", "ModString",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$short_name,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$short_name,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
                    NULL
             )
           })
@@ -58,8 +54,8 @@ setMethod("shortName", "ModString",
 setMethod("shortName", "ModStringSet",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$short_name,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$short_name,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
                    NULL
             )
           })
@@ -68,8 +64,8 @@ setMethod("shortName", "ModStringSet",
 setMethod("fullName", "ModString",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$name,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$name,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
                    NULL
             )
           })
@@ -78,8 +74,8 @@ setMethod("fullName", "ModString",
 setMethod("fullName", "ModStringSet",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$name,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$name,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
                    NULL
             )
           })
@@ -88,8 +84,8 @@ setMethod("fullName", "ModStringSet",
 setMethod("nomenclature", "ModString",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$nc,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$nc,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
                    NULL
             )
           })
@@ -98,8 +94,8 @@ setMethod("nomenclature", "ModString",
 setMethod("nomenclature", "ModStringSet",
           function(x){
             switch(seqtype(x),
-                   ModDNA = MOD_DNA_STRING_CODEC@additionalInfo$nc,
-                   ModRNA = MOD_RNA_STRING_CODEC@additionalInfo$nc,
+                   ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
+                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
                    NULL
             )
           })
@@ -145,11 +141,11 @@ modscodes <- function(x, lettersOnly = FALSE, baseOnly = FALSE)
 {
   switch(x,
          ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES,
-                                    Biostrings:::DNA_BASE_CODES,
+                                    .DNA_BASE_CODES,
                                     lettersOnly,
                                     baseOnly),
          ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES,
-                                    Biostrings:::RNA_BASE_CODES,
+                                    .RNA_BASE_CODES,
                                     lettersOnly,
                                     baseOnly),
          0:255

@@ -50,6 +50,8 @@ Suggests:
 Collate:
     'Modstrings.R'
     'AllGenerics.R'
+    'Modstrings-external-functions.R'
+    'Modstrings-external-C-calls.R'
     'Modstrings-ModStringCodec.R'
     'Modstrings-ModString.R'
     'Modstrings-ModStringSet.R'

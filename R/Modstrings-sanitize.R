@@ -77,9 +77,9 @@ load("data/MOD_RNA_DICT_TRNADB.rda")
     colnames(dict) <- colnames
   }
   if(seqtype == "ModRNA"){
-    internalDict <- MOD_RNA_STRING_CODEC@additionalInfo
+    internalDict <- additionalInfo(MOD_RNA_STRING_CODEC)
   } else {
-    internalDict <- MOD_DNA_STRING_CODEC@additionalInfo
+    internalDict <- additionalInfo(MOD_DNA_STRING_CODEC)
   }
   dict <- dict[dict$short_name %in% internalDict$short_name,c("mods_abbrev",
                                                               "short_name")]

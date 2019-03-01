@@ -30,7 +30,7 @@ A \code{\link{ModStringSet}} of the defined type.
 Functions to read/write an ModStringSet object from/to a file.
 }
 \examples{
-seqs <- paste0(paste(Modstrings:::MOD_DNA_BASE_CODES$abbrev, collapse = ""),
+seqs <- paste0(paste(alphabet(ModDNAString()), collapse = ""),
                c("A","G","T"))
 set <- ModDNAStringSet(seqs)
 file <- tempfile()

@@ -165,14 +165,7 @@ setMethod(
     letter <- vapply(letter, .convert_letters_to_one_byte_codes,
                      character(1), modscodec(seqtype(x)),
                      USE.NAMES = FALSE)
-    .Call2("XString_replace_letter_at",
-           x,
-           at,
-           letter,
-           NULL,
-           if.not.extending = "replace",
-           verbose,
-           PACKAGE = "Biostrings")
+    .call_XString_replace_letter_at(x, at, letter, verbose)
   }
 )
 

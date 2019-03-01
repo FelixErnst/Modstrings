@@ -78,26 +78,16 @@ NULL
 .normarg_value1 <- function(value, at, x_seqtype)
 {
   value <- .make_ModStringSet_from_value(value, x_seqtype)
-  Biostrings:::.V_recycle(value,
-                          at,
-                          "value",
-                          "the number of replacements")
+  .V_recycle(value, at, "value", "the number of replacements")
 }
 
 ### 'at' is assumed to be normalized so it has the length of 'x'.
 .normarg_value2 <- function(value, at, x_seqtype)
 {
   value <- .make_ModStringSetList_from_value(value, x_seqtype)
-  value <- Biostrings:::.V_recycle(value,
-                                   at,
-                                   "value",
-                                   "'length(x)'")
-  Biostrings:::.H_recycle(value,
-                          at,
-                          "value",
-                          "at",
-                          paste0("after recycling of 'at' and 'value' ",
-                                 "to the length of 'x'"))
+  value <- .V_recycle(value, at, "value", "'length(x)'")
+  .H_recycle(value, at, "value", "at", 
+             paste0("after recycling of 'at' and 'value' to the length of 'x'"))
 }
 
 
@@ -110,7 +100,7 @@ setMethod(
   "extractAt", "ModString",
   function(x, at)
   {
-    at <- Biostrings:::.make_IRanges_from_at(at)
+    at <- .make_IRanges_from_at(at)
     ## extractList() will check that all the ranges in 'at' are within
     ## the limits of sequence 'x'.
     IRanges::extractList(x, at)
@@ -122,7 +112,7 @@ setMethod(
   "extractAt", "ModStringSet",
   function(x, at)
   {
-    at <- Biostrings:::.normarg_at2(at, x)
+    at <- .normarg_at2(at, x)
     at_eltNROWS <- elementNROWS(at)
     x2 <- rep.int(unname(x), at_eltNROWS)
     unlisted_at <- unlist(at, use.names=FALSE)
@@ -148,17 +138,13 @@ setMethod(
     if (length(at) == 0L && length(value) == 0L){
       return(x)
     }
-    at <- Biostrings:::.normarg_at1(at, x)
+    at <- .normarg_at1(at, x)
     value <- .normarg_value1(value, at, seqtype(x))
     NR <- length(at)  # same as length(value) -- nb of replacements
     if (NR == 0L){
       return(x)
     }
-    .Call2("XString_replaceAt",
-           x,
-           at,
-           value,
-           PACKAGE = "Biostrings")
+    .call_XString_replaceAt(x, at, value)
   }
 )
 #' @rdname replaceAt
@@ -170,13 +156,9 @@ setMethod(
     if (length(at) == 0L && length(value) == 0L){
       return(x)
     }
-    at <- Biostrings:::.normarg_at2(at, x)
+    at <- .normarg_at2(at, x)
     value <- .normarg_value2(value, at, seqtype(x))
-    ans <- .Call2("XStringSet_replaceAt",
-                  x,
-                  at,
-                  value,
-                  PACKAGE = "Biostrings")
+    ans <- .call_XStringSet_replaceAt(x, at, value)
     names(ans) <- names(x)
     mcols(ans) <- mcols(x)
     ans

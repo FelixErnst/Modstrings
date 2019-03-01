@@ -56,9 +56,8 @@ setMethod(
   function(subject, start = NULL, end = NULL, width = NULL, 
            names = NULL)
   {
-    IRanges:::new_Views(subject, start = start, end = end,
-                        width = width, names = names,
-                        Class = "ModStringViews")
+    .new_Views(subject, start = start, end = end, width = width, names = names,
+               Class = "ModStringViews")
   }
 )
 #' @rdname ModStringViews
@@ -69,8 +68,7 @@ setMethod(
            names = NULL)
   {
     xsubject <- ModString(NULL, subject)
-    Views(xsubject, start = start, end = end, width = width,
-          names = names)
+    Views(xsubject, start = start, end = end, width = width, names = names)
   }
 )
 
@@ -85,9 +83,8 @@ setMethod(
   "ModStringViews",
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
   {
-    y <- Biostrings:::fromXStringViewsToStringSet(x,
-                                                  out.of.limits = "warning",
-                                                  use.names = use.names)
+    y <- .fromXStringViewsToStringSet(x, out.of.limits = "warning",
+                                      use.names = use.names)
     
     ModStringSet(seqtype, y, start = start, end = end, width = width,
                  use.names = TRUE)
@@ -96,26 +93,22 @@ setMethod(
 
 #' @export
 setAs("ModStringViews", "ModStringSet",
-      function(from) Biostrings:::fromXStringViewsToStringSet(
-        from,
-        out.of.limits = "warning",
-        use.names = TRUE))
+      function(from) .fromXStringViewsToStringSet(from,
+                                                  out.of.limits = "warning",
+                                                  use.names = TRUE))
 #' @export
 setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
 #' @export
 setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 #' @export
-setAs("ModStringSet", "Views", Biostrings:::.XStringSetAsViews)
+setAs("ModStringSet", "Views", .XStringSetAsViews)
 #' @export
-setAs("ModStringSet", "ModStringViews", Biostrings:::.XStringSetAsViews)
+setAs("ModStringSet", "ModStringViews", .XStringSetAsViews)
 #' @rdname ModStringViews
 #' @export
 setMethod("as.data.frame", "ModStringViews",
           function (x, row.names = NULL, optional = FALSE, ...){
-            as.data.frame(as(x, "ModStringSet"),
-                          row.names,
-                          optional,
-                          ...)
+            as.data.frame(as(x, "ModStringSet"), row.names, optional, ...)
           })
 #' @export
 setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
@@ -246,7 +239,7 @@ setMethod("show", "ModStringViews",
     subject <- subject(object)
     lsub <- length(subject)
     cat("  Views on a ", lsub, "-letter ", class(subject), " subject", sep = "")
-    cat("\nsubject:", Biostrings:::toSeqSnippet(subject,getOption("width") - 9))
+    cat("\nsubject:", .toSeqSnippet(subject, getOption("width") - 9))
     ModStringViews.show_vframe(object)
   }
 )
@@ -268,7 +261,7 @@ setMethod("==", signature(e1 = "ModStringViews", e2 = "ModStringViews"),
                    "class \"", class1, "\" and \"", class2, "\" ",
                    "is not supported")
             }
-            Biostrings:::XStringViews.equal(e1, e2)
+            .XStringViews.equal(e1, e2)
           }
 )
 
@@ -281,7 +274,7 @@ setMethod("==", signature(e1 = "ModStringViews", e2 = "ModStringViews"),
          "class \"", class1, "\" and a \"", class2, "\" instance ",
          "is not supported")
   }
-  Biostrings:::XStringViews.equal(e1, as(e2, "Views"))
+  .XStringViews.equal(e1, as(e2, "Views"))
 }
 #' @export
 setMethod("==", signature(e1 = "ModStringViews", e2 = "XString"), 
