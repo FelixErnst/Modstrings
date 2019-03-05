@@ -75,9 +75,8 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
   if (!assertive::is_a_bool(as.prob)){
     stop("'as.prob' must be TRUE or FALSE", call. = FALSE)
   }
-  codes <- modscodes(seqtype(x),
-                     baseOnly = baseOnly)
-  codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
+  codes <- modscodes(seqtype(x), baseOnly = baseOnly)
+  codes[] <- as.integer(unlist(lapply(names(codes), charToRaw)))
   ans <- .call_XString_letter_frequency(x, codes, baseOnly)
   names(ans) <- names(modscodes(seqtype(x),
                                 lettersOnly = TRUE,
@@ -94,9 +93,8 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
     stop("'as.prob' must be TRUE or FALSE", call. = FALSE)
   }
   collapse <- .normargCollapse(collapse)
-  codes <- modscodes(seqtype(x),
-                     baseOnly = baseOnly)
-  codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
+  codes <- modscodes(seqtype(x), baseOnly = baseOnly)
+  codes[] <- as.integer(unlist(lapply(names(codes), charToRaw)))
   ans <- .call_XStringSet_letter_frequency(x, collapse, codes, baseOnly)
   if (collapse) {
     names(ans) <- names(modscodes(seqtype(x),
@@ -169,9 +167,8 @@ setMethod("alphabetFrequency", "MaskedModString",
   single_letters <- .normargLetters(letters, alphabet(x))
   OR <- .normargOR(OR)
   codes <- modscodes(seqtype(x))
-  codes[] <- as.integer(unlist(lapply(names(codes),charToRaw)))
-  names(codes) <- names(modscodes(seqtype(x),
-                                  lettersOnly = TRUE))
+  codes[] <- as.integer(unlist(lapply(names(codes), charToRaw)))
+  names(codes) <- names(modscodes(seqtype(x), lettersOnly = TRUE))
   single_codes <- codes[single_letters]
   ## Unless 'OR == 0', letters in multi-character elements of
   ## 'letters' are to be grouped (i.e. tabulated in common).

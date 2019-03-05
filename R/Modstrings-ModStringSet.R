@@ -148,8 +148,8 @@ setReplaceMethod(
     return(ans)
   }
   use.names <- .normargUseNames(use.names)
-  ans_elementType <- paste(seqtype, "String", sep="")
-  ans_class <- paste(ans_elementType, "Set", sep="")
+  ans_elementType <- paste0(seqtype, "String")
+  ans_class <- paste0(ans_elementType, "Set")
   # vapply construct names if they are NULL. However NULL must be an option 
   names <- names(x)
   x <- vapply(x,
@@ -234,7 +234,7 @@ setMethod(
   {
     ans <- narrow(x, start = start, end = end, width = width, 
                   use.names = use.names)
-    ans_class <- paste(seqtype, "StringSet", sep="")
+    ans_class <- paste0(seqtype, "StringSet")
     if(is(ans,ans_class)){
       return(ans)
     }

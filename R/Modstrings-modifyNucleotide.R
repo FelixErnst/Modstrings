@@ -28,7 +28,7 @@ NULL
     stop("No modification for the identifiers '",
          paste(mod[!(mod %in% names(modNames))],
                collapse = "','"),
-         "' for a '",paste(seqtype,"String",sep=""),"' found.",
+         "' for a '",paste0(seqtype, "String"),"' found.",
          call. = FALSE)
   }
   modValues

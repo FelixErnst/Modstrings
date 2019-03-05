@@ -126,7 +126,7 @@ setMethod("nomenclature", "ModStringSet",
   }
 }
 
-base_class_name <- function(x) paste(seqtype(x), "String", sep="")
+base_class_name <- function(x) paste0(seqtype(x), "String")
 
 modscodec <- function(x)
 {

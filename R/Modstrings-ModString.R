@@ -170,7 +170,7 @@ setReplaceMethod(
   "seqtype", "ModString",
   function(x, value)
   {
-    ans_class <- paste(value, "String", sep="")
+    ans_class <- paste0(value, "String")
     if(is(x,ans_class)){
       return(x)
     }
@@ -259,7 +259,7 @@ setMethod(
   function(seqtype, x, start = NA, end = NA, width = NA)
   {
     ans <- subseq(x, start = start, end = end, width = width)
-    ans_class <- paste(seqtype, "String", sep="")
+    ans_class <- paste0(seqtype, "String")
     if(is(ans,ans_class)){
       return(ans)
     }
@@ -324,13 +324,15 @@ ModRNAString <- function(x = "", start = 1, nchar = NA){
 #' @export
 setAs("XString", "ModDNAString",
       function(from) {
-        seqtype(from) <- "ModDNA"; from
+        seqtype(from) <- "ModDNA"
+        from
       }
 )
 #' @export
 setAs("XString", "ModRNAString",
       function(from) {
-        seqtype(from) <- "ModRNA"; from
+        seqtype(from) <- "ModRNA"
+        from
       }
 )
 #' @export
