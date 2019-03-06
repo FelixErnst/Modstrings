@@ -43,12 +43,6 @@ setClass("ModStringViews",
 # derived from Biostrings/R/XStringViews-class.R -------------------------------
 # Constructor
 
-unsafe.newModStringViews <- function(subject, start, width){
-  new2("ModStringViews",
-       subject = subject,
-       ranges = IRanges::IRanges(start = start, width = width),
-       check = FALSE)
-}
 #' @rdname ModStringViews
 #' @export
 setMethod(
@@ -58,17 +52,6 @@ setMethod(
   {
     .new_Views(subject, start = start, end = end, width = width, names = names,
                Class = "ModStringViews")
-  }
-)
-#' @rdname ModStringViews
-#' @export
-setMethod(
-  "Views", "character",
-  function(subject, start = NULL, end = NULL, width = NULL, 
-           names = NULL)
-  {
-    xsubject <- ModString(NULL, subject)
-    Views(xsubject, start = start, end = end, width = width, names = names)
   }
 )
 
@@ -85,7 +68,6 @@ setMethod(
   {
     y <- .fromXStringViewsToStringSet(x, out.of.limits = "warning",
                                       use.names = use.names)
-    
     ModStringSet(seqtype, y, start = start, end = end, width = width,
                  use.names = TRUE)
   }

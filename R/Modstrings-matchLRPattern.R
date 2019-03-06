@@ -43,7 +43,7 @@ setMethod(
       }
     }
     ans_width <- ans_end - ans_start + 1L
-    unsafe.newModStringViews(subject, ans_start, ans_width)
+    Views(subject, start = ans_start, width = ans_width)
   }
 )
 
@@ -94,9 +94,7 @@ setMethod(
         ans_width <- rep.int(width(Lmatches), Rcounts) + Roffset
       }
     }
-    unsafe.newModStringViews(subject(subject),
-                             ans_start,
-                             ans_width)
+    Views(subject(subject), start = ans_start, width = ans_width)
   }
 )
 

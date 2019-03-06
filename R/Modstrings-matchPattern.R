@@ -38,7 +38,7 @@ NULL
   if(count.only){
     return(C_ans)
   }
-  unsafe.newModStringViews(subject, start(C_ans), width(C_ans))
+  Views(subject, start = start(C_ans), width = width(C_ans))
 }
 
 .ModStringViews.matchPattern <- function(pattern,
@@ -77,7 +77,7 @@ NULL
   if (count.only){
     return(C_ans)
   }
-  unsafe.newModStringViews(subject(subject), start(C_ans), width(C_ans))
+  Views(subject(subject), start = start(C_ans), width = width(C_ans))
 }
 
 setMethod("matchPattern", "ModString",

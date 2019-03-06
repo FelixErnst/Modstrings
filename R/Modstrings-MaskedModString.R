@@ -115,7 +115,7 @@ setAs("MaskedModString", "ModStringViews",
       function(from)
       {
         views <- gaps(collapse(masks(from)))[[1]]
-        unsafe.newModStringViews(unmasked(from), start(views), width(views))
+        Views(unmasked(from), start = start(views), width = width(views))
       }
 )
 
@@ -128,7 +128,7 @@ toModStringViewsOrModString <- function(x){
   if (S4Vectors::isEmpty(mask1))
     return(x0)
   views <- gaps(mask1)[[1]]
-  unsafe.newModStringViews(x0, start(views), width(views))
+  Views(x0, start = start(views), width = width(views))
 }
 
 
