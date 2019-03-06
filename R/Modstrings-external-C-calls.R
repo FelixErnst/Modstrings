@@ -8,15 +8,6 @@ NULL
          NULL,
          PACKAGE = "Biostrings")
 }
-.call_new_XString_from_CHARACTER <- function(classname, x, start, width){
-  .Call2("new_XString_from_CHARACTER",
-         classname,
-         x,
-         start,
-         width,
-         NULL,
-         PACKAGE = "Biostrings")
-}
 
 # Modstrings-ModStringSet.R ----------------------------------------------------
 .call_new_CHARACTER_from_XStringSet <- function(x){

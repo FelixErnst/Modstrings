@@ -196,14 +196,8 @@ ModString.read <- function(x, i, imax = integer(0))
 # derived from Biostrings/R/XString-class.R ------------------------------------
 
 .charToModString <- function(seqtype, x, start, end, width){
-  classname <- paste0(seqtype, "String")
   x <- .convert_letters_to_one_byte_codes(x, modscodec(seqtype))
-  solved_SEW <- IRanges::solveUserSEW(width(x),
-                                      start = start,
-                                      end = end,
-                                      width = width)
-  .call_new_XString_from_CHARACTER(classname, x, start(solved_SEW), 
-                                   width(solved_SEW))
+  Biostrings:::XString(seqtype, x, start, end, width)
 }
 
 #' @export

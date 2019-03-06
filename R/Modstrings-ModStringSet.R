@@ -140,9 +140,6 @@ setReplaceMethod(
 
 .charToModStringSet <- function(seqtype, x, start, end, width, use.names)
 {
-  if(is.null(modscodec(seqtype))){
-    stop("'seqtype' invalid: '",seqtype,"'given.", call. = FALSE)
-  }
   if (length(x) == 1L) {
     ans <- .oneSeqToModStringSet(seqtype, x, start, end, width, use.names)
     return(ans)
