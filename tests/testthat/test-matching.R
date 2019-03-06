@@ -14,7 +14,7 @@ test_that("Matching:",{
   expect_equal(width(actual2),1)
   #
   expect_error(matchPattern(actual,seq),
-               "'pattern' must be a single string or an ModString object")
+               "'pattern' must be a single string or an XString object")
   #
   expect_equal(countPattern("76321",seq),1)
   #
@@ -54,7 +54,7 @@ test_that("Matching:",{
   expect_equal(width(actual2),1)
   #
   expect_error(matchPattern(actual,seq),
-               "'pattern' must be a single string or an ModString object")
+               "'pattern' must be a single string or an XString object")
   #
   expect_equal(countPattern("\"KO",seq),1)
   #

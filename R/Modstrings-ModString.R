@@ -197,8 +197,7 @@ ModString.read <- function(x, i, imax = integer(0))
 
 .charToModString <- function(seqtype, x, start, end, width){
   classname <- paste0(seqtype, "String")
-  x <- .convert_letters_to_one_byte_codes(x,
-                                          modscodec(seqtype))
+  x <- .convert_letters_to_one_byte_codes(x, modscodec(seqtype))
   solved_SEW <- IRanges::solveUserSEW(width(x),
                                       start = start,
                                       end = end,

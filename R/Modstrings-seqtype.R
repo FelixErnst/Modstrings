@@ -31,13 +31,13 @@ NULL
 #' @export
 setMethod("alphabet", "ModString",
           function(x, baseOnly = FALSE){
-            names(modscodes(seqtype(x), lettersOnly = TRUE, baseOnly))
+            names(xscodes(x, baseOnly = baseOnly, multiByteLetterNames = TRUE))
           })
 #' @rdname alphabet
 #' @export
 setMethod("alphabet", "ModStringSet",
           function(x, baseOnly = FALSE){
-            names(modscodes(seqtype(x), lettersOnly = TRUE, baseOnly))
+            names(xscodes(x, baseOnly = baseOnly, multiByteLetterNames = TRUE))
           })
 #' @rdname alphabet
 #' @export
@@ -104,7 +104,9 @@ setMethod("nomenclature", "ModStringSet",
 # derived from Biostrings/R/seqtype.R ------------------------------------------
 
 
-.ModDNAorRNAcodes <- function(mods, base_codes, lettersOnly, baseOnly,
+.ModDNAorRNAcodes <- function(mods, base_codes, baseOnly = FALSE,
+                              multiByteLetterNames = FALSE, 
+                              oneByteIntegerValue = TRUE,
                               col_name = c("abbrev", "short_name", "nc"))
 {
   # remove empty letters. this is four neutrality against currently 
@@ -114,19 +116,50 @@ setMethod("nomenclature", "ModStringSet",
   #
   col_name <- match.arg(col_name)
   codes <- mods$value
-  if(is.null(mods$oneByteLetter) || lettersOnly){
+  if(multiByteLetterNames){
     names(codes) <- mods[,col_name]
   } else {
     names(codes) <- mods$oneByteLetter
   }
   if(baseOnly){
-    return(c(base_codes,codes))
+    ans <- c(base_codes,codes)
   } else {
-    return(c(base_codes,additional_base_codes,codes))
+    ans <- c(base_codes,additional_base_codes,codes)
   }
+  if(oneByteIntegerValue){
+    if(baseOnly){
+      values <- c(names(base_codes),mods$oneByteLetter)
+    } else {
+      values <- c(names(c(base_codes,additional_base_codes)),mods$oneByteLetter)
+    }
+    ans[] <- as.integer(unlist(lapply(values, charToRaw)))
+  }
+  ans
 }
 
-base_class_name <- function(x) paste0(seqtype(x), "String")
+setClassUnion("Modstrings", c("ModString","ModStringSet"))
+
+#' @importFrom Biostrings xscodes
+setMethod("xscodes","Modstrings",
+          function(x, baseOnly = FALSE, multiByteLetterNames = FALSE){
+            if (!assertive::is_a_bool(baseOnly)){
+              stop("'baseOnly' must be TRUE or FALSE")
+            }
+            if (!assertive::is_a_bool(multiByteLetterNames)){
+              stop("'baseOnly' must be TRUE or FALSE")
+            }
+            switch(seqtype(x),
+                   ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES,
+                                              .DNA_BASE_CODES,
+                                              baseOnly,
+                                              multiByteLetterNames),
+                   ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES,
+                                              .RNA_BASE_CODES,
+                                              baseOnly,
+                                              multiByteLetterNames),
+                   0:255
+            )
+          })
 
 modscodec <- function(x)
 {
@@ -137,28 +170,13 @@ modscodec <- function(x)
   )
 }
 
-modscodes <- function(x, lettersOnly = FALSE, baseOnly = FALSE)
-{
-  switch(x,
-         ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES,
-                                    .DNA_BASE_CODES,
-                                    lettersOnly,
-                                    baseOnly),
-         ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES,
-                                    .RNA_BASE_CODES,
-                                    lettersOnly,
-                                    baseOnly),
-         0:255
-  )
-}
-
 modsshortnames <- function(x)
 {
   switch(x,
-         ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES, c(), TRUE, TRUE,
-                                    "short_name"),
-         ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES, c(), TRUE, TRUE,
-                                    "short_name"),
+         ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES, c(), TRUE, TRUE, FALSE,
+                                    col_name = "short_name"),
+         ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES, c(), TRUE, TRUE, FALSE,
+                                    col_name = "short_name"),
          NULL
   )
 }
@@ -166,8 +184,10 @@ modsshortnames <- function(x)
 modsnomenclature <- function(x)
 {
   switch(x,
-         ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES, c(), TRUE, TRUE, "nc"),
-         ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES, c(), TRUE, TRUE, "nc"),
+         ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES, c(), TRUE, TRUE, FALSE,
+                                    col_name = "nc"),
+         ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES, c(), TRUE, TRUE, FALSE,
+                                    col_name = "nc"),
          NULL
   )
 }

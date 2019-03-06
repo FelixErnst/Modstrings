@@ -77,11 +77,9 @@ setClass("ModStringCodec",
 
 #' @importFrom stringi stri_enc_toutf8 stri_enc_toascii stri_enc_get 
 #' stri_enc_tonative
-.convert_letters_to_one_byte_codes <- function(string,
-                                               codec){
+.convert_letters_to_one_byte_codes <- function(string, codec){
   string <- stringi::stri_enc_toutf8(string)
-  .check_for_invalid_letters(string,
-                             codec)
+  .check_for_invalid_letters(string, codec)
   obc_string <- .str_replace_all_regex_custom(
     string,
     lettersEscaped(codec)[conversion(codec)],
@@ -92,8 +90,7 @@ setClass("ModStringCodec",
   return(stringi::stri_enc_tonative(obc_string))
 }
 
-.check_for_invalid_letters <- function(string,
-                                       codec){
+.check_for_invalid_letters <- function(string, codec){
   letters_in_string <- unique(strsplit(string,"")[[1]])
   if(any(!(letters_in_string %in% letters(codec)))){
     # print has to be used because message changes the encoding of the output
@@ -104,8 +101,7 @@ setClass("ModStringCodec",
   }
 }
 
-.convert_one_byte_codes_to_letters <- function(obc_string,
-                                               codec){
+.convert_one_byte_codes_to_letters <- function(obc_string, codec){
   obc_string <- stringi::stri_enc_toutf8(obc_string)
   if(stringi::stri_enc_get() == "UTF-8"){
     string <- .str_replace_all_fixed_custom(
@@ -122,11 +118,8 @@ setClass("ModStringCodec",
 }
 
 #' @importFrom stringi stri_locate_all_fixed stri_sub
-.str_replace_all_fixed_custom <- function(string,
-                                            pattern,
-                                            replacement){
-  locations <- stringi::stri_locate_all_fixed(string,
-                                              pattern,
+.str_replace_all_fixed_custom <- function(string, pattern, replacement){
+  locations <- stringi::stri_locate_all_fixed(string, pattern,
                                               omit_no_match = TRUE)
   f <- which(!vapply(locations,function(l){nrow(l) == 0},logical(1)))
   # Currently now idea how to avoid the loops
@@ -140,11 +133,8 @@ setClass("ModStringCodec",
   string
 }
 #' @importFrom stringi stri_locate_all_regex stri_sub
-.str_replace_all_regex_custom <- function(string,
-                                            pattern,
-                                            replacement){
-  locations <- stringi::stri_locate_all_regex(string,
-                                              pattern,
+.str_replace_all_regex_custom <- function(string, pattern, replacement){
+  locations <- stringi::stri_locate_all_regex(string, pattern,
                                               omit_no_match = TRUE)
   f <- which(!vapply(locations,function(l){nrow(l) == 0},logical(1)))
   # Currently now idea how to avoid the loops
@@ -158,8 +148,7 @@ setClass("ModStringCodec",
   string
 }
 
-.convert_letters_to_originating_base <- function(string,
-                                                 codec){
+.convert_letters_to_originating_base <- function(string, codec){
   string <- stringi::stri_enc_toutf8(string)
   orig_string <- .str_replace_all_regex_custom(
     string,
@@ -171,8 +160,7 @@ setClass("ModStringCodec",
   return(stringi::stri_enc_tonative(orig_string))
 }
 
-.convert_one_byte_codes_to_originating_base <- function(obc_string,
-                                                        codec){
+.convert_one_byte_codes_to_originating_base <- function(obc_string, codec){
   obc_string <- stringi::stri_enc_toutf8(obc_string)
   if(stringi::stri_enc_get() == "UTF-8"){
     orig_string <- .str_replace_all_fixed_custom(

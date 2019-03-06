@@ -29,7 +29,7 @@ biocViews:
     DataImport, DataRepresentation, Infrastructure, Sequencing, Software
 Depends:
     R (>= 3.6),
-    Biostrings
+    Biostrings (>= 2.51.3)
 Imports:
     methods,
     assertive,
@@ -63,9 +63,6 @@ Collate:
     'Modstrings-QualityScaledModStringSet.R'
     'Modstrings-letter.R'
     'Modstrings-letterFrequency.R'
-    'Modstrings-matchPattern.R'
-    'Modstrings-matchLRPattern.R'
-    'Modstrings-matching-lowlevel.R'
     'Modstrings-modifyNucleotide.R'
     'Modstrings-replaceLetterAt.R'
     'Modstrings-sanitize.R'
