@@ -6,23 +6,6 @@ NULL
 # files (like matchPattern(), matchPDict(), etc...) to check and normalize
 # their arguments.
 
-.normargSubject <- function(subject, argname = "subject")
-{
-  if (is(subject, "ModString") || is(subject, "ModStringSet")){
-    return(subject)
-  }
-  if (!is.character(subject)){
-    stop("'", argname, "' must be a character vector, ",
-         "or an ModString or ModStringSet object")
-  }
-  if (length(subject) == 1L){
-    subject <- as(subject, "ModString")
-  } else {
-    subject <- as(subject, "ModStringSet")
-  }
-  subject
-}
-
 .normargPattern <- function(pattern, subject, argname = "pattern")
 {
   subject_baseclass <- .xsbaseclass(subject)

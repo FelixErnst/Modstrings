@@ -206,19 +206,3 @@ NULL
                                    PACKAGE = "Biostrings"))
   C_ans
 }
-
-# Modstrings-replaceAt.R -------------------------------------------------------
-.call_XString_replaceAt <- function(x, at, value){
-  .Call2("XString_replaceAt",
-         x,
-         at,
-         value,
-         PACKAGE = "Biostrings")
-}
-.call_XStringSet_replaceAt <- function(x, at, value){
-  .Call2("XStringSet_replaceAt",
-         x,
-         at,
-         value,
-         PACKAGE = "Biostrings")
-}
