@@ -218,8 +218,9 @@ setMethod(
   "ModString", "factor",
   function(seqtype, x, start=NA, end=NA, width=NA)
   {
-    if (is.null(seqtype))
-      seqtype <- "B"
+    if (is.null(seqtype)){
+      return(.XString(seqtype, x, start, end, width))
+    }
     .charToModString(seqtype, as.character(x), start, end, width)
   }
 )
@@ -229,8 +230,9 @@ setMethod(
   "ModString", "character",
   function(seqtype, x, start=NA, end=NA, width=NA)
   {
-    if (is.null(seqtype))
-      seqtype <- "B"
+    if (is.null(seqtype)){
+      return(.XString(seqtype, x, start, end, width))
+    }
     .charToModString(seqtype, x, start, end, width)
   }
 )
@@ -240,15 +242,13 @@ setMethod(
                                   start = NA,
                                   end = NA,
                                   width = NA){
-  ans <- subseq(x,
-                start = start,
-                end = end,
-                width = width)
+  ans <- subseq(x, start = start, end = end, width = width)
   ## `seqtype<-` must be called even when user supplied 'seqtype' is
   ## NULL because we want to enforce downgrade to a B/DNA/RNA/AAString
   ## instance
-  if (is.null(seqtype))
+  if (is.null(seqtype)){
     seqtype <- seqtype(x)
+  }
   seqtype(ans) <- seqtype
   ans
 }

@@ -186,7 +186,7 @@ setMethod(
   signature = "character",
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
     if (is.null(seqtype)){
-      return(.XStringSet("B", x, start = start, end = end, width = width,
+      return(.XStringSet(seqtype, x, start = start, end = end, width = width,
                          use.names = use.names))
     }
     .charToModStringSet(seqtype, x, start, end, width, use.names)
@@ -200,7 +200,8 @@ setMethod(
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
   {
     if (is.null(seqtype)){
-      seqtype <- "B"
+      return(.XStringSet(seqtype, x, start = start, end = end, width = width,
+                         use.names = use.names))
     }
     if (length(x) < nlevels(x)) {
       ans <- .charToModStringSet(seqtype, as.character(x), start, end, width,
