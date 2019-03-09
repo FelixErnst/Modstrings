@@ -49,14 +49,6 @@ setClass("MaskedModRNAString",
 )
 
 # derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Accessor-like methods.
-# should work from Biostrings
-
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Validity
-
-
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
 # "seqtype" and "seqtype<-" methods
 
 #' @rdname MaskedModString
@@ -120,17 +112,6 @@ setAs("MaskedModString", "ModStringViews",
 )
 
 setAs("MaskedModString", "Views", function(from) as(from, "ModStringViews"))
-
-### NOT exported.
-toModStringViewsOrModString <- function(x){
-  x0 <- unmasked(x)
-  mask1 <- collapse(masks(x))
-  if (S4Vectors::isEmpty(mask1))
-    return(x0)
-  views <- gaps(mask1)[[1]]
-  Views(x0, start = start(views), width = width(views))
-}
-
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### The transformation methods (endomorphisms) "collapse" and "gaps".

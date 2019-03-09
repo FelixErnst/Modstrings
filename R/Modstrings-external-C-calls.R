@@ -16,17 +16,6 @@ NULL
          NULL,
          PACKAGE = "Biostrings")
 }
-.call_new_XStringSet_from_CHARACTER <- function(classname, elementType, x, 
-                                                start, width){
-  .Call2("new_XStringSet_from_CHARACTER",
-         classname,
-         elementType,
-         x,
-         start,
-         width,
-         NULL,
-         PACKAGE = "Biostrings")
-}
 
 # Modstrings-modifyNucleotide.R ------------------------------------------------
 .call_XString_replace_letter_at <- function(x, at, letter, verbose){

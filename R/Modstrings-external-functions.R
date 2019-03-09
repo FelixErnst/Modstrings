@@ -14,6 +14,7 @@ NULL
 .RNA_BASE_CODES <- Biostrings:::RNA_BASE_CODES
 .XString <- Biostrings:::XString
 .XStringSet <- Biostrings:::XStringSet
+.XStringSetList <- Biostrings:::XStringSetList
 .XStringSetAsViews <- Biostrings:::.XStringSetAsViews
 .XString.equal <- Biostrings:::.XString.equal
 .XStringViews.equal <- Biostrings:::XStringViews.equal
@@ -23,6 +24,8 @@ NULL
 .XStringSet.nucleotide_frequency <- 
   Biostrings:::.XStringSet.nucleotide_frequency
 .normargUseNames <- Biostrings:::normargUseNames
+.oneSeqToXStringSet <- Biostrings:::.oneSeqToXStringSet
+.multipleSeqToXStringSet <- Biostrings:::.multipleSeqToXStringSet
 
 
 # import/export

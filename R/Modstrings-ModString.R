@@ -197,7 +197,7 @@ ModString.read <- function(x, i, imax = integer(0))
 
 .charToModString <- function(seqtype, x, start, end, width){
   x <- .convert_letters_to_one_byte_codes(x, modscodec(seqtype))
-  Biostrings:::XString(seqtype, x, start, end, width)
+  .XString(seqtype, x, start, end, width)
 }
 
 #' @export
@@ -229,22 +229,6 @@ setMethod(
     .charToModString(seqtype, x, start, end, width)
   }
 )
-
-.XString_to_ModString <- function(seqtype,
-                                  x,
-                                  start = NA,
-                                  end = NA,
-                                  width = NA){
-  ans <- subseq(x, start = start, end = end, width = width)
-  ## `seqtype<-` must be called even when user supplied 'seqtype' is
-  ## NULL because we want to enforce downgrade to a B/DNA/RNA/AAString
-  ## instance
-  if (is.null(seqtype)){
-    seqtype <- seqtype(x)
-  }
-  seqtype(ans) <- seqtype
-  ans
-}
 
 #' @export
 setMethod(
@@ -282,7 +266,9 @@ setMethod(
 )
 
 # Should not be necessary since this is dealed ok for ModString
-# setMethod("ModString", "XString", ...)
+# setMethod("ModString", "XString", ...). However, the low-level and high-level
+# constructors differ in their number of args (eg. XString vs. BString).
+# Therefore, reimplemented.
 
 #' @export
 setMethod(
