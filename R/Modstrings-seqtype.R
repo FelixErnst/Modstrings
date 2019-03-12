@@ -45,7 +45,7 @@ setMethod("shortName", "ModString",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$short_name,
                    NULL
             )
           })
@@ -55,7 +55,7 @@ setMethod("shortName", "ModStringSet",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$short_name,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$short_name,
                    NULL
             )
           })
@@ -65,7 +65,7 @@ setMethod("fullName", "ModString",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$name,
                    NULL
             )
           })
@@ -75,7 +75,7 @@ setMethod("fullName", "ModStringSet",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$name,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$name,
                    NULL
             )
           })
@@ -85,7 +85,7 @@ setMethod("nomenclature", "ModString",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$nc,
                    NULL
             )
           })
@@ -95,7 +95,7 @@ setMethod("nomenclature", "ModStringSet",
           function(x){
             switch(seqtype(x),
                    ModDNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
-                   ModRNA = additionalInfo(MOD_DNA_STRING_CODEC)$nc,
+                   ModRNA = additionalInfo(MOD_RNA_STRING_CODEC)$nc,
                    NULL
             )
           })
