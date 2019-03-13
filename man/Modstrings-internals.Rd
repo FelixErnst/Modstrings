@@ -34,8 +34,12 @@ MOD_RNA_DICT_TRNADB
 \arguments{
 \item{seqtype, x, start, end, width, use.names}{used internally}
 }
+\value{
+a XString* object
+}
 \description{
 Analog to \code{Biostrings} there are a few functions, which should only
 be used internally. Otherwise take care.
 }
 \keyword{datasets}
+\keyword{internal}
