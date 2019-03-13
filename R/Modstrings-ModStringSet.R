@@ -116,7 +116,7 @@ setReplaceMethod(
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
 setMethod("make_XStringSet_from_strings", "ModStringSet",
-          function(x0, strings, start, end, width)
+          function(x0, strings, start, width)
           {
             codec <- modscodec(seqtype(x0))
             strings <- vapply(strings,

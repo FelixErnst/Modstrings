@@ -194,7 +194,7 @@ ModString.read <- function(x, i, imax = integer(0))
 }
 
 setMethod("make_XString_from_string", "ModString",
-          function(x0, string, start, end, width)
+          function(x0, string, start, width)
           {
             codec <- modscodec(seqtype(x0))
             string <- .convert_letters_to_one_byte_codes(string, codec)
