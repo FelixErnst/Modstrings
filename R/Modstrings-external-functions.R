@@ -10,22 +10,18 @@ NULL
   XVector:::new_XVectorList_from_list_of_XVector
 
 # Biostrings
+XString <- Biostrings:::XString
+XStringSet <- Biostrings:::XStringSet
+XStringSetList <- Biostrings:::XStringSetList
 .DNA_BASE_CODES <- Biostrings:::DNA_BASE_CODES
 .RNA_BASE_CODES <- Biostrings:::RNA_BASE_CODES
-.XString <- Biostrings:::XString
-.XStringSet <- Biostrings:::XStringSet
-.XStringSetList <- Biostrings:::XStringSetList
 .XStringSetAsViews <- Biostrings:::.XStringSetAsViews
 .XString.equal <- Biostrings:::.XString.equal
 .XStringViews.equal <- Biostrings:::XStringViews.equal
 .QualityScaledXStringSet <- Biostrings:::QualityScaledXStringSet
-.fromXStringViewsToStringSet <- Biostrings:::fromXStringViewsToStringSet
 .XString.nucleotide_frequency <- Biostrings:::.XString.nucleotide_frequency
 .XStringSet.nucleotide_frequency <- 
   Biostrings:::.XStringSet.nucleotide_frequency
-.normargUseNames <- Biostrings:::normargUseNames
-.oneSeqToXStringSet <- Biostrings:::.oneSeqToXStringSet
-.multipleSeqToXStringSet <- Biostrings:::.multipleSeqToXStringSet
 
 
 # import/export

@@ -111,14 +111,7 @@ setMethod("alphabetFrequency", "ModRNAStringSet",
             ans
           }
 )
-#' @rdname letterFrequency
-#' @export
-setMethod("alphabetFrequency", "ModStringViews",
-          function(x, as.prob = FALSE, ...){
-            y <- .fromXStringViewsToStringSet(x)
-            alphabetFrequency(y, as.prob = as.prob, ...)
-          }
-)
+
 #' @rdname letterFrequency
 #' @export
 setMethod("alphabetFrequency", "MaskedModString",

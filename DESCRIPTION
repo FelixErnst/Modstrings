@@ -28,8 +28,8 @@ Encoding: UTF-8
 biocViews:
     DataImport, DataRepresentation, Infrastructure, Sequencing, Software
 Depends:
-    R (>= 3.6),
-    Biostrings (>= 2.51.3)
+    R (>= 3.5),
+    Biostrings (>= 2.51.4)
 Imports:
     methods,
     assertive,

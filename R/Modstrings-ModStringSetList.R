@@ -65,10 +65,10 @@ setClass("ModRNAStringSetList",
 #' @rdname ModStringSetList
 #' @export
 ModDNAStringSetList <- function(..., use.names = TRUE){
-  .XStringSetList("ModDNA", ..., use.names = use.names)
+  XStringSetList("ModDNA", ..., use.names = use.names)
 }
 #' @rdname ModStringSetList
 #' @export
 ModRNAStringSetList <- function(..., use.names = TRUE){
-  .XStringSetList("ModRNA", ..., use.names = use.names)
+  XStringSetList("ModRNA", ..., use.names = use.names)
 }

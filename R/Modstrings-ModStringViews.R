@@ -61,23 +61,6 @@ setMethod(
 ### We need this so that B/DNA/RNA/AAStringSet() used below work on an
 ### XStringViews object.
 
-setMethod(
-  "ModStringSet",
-  "ModStringViews",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-  {
-    y <- .fromXStringViewsToStringSet(x, out.of.limits = "warning",
-                                      use.names = use.names)
-    ModStringSet(seqtype, y, start = start, end = end, width = width,
-                 use.names = TRUE)
-  }
-)
-
-#' @export
-setAs("ModStringViews", "ModStringSet",
-      function(from) .fromXStringViewsToStringSet(from,
-                                                  out.of.limits = "warning",
-                                                  use.names = TRUE))
 #' @export
 setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
 #' @export
@@ -86,12 +69,6 @@ setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 setAs("ModStringSet", "Views", .XStringSetAsViews)
 #' @export
 setAs("ModStringSet", "ModStringViews", .XStringSetAsViews)
-#' @rdname ModStringViews
-#' @export
-setMethod("as.data.frame", "ModStringViews",
-          function (x, row.names = NULL, optional = FALSE, ...){
-            as.data.frame(as(x, "ModStringSet"), row.names, optional, ...)
-          })
 #' @export
 setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
 #' @export
@@ -104,7 +81,7 @@ setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 # These functions need to be here to access the modified functions of
 # - XString.read ==> ModString.read
 
-### nchar(XStringViews.get_view(x, start, end)) is always end-start+1
+## nchar(XStringViews.get_view(x, start, end)) is always end-start+1
 ModStringViews.get_view <- function(x, start, end)
 {
   lx <- length(x)

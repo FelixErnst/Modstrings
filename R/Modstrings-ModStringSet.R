@@ -115,68 +115,25 @@ setReplaceMethod(
 
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
-.multipleSeqToModStringSet <- function(seqtype, x, start, end, width, use.names)
-{
-  names <- names(x)
-  x <- vapply(x,
-              function(z){
-                .convert_letters_to_one_byte_codes(z, modscodec(seqtype))
-              },
-              character(1),USE.NAMES = FALSE)
-  names(x) <- names
-  .multipleSeqToXStringSet(seqtype, x, start, end, width, use.names)
-}
-
-.charToModStringSet <- function(seqtype, x, start, end, width, use.names)
-{
-  if (length(x) == 1L) {
-    return(.oneSeqToXStringSet(seqtype, x, start, end, width, use.names))
-  }
-  .multipleSeqToModStringSet(seqtype, x, start, end, width, use.names)
-}
-
-#' @export
-setGeneric("ModStringSet",
-           signature = "x",
-           function(seqtype, x, start = NA, end = NA, width = NA,
-                    use.names = TRUE)
-             standardGeneric("ModStringSet")
+setMethod("make_XStringSet_from_strings", "ModStringSet",
+          function(x0, strings, start, end, width)
+          {
+            codec <- modscodec(seqtype(x0))
+            strings <- vapply(strings,
+                              function(string)
+                                .convert_letters_to_one_byte_codes(string, codec),
+                              character(1),
+                              USE.NAMES=FALSE)
+            callNextMethod()
+          }
 )
+
+# derived from Biostrings/R/XStringSet-class.R ---------------------------------
+# Constructor
 
 #' @export
 setMethod(
-  "ModStringSet",
-  signature = "character",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE){
-    if (is.null(seqtype)){
-      return(.XStringSet(seqtype, x, start = start, end = end, width = width,
-                         use.names = use.names))
-    }
-    .charToModStringSet(seqtype, x, start, end, width, use.names)
-  }
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "factor",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-    .XStringSet(seqtype, x, start=start, end=end, width=width,
-                use.names=use.names)
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "ModString",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-    .XStringSet(seqtype, x, start=start, end=end, width=width,
-                use.names=use.names)
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
+  "XStringSet",
   signature = "ModStringSet",
   function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
   {
@@ -194,51 +151,11 @@ setMethod(
   }
 )
 
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "list",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-  {
-    .XStringSet(seqtype, x, start=start, end=end, width=width,
-                use.names=use.names)
-  }
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "AsIs",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-    .XStringSet(seqtype, x, start=start, end=end, width=width,
-                use.names=use.names)
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "ANY",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-    .XStringSet(seqtype, as.character(x), start=start, end=end, width=width,
-                use.names=use.names)
-)
-
-#' @export
-setMethod(
-  "ModStringSet",
-  signature = "missing",
-  function(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
-    .XStringSet(seqtype, NULL)
-)
-
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
-# Constructor
-
 #' @rdname ModStringSet
 #' @export
 ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
                             use.names = TRUE){
-  ModStringSet("ModDNA", x, start = start, end = end, width = width,
+  XStringSet("ModDNA", x, start = start, end = end, width = width,
                use.names = use.names)
   
 }
@@ -246,8 +163,8 @@ ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
 #' @export
 ModRNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
                             use.names=TRUE){
-  ModStringSet("ModRNA", x, start = start, end = end, width = width,
-               use.names = use.names)
+  XStringSet("ModRNA", x, start = start, end = end, width = width,
+              use.names = use.names)
 }
 
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
@@ -317,7 +234,7 @@ setMethod(
 .ModStringSet.show_frame <- function(x,
                                      half_nrow = 5L){
   if (is.null(head_nrow <- getOption("showHeadLines"))){
-    head_nrow <- half_nrow 
+    head_nrow <- half_nrow
   }
   if (is.null(tail_nrow <- getOption("showTailLines"))){
     tail_nrow <- half_nrow
@@ -353,7 +270,7 @@ setMethod(
   "show", "ModStringSet",
   function(object)
   {
-    cat("  A ", class(object), " instance of length ", 
+    cat("  A ", class(object), " instance of length ",
         length(object), "\n", sep = "")
     if (length(object) != 0){
       .ModStringSet.show_frame(object)

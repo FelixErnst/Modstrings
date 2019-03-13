@@ -9,14 +9,10 @@
 \alias{==,XStringViews,ModString-method}
 \alias{ModStringSet,ModStringViews-method}
 \alias{Views,ModString-method}
-\alias{as.data.frame,ModStringViews-method}
 \title{The ModStringViews class extending the XStringViews class}
 \usage{
 \S4method{Views}{ModString}(subject, start = NULL, end = NULL,
   width = NULL, names = NULL)
-
-\S4method{as.data.frame}{ModStringViews}(x, row.names = NULL,
-  optional = FALSE, ...)
 }
 \arguments{
 \item{subject, start, end, width, names}{See \code{\link[Biostrings:XStringViews-class]{XStringViews}}.}

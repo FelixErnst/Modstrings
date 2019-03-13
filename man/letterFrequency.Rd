@@ -15,7 +15,6 @@
 \alias{alphabetFrequency,ModRNAString-method}
 \alias{alphabetFrequency,ModDNAStringSet-method}
 \alias{alphabetFrequency,ModRNAStringSet-method}
-\alias{alphabetFrequency,ModStringViews-method}
 \alias{alphabetFrequency,MaskedModString-method}
 \alias{letterFrequency,ModStringViews-method}
 \alias{letterFrequency,MaskedModString-method}
@@ -41,8 +40,6 @@ modifications, or the consensus matrix of a set of sequences}
 
 \S4method{alphabetFrequency}{ModRNAStringSet}(x, as.prob = FALSE,
   collapse = FALSE, baseOnly = FALSE)
-
-\S4method{alphabetFrequency}{ModStringViews}(x, as.prob = FALSE, ...)
 
 \S4method{alphabetFrequency}{MaskedModString}(x, as.prob = FALSE, ...)
 

@@ -193,46 +193,21 @@ ModString.read <- function(x, i, imax = integer(0))
   ans
 }
 
+setMethod("make_XString_from_string", "ModString",
+          function(x0, string, start, end, width)
+          {
+            codec <- modscodec(seqtype(x0))
+            string <- .convert_letters_to_one_byte_codes(string, codec)
+            callNextMethod()
+          }
+)
+
 # derived from Biostrings/R/XString-class.R ------------------------------------
-
-.charToModString <- function(seqtype, x, start, end, width){
-  x <- .convert_letters_to_one_byte_codes(x, modscodec(seqtype))
-  .XString(seqtype, x, start, end, width)
-}
-
-#' @export
-setGeneric("ModString", signature="x",
-           function(seqtype, x, start=NA, end=NA, width=NA)
-             standardGeneric("ModString")
-)
+# Constructor
 
 #' @export
 setMethod(
-  "ModString", "factor",
-  function(seqtype, x, start=NA, end=NA, width=NA)
-  {
-    if (is.null(seqtype)){
-      return(.XString(seqtype, x, start, end, width))
-    }
-    .charToModString(seqtype, as.character(x), start, end, width)
-  }
-)
-
-#' @export
-setMethod(
-  "ModString", "character",
-  function(seqtype, x, start=NA, end=NA, width=NA)
-  {
-    if (is.null(seqtype)){
-      return(.XString(seqtype, x, start, end, width))
-    }
-    .charToModString(seqtype, x, start, end, width)
-  }
-)
-
-#' @export
-setMethod(
-  "ModString", "ModString",
+  "XString", "ModString",
   function(seqtype, x, start = NA, end = NA, width = NA)
   {
     ans <- subseq(x, start = start, end = end, width = width)
@@ -248,53 +223,15 @@ setMethod(
   }
 )
 
-#' @export
-setMethod(
-  "ModString", "XString",
-  function(seqtype, x, start = NA, end = NA, width = NA)
-  {
-    ans <- subseq(x, start = start, end = end, width = width)
-    ## `seqtype<-` must be called even when user supplied 'seqtype' is
-    ## NULL because we want to enforce downgrade to a B/DNA/RNA/AAString
-    ## instance
-    if (is.null(seqtype)){
-      seqtype <- seqtype(x)
-    }
-    seqtype(ans) <- seqtype
-    ans
-  }
-)
-
-# Should not be necessary since this is dealed ok for ModString
-# setMethod("ModString", "XString", ...). However, the low-level and high-level
-# constructors differ in their number of args (eg. XString vs. BString).
-# Therefore, reimplemented.
-
-#' @export
-setMethod(
-  "ModString", "AsIs",
-  function(seqtype, x, start=NA, end=NA, width=NA)
-  {
-    if (!is.character(x))
-      stop("unsuported input type")
-    class(x) <- "character" # keeps the names (unlike as.character())
-    ModString(seqtype, x, start=start, end=end, width=width)
-  }
-)
-
-
-# derived from Biostrings/R/XString-class.R ------------------------------------
-# Constructor
-
 #' @rdname ModDNAString
 #' @export
 ModDNAString <- function(x = "", start = 1, nchar = NA){
-  ModString("ModDNA", x, start = start, width = nchar)
+  XString("ModDNA", x, start = start, width = nchar)
 }
 #' @rdname ModRNAString
 #' @export
 ModRNAString <- function(x = "", start = 1, nchar = NA){
-  ModString("ModRNA", x, start = start, width = nchar)
+  XString("ModRNA", x, start = start, width = nchar)
 }
 
 # derived from Biostrings/R/XString-class.R ------------------------------------
@@ -314,6 +251,7 @@ setAs("XString", "ModRNAString",
         from
       }
 )
+
 #' @export
 setAs("character", "ModDNAString", function(from) ModDNAString(from))
 #' @export
