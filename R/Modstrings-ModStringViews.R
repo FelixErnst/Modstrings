@@ -20,10 +20,6 @@ NULL
 #' 
 #' @param subject,start,end,width,names
 #' See \code{\link[Biostrings:XStringViews-class]{XStringViews}}.
-#' @param x a \code{ModStringViews} object.
-#' @param row.names passed on to \code{\link[base:as.data.frame]{as.data.frame}}
-#' @param optional passed on to \code{\link[base:as.data.frame]{as.data.frame}}
-#' @param ... passed on to \code{\link[base:as.data.frame]{as.data.frame}}
 #' 
 #' @return a \code{ModStringViews} object.
 #' 

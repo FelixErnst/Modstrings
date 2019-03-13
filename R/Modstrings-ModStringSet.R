@@ -131,6 +131,26 @@ setMethod("make_XStringSet_from_strings", "ModStringSet",
 # derived from Biostrings/R/XStringSet-class.R ---------------------------------
 # Constructor
 
+#' @rdname ModStringSet
+#' @export
+ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
+                            use.names = TRUE){
+  XStringSet("ModDNA", x, start = start, end = end, width = width,
+               use.names = use.names)
+  
+}
+#' @rdname ModStringSet
+#' @export
+ModRNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
+                            use.names=TRUE){
+  XStringSet("ModRNA", x, start = start, end = end, width = width,
+              use.names = use.names)
+}
+
+# derived from Biostrings/R/XStringSet-class.R ---------------------------------
+# Coercion
+
+#' @rdname Modstrings-internals
 #' @export
 setMethod(
   "XStringSet",
@@ -150,25 +170,6 @@ setMethod(
     ans
   }
 )
-
-#' @rdname ModStringSet
-#' @export
-ModDNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
-                            use.names = TRUE){
-  XStringSet("ModDNA", x, start = start, end = end, width = width,
-               use.names = use.names)
-  
-}
-#' @rdname ModStringSet
-#' @export
-ModRNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
-                            use.names=TRUE){
-  XStringSet("ModRNA", x, start = start, end = end, width = width,
-              use.names = use.names)
-}
-
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
-# Coercion
 
 #' @export
 setAs("ANY", "ModDNAStringSet", function(from) ModDNAStringSet(from))

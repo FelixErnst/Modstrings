@@ -10,8 +10,6 @@
 }
 \arguments{
 \item{x}{a \code{ModString} object.}
-
-\item{start, end}{not used for \code{MaskedModString} objects.}
 }
 \value{
 a \code{MaskedModString} object.

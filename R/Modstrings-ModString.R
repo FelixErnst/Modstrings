@@ -205,6 +205,21 @@ setMethod("make_XString_from_string", "ModString",
 # derived from Biostrings/R/XString-class.R ------------------------------------
 # Constructor
 
+#' @rdname ModDNAString
+#' @export
+ModDNAString <- function(x = "", start = 1, nchar = NA){
+  XString("ModDNA", x, start = start, width = nchar)
+}
+#' @rdname ModRNAString
+#' @export
+ModRNAString <- function(x = "", start = 1, nchar = NA){
+  XString("ModRNA", x, start = start, width = nchar)
+}
+
+# derived from Biostrings/R/XString-class.R ------------------------------------
+# Coercion
+
+#' @rdname Modstrings-internals
 #' @export
 setMethod(
   "XString", "ModString",
@@ -222,20 +237,6 @@ setMethod(
     ans
   }
 )
-
-#' @rdname ModDNAString
-#' @export
-ModDNAString <- function(x = "", start = 1, nchar = NA){
-  XString("ModDNA", x, start = start, width = nchar)
-}
-#' @rdname ModRNAString
-#' @export
-ModRNAString <- function(x = "", start = 1, nchar = NA){
-  XString("ModRNA", x, start = start, width = nchar)
-}
-
-# derived from Biostrings/R/XString-class.R ------------------------------------
-# Coercion
 
 #' @export
 setAs("XString", "ModDNAString",

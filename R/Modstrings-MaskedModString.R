@@ -13,7 +13,6 @@ NULL
 #' a look the \code{\link[Biostrings:MaskedXString-class]{MaskedXString}} class.
 #' 
 #' @param x a \code{ModString} object.
-#' @param start,end not used for \code{MaskedModString} objects.
 #' 
 #' @return a \code{MaskedModString} object.
 #' 

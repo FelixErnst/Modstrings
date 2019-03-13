@@ -16,14 +16,6 @@
 }
 \arguments{
 \item{subject, start, end, width, names}{See \code{\link[Biostrings:XStringViews-class]{XStringViews}}.}
-
-\item{x}{a \code{ModStringViews} object.}
-
-\item{row.names}{passed on to \code{\link[base:as.data.frame]{as.data.frame}}}
-
-\item{optional}{passed on to \code{\link[base:as.data.frame]{as.data.frame}}}
-
-\item{...}{passed on to \code{\link[base:as.data.frame]{as.data.frame}}}
 }
 \value{
 a \code{ModStringViews} object.
