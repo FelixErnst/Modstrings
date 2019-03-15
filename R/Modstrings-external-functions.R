@@ -5,10 +5,6 @@ NULL
 # would at this time only cause code duplication. In addition this provides
 # the benefit, that behaviour from the Biostrings package remains untouched.
 
-# XVectors 
-
-
-# Biostrings
 XString <- Biostrings:::XString
 XStringSet <- Biostrings:::XStringSet
 XStringSetList <- Biostrings:::XStringSetList
@@ -21,7 +17,6 @@ XStringSetList <- Biostrings:::XStringSetList
 .XString.nucleotide_frequency <- Biostrings:::.XString.nucleotide_frequency
 .XStringSet.nucleotide_frequency <- 
   Biostrings:::.XStringSet.nucleotide_frequency
-
 
 # import/export
 .open_input_files <- XVector:::open_input_files
