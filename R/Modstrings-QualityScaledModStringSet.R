@@ -31,7 +31,6 @@ NULL
 #' \code{QualityScaledModDNAStringSet} object
 NULL
 
-# derived from Biostrings/R/QualityScaledXStringSet.R --------------------------
 # QualityScaledXStringSet objects
 
 setClass("QualityScaledModStringSet",
@@ -58,7 +57,6 @@ QualityScaledModRNAStringSet <- function(x, quality){
   .QualityScaledXStringSet(ModRNAStringSet(x), quality)
 }
 
-
 setMethod("show", "QualityScaledModStringSet",
           function(object){
             cat("  A ", class(object), " instance containing:\n", sep="")
@@ -72,9 +70,7 @@ setMethod("show", "QualityScaledModStringSet",
           }
 )
 
-
-# derived from Biostrings/R/QualityScaledXStringSet.R --------------------------
-# readQualityScaledDNAStringSet() / writeQualityScaledXStringSet()
+# readQualityScaledDNAStringSet() / writeQualityScaledXStringSet() -------------
 
 #' @rdname QualityScaledModStringSet
 #' @export

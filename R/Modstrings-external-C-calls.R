@@ -1,14 +1,6 @@
 #' @include Modstrings.R
 NULL
 
-# Modstrings-ModString.R -------------------------------------------------------
-.call_new_CHARACTER_from_XString <- function(x){
-  .Call2("new_CHARACTER_from_XString",
-         x, 
-         NULL,
-         PACKAGE = "Biostrings")
-}
-
 # Modstrings-ModStringSet.R ----------------------------------------------------
 .call_new_CHARACTER_from_XStringSet <- function(x){
   .Call2("new_CHARACTER_from_XStringSet",

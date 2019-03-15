@@ -64,6 +64,7 @@ NULL
 #' m2
 NULL
 
+# derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
 setClass("ModStringSet",contains = c("VIRTUAL","XStringSet"))
 #' @rdname ModStringSet
@@ -85,8 +86,6 @@ setClass("ModRNAStringSet",
            elementType = "ModRNAString"
          )
 )
-
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
 
 #' @export
 setReplaceMethod(
@@ -112,24 +111,20 @@ setReplaceMethod(
   }
 )
 
-
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
-
 setMethod("make_XStringSet_from_strings", "ModStringSet",
-          function(x0, strings, start, width)
-          {
-            codec <- modscodec(seqtype(x0))
-            strings <- vapply(strings,
-                              function(string)
-                                .convert_letters_to_one_byte_codes(string, codec),
-                              character(1),
-                              USE.NAMES=FALSE)
-            callNextMethod()
-          }
+    function(x0, strings, start, width)
+    {
+        codec <- modscodec(seqtype(x0))
+        strings <- vapply(strings,
+                          function(string)
+                            .convert_letters_to_one_byte_codes(string, codec),
+                          character(1),
+                          USE.NAMES=FALSE)
+        callNextMethod()
+    }
 )
 
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
-# Constructor
+# Constructor ------------------------------------------------------------------
 
 #' @rdname ModStringSet
 #' @export
@@ -147,8 +142,7 @@ ModRNAStringSet <- function(x = character(), start = NA, end = NA, width = NA,
               use.names = use.names)
 }
 
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
-# Coercion
+# Coercion ---------------------------------------------------------------------
 
 #' @rdname Modstrings-internals
 #' @export
@@ -191,8 +185,10 @@ setMethod(
   }
 )
 
-# derived from Biostrings/R/XStringSet-class.R ---------------------------------
 # show
+# 
+# Needs to be implemented since format messes up encoding. .format_utf8 is the
+# replacement
 
 .namesW <- 20
 

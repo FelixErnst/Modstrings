@@ -6,8 +6,7 @@ NULL
 # the benefit, that behaviour from the Biostrings package remains untouched.
 
 # XVectors 
-.new_XVectorList_from_list_of_XVector <-
-  XVector:::new_XVectorList_from_list_of_XVector
+
 
 # Biostrings
 XString <- Biostrings:::XString

@@ -29,6 +29,8 @@ NULL
 #' masks(mr) <- NULL
 NULL
 
+# derived from Biostrings/R/MaskedXString.R ------------------------------------
+# 
 setClass("MaskedModString",
          contains =  c("MaskedXString"),
          representation("VIRTUAL",
@@ -47,15 +49,13 @@ setClass("MaskedModRNAString",
          )
 )
 
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
 # "seqtype" and "seqtype<-" methods
 
 #' @rdname MaskedModString
 #' @export
 setMethod("seqtype", "MaskedModString", function(x) seqtype(unmasked(x)))
 
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Coercion 
+# Coercion ---------------------------------------------------------------------
 
 ### From MaskedXString objects to MaskedModString objects.
 setAs("MaskedXString", "MaskedModDNAString",

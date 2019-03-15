@@ -1,6 +1,14 @@
 context("Sequence features")
 test_that("hasOnlyBaseLetters:",{
   seq <- paste(alphabet(ModDNAString()), collapse = "")
+  seq2 <- ModDNAString(seq)
+  expect_equal(letter(seq,10), letter(seq2,10))
+  seq <- paste(alphabet(ModRNAString()), collapse = "")
+  seq2 <- ModRNAString(seq)
+  expect_equal(letter(seq,10), letter(seq2,10))
+})
+test_that("hasOnlyBaseLetters:",{
+  seq <- paste(alphabet(ModDNAString()), collapse = "")
   seq <- ModDNAString(seq)
   expect_false(hasOnlyBaseLetters(seq))
   seq <- "AGCT"

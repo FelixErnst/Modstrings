@@ -46,6 +46,8 @@ NULL
 #' alphabetFrequency(mod)
 NULL
 
+# derived from Biostrings/R/letterFrequency.R ----------------------------------
+
 #' @rdname letterFrequency
 #' @export
 setMethod("hasOnlyBaseLetters", "ModDNAString",
@@ -136,8 +138,6 @@ setMethod("letterFrequency", "MaskedModString",
                             as.prob = as.prob, collapse = TRUE)
 )
 
-
-# derived from Biostrings/R/letterFrequency.R ----------------------------------
 #' @rdname letterFrequency
 #' @export
 setMethod(

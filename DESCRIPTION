@@ -28,8 +28,8 @@ Encoding: UTF-8
 biocViews:
     DataImport, DataRepresentation, Infrastructure, Sequencing, Software
 Depends:
-    R (>= 3.6),
-    Biostrings (>= 2.51.4)
+    R (>= 3.5),
+    Biostrings (>= 2.51.5)
 Imports:
     methods,
     assertive,
@@ -61,7 +61,6 @@ Collate:
     'Modstrings-ModStringSet-io.R'
     'Modstrings-ModStringSetList.R'
     'Modstrings-QualityScaledModStringSet.R'
-    'Modstrings-letter.R'
     'Modstrings-letterFrequency.R'
     'Modstrings-modifyNucleotide.R'
     'Modstrings-replaceLetterAt.R'

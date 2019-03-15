@@ -150,6 +150,8 @@ NULL
 #' r1 <- RNAString(mr1)
 NULL
 
+# derived from Biostrings/R/XString-class.R ------------------------------------
+
 setClass("ModString", contains = "XString")
 
 #' @rdname ModString
@@ -158,8 +160,6 @@ setClass("ModDNAString", contains = "ModString")
 #' @rdname ModString
 #' @export
 setClass("ModRNAString", contains = "ModString")
-
-# derived from Biostrings/R/XString-class.R ------------------------------------
 
 #' @export
 setMethod("seqtype", "ModDNAString", function(x) "ModDNA")
@@ -174,36 +174,50 @@ setReplaceMethod(
     if(is(x,ans_class)){
       return(x)
     }
-    ans_seq <- .call_new_CHARACTER_from_XString(x)
     ans_seq <- 
-      .convert_one_byte_codes_to_originating_base(ans_seq, modscodec(seqtype(x)))
+      XVector:::extract_character_from_XRaw_by_ranges(x, 1L, length(x),
+                                                      collapse=FALSE,
+                                                      lkup=NULL)
+    ans_seq <-
+      .convert_one_byte_codes_to_originating_base(ans_seq,
+                                                  modscodec(seqtype(x)))
     do.call(ans_class,list(ans_seq))
   }
 )
 
-# derived from Biostrings/R/XString-class.R ------------------------------------
+# low level functions construct XString objects and extract character
 
-ModString.read <- function(x, i, imax = integer(0))
-{
-  ans <- XVector::SharedRaw.read(sharedXVector(x),
-                                 offsetXVector(x) + i,
-                                 offsetXVector(x) + imax,
-                                 dec_lkup = NULL)
-  ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
-  ans
-}
-
-setMethod("make_XString_from_string", "ModString",
-          function(x0, string, start, width)
-          {
-            codec <- modscodec(seqtype(x0))
-            string <- .convert_letters_to_one_byte_codes(string, codec)
-            callNextMethod()
-          }
+setMethod(
+  "extract_character_from_XString_by_positions", "ModString",
+  function(x, pos, collapse=FALSE)
+  {
+    ans <- callNextMethod()
+    codec <- modscodec(seqtype(x))
+    .convert_one_byte_codes_to_letters(ans, codec)
+  }
 )
 
-# derived from Biostrings/R/XString-class.R ------------------------------------
-# Constructor
+setMethod(
+  "extract_character_from_XString_by_ranges", "ModString",
+  function(x, start, width, collapse=FALSE)
+  {
+    ans <- callNextMethod()
+    codec <- modscodec(seqtype(x))
+    .convert_one_byte_codes_to_letters(ans, codec)
+  }
+)
+
+setMethod(
+  "make_XString_from_string", "ModString",
+  function(x0, string, start, width)
+  {
+    codec <- modscodec(seqtype(x0))
+    string <- .convert_letters_to_one_byte_codes(string, codec)
+    callNextMethod()
+  }
+)
+
+# Constructor ------------------------------------------------------------------
 
 #' @rdname ModDNAString
 #' @export
@@ -216,8 +230,7 @@ ModRNAString <- function(x = "", start = 1, nchar = NA){
   XString("ModRNA", x, start = start, width = nchar)
 }
 
-# derived from Biostrings/R/XString-class.R ------------------------------------
-# Coercion
+# Coercion ---------------------------------------------------------------------
 
 #' @rdname Modstrings-internals
 #' @export
@@ -259,17 +272,6 @@ setAs("character", "ModDNAString", function(from) ModDNAString(from))
 setAs("character", "ModRNAString", function(from) ModRNAString(from))
 #' @export
 setMethod(
-  "as.character", "ModString",
-  function(x)
-  {
-    ans <- callNextMethod()
-    ans <- .convert_one_byte_codes_to_letters(ans, modscodec(seqtype(x)))
-    ans
-  }
-)
-
-#' @export
-setMethod(
   "as.vector", "ModString",
   function(x){
     codec <- modscodec(seqtype(x))
@@ -282,8 +284,7 @@ setMethod(
   }
 )
 
-# derived from Biostrings/R/XString-class.R ------------------------------------
-# Comparison
+# Comparison -------------------------------------------------------------------
 
 .compare_ModString <- function(e1,
                                e2){

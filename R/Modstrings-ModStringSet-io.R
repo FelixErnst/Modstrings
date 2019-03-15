@@ -25,9 +25,6 @@ NULL
 #' read <- readModDNAStringSet(file)
 NULL
 
-# These functions need to be here to access the modified functions of
-# - get_seqtype_conversion_lookup
-
 # derived from Biostrings/R/XStringSet-io.R ------------------------------------
 
 # fasta ------------------------------------------------------------------------

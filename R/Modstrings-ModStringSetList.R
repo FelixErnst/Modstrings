@@ -30,10 +30,6 @@ NULL
 #' 
 NULL
 
-# These functions need to be here to access the modified functions of
-# - .new_ModStringSetList_from_list
-# - .new_ModStringSetList_from_List
-
 # derived from Biostrings/R/XStringSetList-class.R -----------------------------
 
 setClass("ModStringSetList", contains = "XStringSetList")
