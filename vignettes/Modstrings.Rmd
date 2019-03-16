@@ -4,7 +4,7 @@ author: "Felix G.M. Ernst & Denis L.J. Lafontaine"
 date: "`r Sys.Date()`"
 package: Modstrings
 abstract: >
-  Classes for RNA and DNA sequences containing modified nucleotides
+  Classes for DNA and RNA sequences containing modified nucleotides
 output:
   BiocStyle::html_document:
     toc: true
@@ -25,14 +25,20 @@ BiocStyle::markdown(css.files = c('custom.css'))
 
 # Introduction
 
-RNA are usually in some form post-transcriptionally modified. Most prominent
-examples are of course rRNA and tRNA, but in recent years mRNA was also 
-discovered to be post-transcriptionally modified.
+Most nucleic acids, regardless of their being DNA or RNA, contain modified 
+nucleotides, which enhances the normal function of encoding genetic information.
+They have usually a regulatory function and/or modify folding behavior and 
+molecular interactions.
 
-In many resources, like the tRNAdb [@Juehling.2009] or the modomics database 
-[@Boccaletto.2018], modified nucleotides are given. However in the Bioconductor
-universe these information were not accessible, since they rely extensively on
-special characters in the RNA modification alphabet.
+RNA are nearly always post-transcriptionally modified. Most prominent examples
+are of course ribsomal RNA (rRNA) and transfer RNA (tRNA), but in recent years
+mRNA was also discovered to be post-transcriptionally modified. In addition, 
+many small and long non-coding RNAs are also modified.
+
+In many resources, like the tRNAdb [@Juehling.2009] or the modomics database
+[@Boccaletto.2018], modified nucleotides are repertoried. However in the
+Bioconductor context these information were not accessible, since they rely
+extensively on special characters in the RNA modification alphabet.
 
 Therefore, the `ModRNAString` class was implemented extending the `BString`
 class from the `Biostrings` [@Pages.2017] package. It can store RNA sequences
@@ -42,7 +48,7 @@ tabular format are implemented as well.
 
 The implemented classes inherit most of the functions from the parental 
 `BString` class and it derivatives, which allows them to behave like the 
-normal `XString` classes within the bioconductor universe. Most of the 
+normal `XString` classes within the Bioconductor context. Most of the 
 functionality is directly inherited and derived from the `Biostrings` package.
 
 Since a DNA modification alphabet also exists, a `ModDNAString` class was 
@@ -98,8 +104,8 @@ mr3 <- modifyNucleotides(r,5,"7G",nc.type = "nc")
 mr3
 ```
 
-In addition, one can also use the `alphabet()` function and subset to the desired
-modifications.
+In addition, one can also use the `alphabet()` function and subset to the
+desired modifications.
 
 ```{r object_creation3, }
 mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33]))
@@ -215,7 +221,7 @@ combineIntoModstrings(mrs,qgr, with.qualities = TRUE)
 
 # Saving and reading ModString objects to file
 
-The nucleotide sequences with modifications can be be saved to a `fasta` or
+The nucleotide sequences with modifications can be saved to a `fasta` or
 `fastq` file using the functions `writeModStringSet()`. Reading of these files
 is achieved using `readModRNAStringSet()` or `readModDNAStringSet()`. In case of
 `fastq` files, the sequences can be automatically read as a
@@ -250,13 +256,14 @@ matchLRPatterns("7ACGU","U7ACG",100,mrl)
 
 # Future development
 
-In principle post-translational modifications of proteins can also be 
+In principle post-translational modifications of proteins could also be 
 implemented. However, a one letter alphabet of post-translational modifications
-must be developed first. (Or does this already exist? Let us know.)
+must be developed first. If you are already aware of such an alphabet and want 
+to use it in a Bioconductor context, let us know.
 
 # Import example
 
-This is a quick example shwoing how sequence information containing modified
+This is a quick example showing how sequence information containing modified
 nucleotides can be imported into an R session using the `Modstrings` package.
 The file needs to be UTF-8 encoded.
 
