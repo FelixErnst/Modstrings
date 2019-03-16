@@ -14,6 +14,7 @@ NULL
   pattern <- letters(codec)[match(modInfo$abbrev, letters(codec))]
   # presearch
   searchstring <- unlist(stringset)
+  
   f <- stringi::stri_detect_fixed(as.character(searchstring),pattern)
   # search for modifications
   MIndexList <- lapply(pattern[f],
@@ -22,7 +23,7 @@ NULL
   names(MIndexList) <- pattern[f]
   f_found <- vapply(MIndexList,
               function(mi){
-                any(lengths(width(mi)))
+                any(lengths(width(mi)) > 0L)
               },
               logical(1))
   if(sum(f_found) != sum(f)){

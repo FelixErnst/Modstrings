@@ -5,24 +5,22 @@ NULL
 # would at this time only cause code duplication. In addition this provides
 # the benefit, that behaviour from the Biostrings package remains untouched.
 
-# XVectors 
-.open_input_files <- XVector:::open_input_files
-.normarg_compress <- XVector:::.normarg_compress
-.new_XVectorList_from_list_of_XVector <-
-  XVector:::new_XVectorList_from_list_of_XVector
-
-# Biostrings
+XString <- Biostrings:::XString
+XStringSet <- Biostrings:::XStringSet
+XStringSetList <- Biostrings:::XStringSetList
 .DNA_BASE_CODES <- Biostrings:::DNA_BASE_CODES
 .RNA_BASE_CODES <- Biostrings:::RNA_BASE_CODES
-.XString <- Biostrings:::XString
-.XStringSet <- Biostrings:::XStringSet
 .XStringSetAsViews <- Biostrings:::.XStringSetAsViews
 .XString.equal <- Biostrings:::.XString.equal
 .XStringViews.equal <- Biostrings:::XStringViews.equal
 .QualityScaledXStringSet <- Biostrings:::QualityScaledXStringSet
-.fromXStringViewsToStringSet <- Biostrings:::fromXStringViewsToStringSet
+.XString.nucleotide_frequency <- Biostrings:::.XString.nucleotide_frequency
+.XStringSet.nucleotide_frequency <- 
+  Biostrings:::.XStringSet.nucleotide_frequency
 
 # import/export
+.open_input_files <- XVector:::open_input_files
+.normarg_compress <- XVector:::.normarg_compress
 .normarg_nrec <- Biostrings:::.normarg_nrec
 .normarg_skip <- Biostrings:::.normarg_skip
 .close_filexp_list <- Biostrings:::.close_filexp_list
@@ -33,24 +31,6 @@ NULL
 # show functions
 .toSeqSnippet <- Biostrings:::toSeqSnippet
 .XStringSet.show_frame_header <- Biostrings:::.XStringSet.show_frame_header
-
-# tied to C calls imported from Biostrings
-.normargCollapse <- Biostrings:::.normargCollapse
-.normargLetters <- Biostrings:::.normargLetters
-.normargOR <- Biostrings:::.normargOR
-.normargWidth <- Biostrings:::.normargWidth
-.normargWithIndels <- Biostrings:::normargWithIndels
-.normargSubject <- Biostrings:::normargSubject
-.normargFixed <- Biostrings:::normargFixed
-.normargAlgorithm <- Biostrings:::normargAlgorithm
-.normargMaxMismatch <- Biostrings:::normargMaxMismatch
-.normargMinMismatch <- Biostrings:::normargMinMismatch
-.normargUseNames <- Biostrings:::normargUseNames
-.to.ans.type <- Biostrings:::.to.ans.type
-.xsbaseclass <- Biostrings:::xsbaseclass
-.isCharacterAlgo <- Biostrings:::isCharacterAlgo
-.selectAlgo <- Biostrings:::selectAlgo
-.character.matchPattern <- Biostrings:::.character.matchPattern
 
 # IRanges
 .new_Views <- IRanges:::new_Views

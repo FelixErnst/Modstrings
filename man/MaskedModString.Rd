@@ -4,20 +4,12 @@
 \name{MaskedModString}
 \alias{MaskedModString}
 \alias{seqtype,MaskedModString-method}
-\alias{collapse,MaskedXString-method}
-\alias{gaps,MaskedXString-method}
 \title{MaskedModString objects}
 \usage{
 \S4method{seqtype}{MaskedModString}(x)
-
-\S4method{collapse}{MaskedXString}(x)
-
-\S4method{gaps}{MaskedXString}(x, start = NA, end = NA)
 }
 \arguments{
 \item{x}{a \code{ModString} object.}
-
-\item{start, end}{not used for \code{MaskedModString} objects.}
 }
 \value{
 a \code{MaskedModString} object.

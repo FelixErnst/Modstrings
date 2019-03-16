@@ -15,10 +15,7 @@
 \alias{alphabetFrequency,ModRNAString-method}
 \alias{alphabetFrequency,ModDNAStringSet-method}
 \alias{alphabetFrequency,ModRNAStringSet-method}
-\alias{alphabetFrequency,ModStringViews-method}
 \alias{alphabetFrequency,MaskedModString-method}
-\alias{letterFrequencyInSlidingView,ModString-method}
-\alias{letterFrequency,ModStringSet-method}
 \alias{letterFrequency,ModStringViews-method}
 \alias{letterFrequency,MaskedModString-method}
 \alias{consensusMatrix,ModStringSet-method}
@@ -44,15 +41,7 @@ modifications, or the consensus matrix of a set of sequences}
 \S4method{alphabetFrequency}{ModRNAStringSet}(x, as.prob = FALSE,
   collapse = FALSE, baseOnly = FALSE)
 
-\S4method{alphabetFrequency}{ModStringViews}(x, as.prob = FALSE, ...)
-
 \S4method{alphabetFrequency}{MaskedModString}(x, as.prob = FALSE, ...)
-
-\S4method{letterFrequencyInSlidingView}{ModString}(x, view.width, letters,
-  OR = "|", as.prob = FALSE)
-
-\S4method{letterFrequency}{ModStringSet}(x, letters, OR = "|",
-  as.prob = FALSE, collapse = FALSE)
 
 \S4method{letterFrequency}{ModStringViews}(x, letters, OR = "|",
   as.prob = FALSE, ...)
@@ -73,7 +62,8 @@ modifications, or the consensus matrix of a set of sequences}
   width = NULL)
 }
 \arguments{
-\item{x}{a \code{\link{ModString}} or a \code{\link{ModStringSet}} object.}
+\item{x}{a \code{\link{ModString}}, a \code{\link{ModStringSet}}, 
+a \code{\link{ModStringViews}} or a \code{\link{MaskedModString}} object.}
 
 \item{as.prob}{\code{TRUE} or \code{FALSE} (default): Should the result be 
 returned as probabilities instead of counts? (\code{sum per column = 1})}
@@ -86,11 +76,6 @@ summed up all elements for \code{ModStringSet} or \code{ModStringViews}
 objects or reported per element.}
 
 \item{...}{See \code{\link[Biostrings]{letterFrequency}}.}
-
-\item{view.width}{For \code{letterFrequencyInSlidingView}, the constant 
-(e.g. 35, 48, 1000) size of the "window" to slide along x. The specified 
-letters are tabulated in each window of length view.width. The rows of the 
-result (see value) correspond to the various windows.}
 
 \item{letters}{See \code{\link[Biostrings]{letterFrequency}}.}
 
@@ -111,7 +96,7 @@ a matrix with the results (letter x pos).
 These functions follow the same principle as the 
 \code{\link[Biostrings:letterFrequency]{Biostrings}} functions. Please be
 aware, that the matices can become quite large, since the alphabet of 
-\code{ModString} obejcts contains more letters.
+\code{ModString} objects contains more letters.
 }
 \examples{
 mod <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))

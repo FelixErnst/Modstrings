@@ -47,7 +47,13 @@ requireNamespace("S4Vectors")
 #' 
 #' @title Modstrings internals
 #' 
+#' @param seqtype,x,start,end,width,use.names used internally
+#' 
+#' @return a XString* object
+#' 
+#' @keywords internal
+#' 
 #' @description 
 #' Analog to \code{Biostrings} there are a few functions, which should only
-#' be used internally. Otherwise take care. 
+#' be used internally. Otherwise take care.
 NULL

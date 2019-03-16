@@ -13,7 +13,6 @@ NULL
 #' a look the \code{\link[Biostrings:MaskedXString-class]{MaskedXString}} class.
 #' 
 #' @param x a \code{ModString} object.
-#' @param start,end not used for \code{MaskedModString} objects.
 #' 
 #' @return a \code{MaskedModString} object.
 #' 
@@ -30,6 +29,8 @@ NULL
 #' masks(mr) <- NULL
 NULL
 
+# derived from Biostrings/R/MaskedXString.R ------------------------------------
+# 
 setClass("MaskedModString",
          contains =  c("MaskedXString"),
          representation("VIRTUAL",
@@ -48,23 +49,13 @@ setClass("MaskedModRNAString",
          )
 )
 
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Accessor-like methods.
-# should work from Biostrings
-
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Validity
-
-
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
 # "seqtype" and "seqtype<-" methods
 
 #' @rdname MaskedModString
 #' @export
 setMethod("seqtype", "MaskedModString", function(x) seqtype(unmasked(x)))
 
-# derived from Biostrings/R/MaskedXString.R ------------------------------------
-# Coercion 
+# Coercion ---------------------------------------------------------------------
 
 ### From MaskedXString objects to MaskedModString objects.
 setAs("MaskedXString", "MaskedModDNAString",
@@ -95,21 +86,6 @@ setAs("MaskedModRNAString", "ModRNAString",
       function(from) unmasked(from)
 )
 
-setMethod("ModString", "MaskedModString",
-          function(seqtype, x, start=NA, end=NA, width=NA)
-            ModString(seqtype, unmasked(x), start=start, end=end, width=width)
-)
-
-### From a MaskedXString object to a MaskCollection object.
-setAs("MaskedModString", "MaskCollection",
-      function(from) masks(from)
-)
-
-### From a MaskedXString object to a NormalIRanges object.
-setAs("MaskedModString", "NormalIRanges",
-      function(from) as(masks(from), "NormalIRanges")
-)
-
 ### From a MaskedXString object to an XStringViews object.
 setAs("MaskedModString", "ModStringViews",
       function(from)
@@ -117,40 +93,4 @@ setAs("MaskedModString", "ModStringViews",
         views <- gaps(collapse(masks(from)))[[1]]
         Views(unmasked(from), start = start(views), width = width(views))
       }
-)
-
-setAs("MaskedModString", "Views", function(from) as(from, "ModStringViews"))
-
-### NOT exported.
-toModStringViewsOrModString <- function(x){
-  x0 <- unmasked(x)
-  mask1 <- collapse(masks(x))
-  if (S4Vectors::isEmpty(mask1))
-    return(x0)
-  views <- gaps(mask1)[[1]]
-  Views(x0, start = start(views), width = width(views))
-}
-
-
-### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-### The transformation methods (endomorphisms) "collapse" and "gaps".
-###
-
-#' @rdname MaskedModString
-#' @export
-setMethod("collapse", "MaskedXString",
-          function(x){
-            masks(x) <- collapse(masks(x))
-            x
-          }
-)
-
-### 'start' and 'end' are ignored.
-#' @rdname MaskedModString
-#' @export
-setMethod("gaps", "MaskedXString",
-          function(x, start = NA, end = NA){
-            masks(x) <- gaps(collapse(masks(x)))
-            x
-          }
 )
