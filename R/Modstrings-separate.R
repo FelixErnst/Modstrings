@@ -287,6 +287,9 @@ setMethod(
 .norm_GRangesList_for_combine <- function(x,gr)
 {
   gr <- .norm_GRangesList(gr)
+  if(length(gr) == 0L){
+    stop("'gr' is empty (length() == 0L)", call. = FALSE)
+  }
   if(!("mod" %in% colnames(S4Vectors::mcols(gr@unlistData)))){
     stop("GRanges object does not contain a 'mod' column.",
          call. = FALSE)
@@ -377,7 +380,7 @@ setMethod(
 {
   width <- width(x)
   list <- lapply(width,function(w){rep(FALSE,w)})
-  if(!is.null(names(x)) && is.null(names(at))){
+  if(!is.null(names(x)) && !is.null(names(at))){
     names(list) <- names(x)
     f <- names(x) %in% names(at)
     list <- list[f]
@@ -399,9 +402,9 @@ setMethod(
 {
   width <- width(x)
   m <- matrix(rep(FALSE,sum(width)),length(x))
-  if(!is.null(names(x)) && is.null(names(at))){
+  if(!is.null(names(x)) && !is.null(names(at))){
     f <- names(x) %in% names(at)
-    m <- m[f,]
+    m <- m[f,,drop=FALSE]
   }
   if(nrow(m) != length(at)){
     stop("Length of 'x' and 'gr' does not match.", call. = FALSE)
