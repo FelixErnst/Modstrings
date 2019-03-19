@@ -96,8 +96,14 @@ NULL
 #' @param verbose For \code{combineIntoModstrings}: \code{TRUE} or \code{FALSE}
 #' (default): Should verbose information reported on the positions filled with 
 #' modifications? This settings is passed onto \code{\link{modifyNucleotides}}.
-#' @param ... For \code{combineIntoModstrings}: the \code{default.quality}
-#' default value for non-modified positions.
+#' @param ... 
+#' \itemize{
+#' \item{\code{default.quality}:} {For \code{combineIntoModstrings}: the 
+#' \code{default.quality} default value for non-modified positions. (default: 
+#' \code{default.quality = 0L})}
+#' }
+#' 
+#' 
 #'
 #' @return for \code{separate} a \code{GRanges} object and for 
 #' \code{combineIntoModstrings} a \code{ModString*} object or a 
@@ -281,6 +287,10 @@ setMethod(
 .norm_GRangesList_for_combine <- function(x,gr)
 {
   gr <- .norm_GRangesList(gr)
+  if(!("mod" %in% colnames(S4Vectors::mcols(gr@unlistData)))){
+    stop("GRanges object does not contain a 'mod' column.",
+         call. = FALSE)
+  }
   seqnames <- lapply(gr, function(z){as.character(seqnames(z))})
   names <- lapply(gr, function(z){names(z)})
   if(!all(unique(unlist(seqnames)) %in% names(x)) && 
@@ -289,7 +299,8 @@ setMethod(
          " elements of the GRangesList object.",
          call. = FALSE)
   }
-  if(any(max(end(gr)) > width(x))){
+  f <- names(x) %in% vapply(seqnames, unique, character(1))
+  if(any(max(end(gr)) > width(x[f]))){
     stop("Elements of the GRangesList object contain coordinates out of bounds",
          " for the XStringSet object.",
          call. = FALSE)
@@ -366,6 +377,14 @@ setMethod(
 {
   width <- width(x)
   list <- lapply(width,function(w){rep(FALSE,w)})
+  if(!is.null(names(x)) && is.null(names(at))){
+    names(list) <- names(x)
+    f <- names(x) %in% names(at)
+    list <- list[f]
+  }
+  if(length(list) != length(at)){
+    stop("Length of 'x' and 'gr' does not match.", call. = FALSE)
+  }
   list <- mapply(
     function(l,j){
       l[j] <- TRUE
@@ -380,6 +399,13 @@ setMethod(
 {
   width <- width(x)
   m <- matrix(rep(FALSE,sum(width)),length(x))
+  if(!is.null(names(x)) && is.null(names(at))){
+    f <- names(x) %in% names(at)
+    m <- m[f,]
+  }
+  if(nrow(m) != length(at)){
+    stop("Length of 'x' and 'gr' does not match.", call. = FALSE)
+  }
   m <- mapply(
     function(i,j){
       n <- m[i,,drop = FALSE]
@@ -391,6 +417,33 @@ setMethod(
     SIMPLIFY = FALSE)
   m <- matrix(unlist(m),length(m),byrow = TRUE)
   m
+}
+
+.get_XStringQuality_from_GRanges <- function(string, gr, quality.type,
+                                             default.quality)
+{
+  if(is(string,"ModString")){
+    width  <- length(string)
+    pos <- list(start(gr[[1]]))
+  } else if(is(string,"ModStringSet")){
+    width  <- width(string)
+    pos <- as.list(start(gr))
+  }
+  qualities <- lapply(width, function(i) rep(default.quality,i))
+  modQualities <- lapply(gr, function(g){S4Vectors::mcols(g)$quality})
+  f <- names(string) %in% names(gr)
+  qualities[f] <- mapply(
+    function(q,p,mq){
+      q[p] <- mq
+      q
+    },
+    qualities[f],
+    pos,
+    modQualities,
+    SIMPLIFY = FALSE)
+  ans <- do.call(paste0(quality.type,"Quality"),
+                 list(as(qualities,"IntegerList")))
+  ans
 }
 
 # construct a QualityScaleStringSet from information in the GRanges object
@@ -412,40 +465,10 @@ setMethod(
   } else {
     default.quality <- 0L
   }
-  qualities <- .get_XStringQuality_from_GRanges(string,
-                                                gr,
-                                                quality.type,
+  qualities <- .get_XStringQuality_from_GRanges(string, gr, quality.type,
                                                 default.quality)
   do.call(paste0("QualityScaled",seqtype(string),"StringSet"),
-          list(string,
-               qualities))
-}
-
-.get_XStringQuality_from_GRanges <- function(string, gr, quality.type,
-                                             default.quality)
-{
-  if(is(string,"ModString")){
-    width  <- length(string)
-    pos <- list(start(gr[[1]]))
-  } else if(is(string,"ModStringSet")){
-    width  <- width(string)
-    pos <- as.list(start(gr))
-  }
-  emptyQualities <- lapply(width,
-                      function(i) rep(default.quality,i))
-  qualities <- qualities <- lapply(gr, function(g){S4Vectors::mcols(g)$quality})
-  qualities <- mapply(
-    function(eq,p,q){
-      eq[p] <- q
-      eq
-    },
-    emptyQualities,
-    pos,
-    qualities,
-    SIMPLIFY = FALSE)
-  ans <- do.call(paste0(quality.type,"Quality"),
-                 list(as(qualities,"IntegerList")))
-  ans
+          list(string, qualities))
 }
 
 #' @rdname separate
@@ -463,25 +486,15 @@ setMethod(
                    "String"))
     gr <- .norm_GRanges_for_combine(x,gr)
     nc.type <- .get_nc_type(gr$mod,seqtype(x))
-    at <- .pos_to_logical_matrix(as(x,
-                                    paste0(seqtype(x),
-                                           "StringSet")),
+    at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
-    ans_seq <- modifyNucleotides(x,
-                                 as.vector(at),
-                                 S4Vectors::mcols(gr)$mod,
-                                 nc.type = nc.type,
-                                 verbose = verbose)
+    ans_seq <- modifyNucleotides(x, as.vector(at), S4Vectors::mcols(gr)$mod,
+                                 nc.type = nc.type, verbose = verbose)
     if(!with.qualities){
       return(ans_seq)
     }
-    quality.type <- match.arg(quality.type,c("Phred",
-                                             "Solexa",
-                                             "Illumina"))
-    .convert_to_QualityScaledStringSet(ans_seq,
-                                       gr,
-                                       quality.type,
-                                       ...)
+    quality.type <- match.arg(quality.type,c("Phred", "Solexa", "Illumina"))
+    .convert_to_QualityScaledStringSet(ans_seq, gr, quality.type, ...)
   }
 )
 
@@ -497,34 +510,27 @@ setMethod(
     if(!assertive::is_a_bool(with.qualities)){
       stop("with.qualities has to be TRUE or FALSE.")
     }
-    quality.type <- match.arg(quality.type,c("Phred",
-                                             "Solexa",
-                                             "Illumina"))
+    quality.type <- match.arg(quality.type, c("Phred", "Solexa", "Illumina"))
     gr <- .norm_GRangesList_for_combine(x, gr)
     if (!S4Vectors::isConstant(width(x))){
-      at <- .pos_to_logical_list(as(x,
-                                    paste0(seqtype(x),
-                                           "StringSet")),
+      at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet")),
                                  lapply(gr, start))
     } else {
-      at <- .pos_to_logical_matrix(as(x,
-                                      paste0(seqtype(x),
-                                             "StringSet")),
+      at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                    lapply(gr, start))
     }
-    ans_seq <- modifyNucleotides(x,
-                                 at,
+    f <- names(x) %in% names(gr)
+    ans_seq <- modifyNucleotides(x[f], at, 
                                  lapply(gr,function(z){
                                    S4Vectors::mcols(z)$mod
                                  }),
                                  verbose = verbose)
+    ans_seq <- c(ans_seq,x[!f])
+    ans_seq <- ans_seq[match(names(x),names(ans_seq))]
     if(!with.qualities){
       return(ans_seq)
     }
-    .convert_to_QualityScaledStringSet(ans_seq,
-                                       gr,
-                                       quality.type,
-                                       ...)
+    .convert_to_QualityScaledStringSet(ans_seq, gr, quality.type, ...)
   }
 )
 
@@ -540,44 +546,33 @@ setMethod(
     if(!assertive::is_a_bool(with.qualities)){
       stop("with.qualities has to be TRUE or FALSE.")
     }
-    quality.type <- match.arg(quality.type,c("Phred",
-                                             "Solexa",
-                                             "Illumina"))
+    quality.type <- match.arg(quality.type, c("Phred", "Solexa", "Illumina"))
     # If names are set use these. Otherwise use seqnames
     if(is.null(names(gr))){
-      gr <- split(gr,
-                  seqnames(gr))
+      gr <- split(gr, seqnames(gr))
       gr <- gr[!vapply(gr,is.null,logical(1))]
     } else {
-      gr <- split(gr,
-                  names(gr))
+      gr <- split(gr, names(gr))
     }
-    gr <- .norm_GRangesList_for_combine(x,gr)
+    gr <- .norm_GRangesList_for_combine(x, gr)
     if (!S4Vectors::isConstant(width(x))){
-      at <- .pos_to_logical_list(as(x,
-                                    paste0(seqtype(x),
-                                           "StringSet")),
-                                 lapply(gr,
-                                        start))
+      at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet")),
+                                 lapply(gr, start))
     } else {
-      at <- .pos_to_logical_matrix(as(x,
-                                      paste0(seqtype(x),
-                                             "StringSet")),
-                                   lapply(gr,
-                                          start))
+      at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
+                                   lapply(gr, start))
     }
-    ans_seq <- modifyNucleotides(x,
-                                 at,
+    f <- names(x) %in% names(gr)
+    ans_seq <- modifyNucleotides(x[f], at,
                                  lapply(gr,function(z){
                                    S4Vectors::mcols(z)$mod
                                  }),
                                  verbose = verbose)
+    ans_seq <- c(ans_seq,x[!f])
+    ans_seq <- ans_seq[match(names(x),names(ans_seq))]
     if(!with.qualities){
       return(ans_seq)
     }
-    .convert_to_QualityScaledStringSet(ans_seq,
-                                       gr,
-                                       quality.type,
-                                       ...)
+    .convert_to_QualityScaledStringSet(ans_seq, gr, quality.type, ...)
   }
 )

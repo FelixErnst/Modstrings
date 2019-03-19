@@ -123,8 +123,7 @@ the `shortName()` or `nomenclature()` functions as seen above.
 
 ```{r object_creation4}
 gr <- GRanges("1:5", mod = "m7G")
-mr5 <- combineIntoModstrings(r,
-                             gr)
+mr5 <- combineIntoModstrings(r, gr)
 mr5
 ```
 
