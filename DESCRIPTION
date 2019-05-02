@@ -2,7 +2,7 @@ Package: Modstrings
 Type: Package
 Title: Modstrings: implementation of Biostrings to work with nucleotide 
     sequences containing modified nucleotides
-Version: 1.0.0
+Version: 1.1.0
 Date: 2019-03-19
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
