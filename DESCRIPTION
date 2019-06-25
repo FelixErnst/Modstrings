@@ -2,27 +2,27 @@ Package: Modstrings
 Type: Package
 Title: Implementation of Biostrings to work with nucleotide sequences containing
     modified nucleotides
-Version: 1.0.2
-Date: 2019-06-11
-Authors@R: c(person("Felix G.M.", 
-                    "Ernst", 
-                    email = "felix.gm.ernst@outlook.com", 
+Version: 1.0.3
+Date: 2019-06-25
+Authors@R: c(person("Felix G.M.",
+                    "Ernst",
+                    email = "felix.gm.ernst@outlook.com",
                     role = c("aut", "cre"),
                     comment = c(ORCID = "0000-0001-5064-0928")),
-             person("Denis L.J.", 
-                    "Lafontaine", 
-                    email = "denis.lafontaine@ulb.ac.be", 
+             person("Denis L.J.",
+                    "Lafontaine",
+                    email = "denis.lafontaine@ulb.ac.be",
                     role = c("ctb", "fnd")))
 Description: Representing nucleotide modifications in a nucleotide sequence
-    is usually done via special characters from a number of sources. This 
+    is usually done via special characters from a number of sources. This
     represents a challenge to work with in R and the Biostrings package.
-    The Modstrings package implements this functionallity for RNA and DNA 
-    sequences containing modified nucleotides by translating the character 
-    internally in order to work with the infrastructure of the Biostrings 
+    The Modstrings package implements this functionallity for RNA and DNA
+    sequences containing modified nucleotides by translating the character
+    internally in order to work with the infrastructure of the Biostrings
     package.
-    For this the ModRNAString and ModDNAString classes and derivates and 
-    functions to construct and modify these objects despite the encoding issues 
-    are implemenented. In addition the conversion from sequences to list like 
+    For this the ModRNAString and ModDNAString classes and derivates and
+    functions to construct and modify these objects despite the encoding issues
+    are implemenented. In addition the conversion from sequences to list like
     location information (and the reverse operation) is implemented as well.
 License: Artistic-2.0
 Encoding: UTF-8
@@ -41,13 +41,12 @@ Imports:
     XVector,
     stringi,
     stringr
-Suggests: 
+Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
     testthat,
-    usethis,
-    sessioninfo
+    usethis
 Collate:
     'Modstrings.R'
     'AllGenerics.R'
