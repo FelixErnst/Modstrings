@@ -12,16 +12,16 @@ vignette: >
   %\VignetteIndexEntry{Modstrings-DNA-alphabet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
 BiocStyle::markdown(css.files = c("custom.css"))
 ```
 
-The alphabets for the modifications used in this package are based on the 
-compilation of DNA modifications https://dnamod.hoffmanlab.org
-by the Hoffman lab. The alphabet was modified to make it compatible for the
-`Modstrings` package.
+The alphabets for the modifications used in this package are based on the
+compilation of DNA modifications by the Hoffman lab [@Sood.2019]. The alphabet
+was modified to make it compatible for the `Modstrings` package.
 
 If modifications are missing, let us know.
 
@@ -40,5 +40,7 @@ knitr::kable(
 ```
 
 ```{r sessioninfo}
-sessioninfo::session_info()
+sessionInfo()
 ```
+
+# References
