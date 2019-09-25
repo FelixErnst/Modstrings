@@ -237,6 +237,13 @@ qmrs2 <- readQualityScaledModRNAStringSet("test.fastq")
 qmrs2
 ```
 
+Since these functions are specifically designed to work with the modified 
+nucleotides within the sequence, they are slower than the analogous functions
+from the `Biostrings` package. This is the result of a purely R based 
+implementation, whereas `Biostrings` functions are spead up through a C 
+backend. This is a potential improvement for future developments, but 
+currently special sequence files are limited, so it is not a priority.
+
 ```{r object_io_unlink, include=FALSE}
 unlink("test.fasta")
 unlink("test.fastq")
