@@ -112,7 +112,7 @@ mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33]))
 mr4
 ```
 
-# Streamlining objection creation and modification
+# Streamlining object creation and modification
 
 To offer a more streamlined functionality, which can take more information as
 input, the function `combineIntoModstrings()` is implemented. It takes a
@@ -218,7 +218,7 @@ qgr
 combineIntoModstrings(mrs,qgr, with.qualities = TRUE)
 ```
 
-# Saving and reading ModString objects to file
+# Saving and reading ModString objects to/from file
 
 The nucleotide sequences with modifications can be saved to a `fasta` or
 `fastq` file using the functions `writeModStringSet()`. Reading of these files
