@@ -17,7 +17,9 @@ extending the `BString` class from the `Biostrings` ([Pages et
 al.](#Literature)) package. It can store RNA sequences containing special
 characters of the RNA modification alphabet and thus can store location and 
 identity of modifications. Functions for conversion to a tabular format are 
-implemented as well.
+implemented as well. A `ModDNAString` class is implemented analogous, which
+is based on the DNA modification alphabet from the Hoffman lab ([Sood et
+al.](#Literature)).
 
 The implemented classes inherit most of the functions from the parental 
 `BString` class and it derivatives, which allows them to behave like the 
@@ -25,15 +27,18 @@ normal `XString` classes within the bioconductor universe.
 
 # Installation
 
-The current version of the `Modstrings` package is available from GitHub.
+The current version of the `Modstrings` package is available from 
+Bioconductor.
  
 ```{r}
-remotes::install_github("FelixErnst/Modstrings")
+# Installation
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Modstrings")
 # Load and attach the package
 library("Modstrings")
 ```
-
-A submission to Bioconductor is planned.
 
 # Literature
 
@@ -47,3 +52,6 @@ of RNA modification pathways. 2017 update." Nucleic Acids Res. 46 (D1),
 D303-D307. doi:[10.1093/nar/gkx1030](https://doi.org/10.1093/nar/gkx1030).
 - Pagès, H.; Aboyoun, P.; Gentleman, R.; DebRoy, S. (2018). "Biostrings: 
 Efficient manipulation of biological strings." R package version 2.50.1.
+- Sood, Ankur Jai, Coby Viner, and Michael M. Hoffman. 2019. “DNAmod: The Dna 
+Modification Database.” Journal of Cheminformatics 11 (1):30. 
+doi:[10.1186/s13321-019-0349-4](https://doi.org/10.1186/s13321-019-0349-4).
