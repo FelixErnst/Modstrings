@@ -15,7 +15,7 @@ NULL
 #' \code{fullName()} and \code{nomenclature()} return results for modifications
 #' only.
 #' 
-#' @param x a character vector
+#' @param x a \code{ModString} or \code{ModStringSet} object
 #' @param baseOnly \code{TRUE} or \code{FALSE} (default): Should the result omit
 #' occurances of the letters \code{N.-+}?
 #' 

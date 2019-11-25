@@ -40,7 +40,7 @@ nomenclature(x)
 \S4method{nomenclature}{ModStringSet}(x)
 }
 \arguments{
-\item{x}{a character vector}
+\item{x}{a \code{ModString} or \code{ModStringSet} object}
 
 \item{baseOnly}{\code{TRUE} or \code{FALSE} (default): Should the result omit
 occurances of the letters \code{N.-+}?}
