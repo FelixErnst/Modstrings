@@ -22,11 +22,21 @@
 \alias{ModRNAStringSet-class}
 \title{ModStringSet objects}
 \usage{
-ModDNAStringSet(x = character(), start = NA, end = NA, width = NA,
-  use.names = TRUE)
+ModDNAStringSet(
+  x = character(),
+  start = NA,
+  end = NA,
+  width = NA,
+  use.names = TRUE
+)
 
-ModRNAStringSet(x = character(), start = NA, end = NA, width = NA,
-  use.names = TRUE)
+ModRNAStringSet(
+  x = character(),
+  start = NA,
+  end = NA,
+  width = NA,
+  use.names = TRUE
+)
 }
 \arguments{
 \item{x}{Either a character vector (with no NAs), or an ModString, 

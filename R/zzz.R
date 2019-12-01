@@ -1,0 +1,5 @@
+.onLoad <- function(libname, pkgname)
+{
+  MODDNA_COLORED_LETTERS <<- make_MODDNA_COLORED_LETTERS()
+  MODRNA_COLORED_LETTERS <<- make_MODRNA_COLORED_LETTERS()
+}

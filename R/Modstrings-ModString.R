@@ -284,6 +284,97 @@ setMethod(
   }
 )
 
+# Show
+
+### Placeholder, initialized in .onLoad()
+MODDNA_COLORED_LETTERS <- NULL
+MODRNA_COLORED_LETTERS <- NULL
+
+### Return a named character vector where all the names are single letters.
+### Colors for A, C, G, and T were inspired by
+###   https://en.wikipedia.org/wiki/Nucleotide#Structure
+### Called in .onLoad() to initialize DNA_AND_RNA_COLORED_LETTERS.
+#' @importFrom crayon make_style inverse
+make_MODDNA_COLORED_LETTERS <- function()
+{
+  ## modified DNA nucleotide letters
+  ans <- setNames(sprintf(make_style(rgb(0.2,0.2,0.2), bg=TRUE)(make_style(rgb(0,1,0))("%s")),
+                          letters(MOD_DNA_STRING_CODEC)),
+                  letters(MOD_DNA_STRING_CODEC))
+  # base colours
+  ans["A"] <- make_style(rgb(1, 0.5, 0.5), bg=TRUE)(make_style("black")("A"))
+  ans["C"] <- make_style(rgb(0.5, 1, 0.5), bg=TRUE)(make_style("black")("C"))
+  ans["G"] <- make_style(rgb(0.5, 1, 1), bg=TRUE)(make_style("black")("G"))
+  ans["T"] <- make_style(rgb(1, 0.8, 0.5), bg=TRUE)(make_style("black")("T"))
+  ans["N"] <- make_style("grey", bg=TRUE)(make_style(rgb(0.4,0.4,0.4))("N"))
+  ans["-"] <- "-"
+  ans["+"] <- "+"
+  ans["."] <- "."
+  ans
+}
+make_MODRNA_COLORED_LETTERS <- function()
+{
+  ## modified RNA nucleotide letters
+  ans <- setNames(sprintf(make_style(rgb(0.2,0.2,0.2), bg=TRUE)(make_style(rgb(0,1,0))("%s")),
+                          letters(MOD_RNA_STRING_CODEC)),
+                  letters(MOD_RNA_STRING_CODEC))
+  # base colours
+  ans["A"] <- make_style(rgb(1, 0.5, 0.5), bg=TRUE)(make_style("black")("A"))
+  ans["C"] <- make_style(rgb(0.5, 1, 0.5), bg=TRUE)(make_style("black")("C"))
+  ans["G"] <- make_style(rgb(0.5, 1, 1), bg=TRUE)(make_style("black")("G"))
+  ans["U"] <- make_style(rgb(1, 0.8, 0.5), bg=TRUE)(make_style("black")("U"))
+  ans["N"] <- make_style("grey", bg=TRUE)(make_style(rgb(0.4,0.4,0.4))("N"))
+  ans["-"] <- "-"
+  ans["+"] <- "+"
+  ans["."] <- "."
+  ans
+}
+
+# make_MODDNA_AND_MODRNA_COLORED_LETTERS <- Biostrings:::make_DNA_AND_RNA_COLORED_LETTERS
+
+### 'x' must be a character vector.
+.add_modx_colors <- function(x,COLORED_LETTERS){
+  ans <- vapply(x,
+                function(xi){
+                  xi <- strsplit(xi,"")[[1L]]
+                  m <- match(xi, names(COLORED_LETTERS))
+                  match_idx <- which(!is.na(m))
+                  xi[match_idx] <- COLORED_LETTERS[m[match_idx]]
+                  paste0(xi, collapse="")
+                },
+                character(1),
+                USE.NAMES=FALSE
+  )
+  x_names <- names(x)
+  if (!is.null(x_names))
+    names(ans) <- x_names
+  ans
+}
+.add_moddna_colors <- function(x)
+{
+  .add_modx_colors(x, MODDNA_COLORED_LETTERS)
+}
+
+.add_modrna_colors <- function(x)
+{
+  .add_modx_colors(x, MODRNA_COLORED_LETTERS)
+}
+
+add_colors <- function(x) UseMethod("add_colors")
+add_colors.default <- identity
+add_colors.ModDNA <- .add_moddna_colors
+add_colors.ModRNA <- .add_modrna_colors
+
+setMethod("show", "ModString",
+          function(object)
+          {
+            object_len <- object@length
+            cat(object_len, "-letter ", class(object), " object\n", sep="")
+            snippet <- .toSeqSnippet(object, getOption("width") - 5L)
+            cat("seq: ", add_colors(snippet), "\n", sep="")
+          }
+)
+
 # Comparison -------------------------------------------------------------------
 
 .compare_ModString <- function(e1,

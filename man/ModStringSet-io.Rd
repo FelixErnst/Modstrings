@@ -7,16 +7,35 @@
 \alias{writeModStringSet}
 \title{Read/write an ModStringSet object from/to a file}
 \usage{
-readModDNAStringSet(filepath, format = "fasta", nrec = -1L,
-  skip = 0L, seek.first.rec = FALSE, use.names = TRUE,
-  with.qualities = FALSE)
+readModDNAStringSet(
+  filepath,
+  format = "fasta",
+  nrec = -1L,
+  skip = 0L,
+  seek.first.rec = FALSE,
+  use.names = TRUE,
+  with.qualities = FALSE
+)
 
-readModRNAStringSet(filepath, format = "fasta", nrec = -1L,
-  skip = 0L, seek.first.rec = FALSE, use.names = TRUE,
-  with.qualities = FALSE)
+readModRNAStringSet(
+  filepath,
+  format = "fasta",
+  nrec = -1L,
+  skip = 0L,
+  seek.first.rec = FALSE,
+  use.names = TRUE,
+  with.qualities = FALSE
+)
 
-writeModStringSet(x, filepath, append = FALSE, compress = FALSE,
-  compression_level = NA, format = "fasta", ...)
+writeModStringSet(
+  x,
+  filepath,
+  append = FALSE,
+  compress = FALSE,
+  compression_level = NA,
+  format = "fasta",
+  ...
+)
 }
 \arguments{
 \item{filepath, format, nrec, skip, seek.first.rec, use.names, with.qualities, append, compress, compression_level, ...}{See \code{\link[Biostrings:XStringSet-io]{XStringSet-io}} for more details.}

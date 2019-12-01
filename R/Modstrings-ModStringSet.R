@@ -198,31 +198,29 @@ setMethod(
   paste(c(x, rep(" ",missingNChar)), collapse = "")
 }
 
-.ModStringSet.show_frame_line <- function(x,
-                                          i,
-                                          iW,
-                                          widthW){
+.ModStringSet.show_frame_line <- function(x, i, iW, widthW){
   width <- nchar(x)[i]
-  snippetWidth <- getOption("width") - 2 - iW - widthW
-  if (!is.null(names(x))){
-    snippetWidth <- snippetWidth - .namesW - 1
+  snippet_width <- getOption("width") - 2L - iW - widthW
+  if (!is.null(names(x)))
+    snippet_width <- snippet_width - .namesW - 1L
+  snippet <- .toSeqSnippet(x[[i]], snippetWidth)
+  if (!is.null(names(x))) {
+    snippet_class <- class(snippet)
+    snippet <- .format_utf8(seq_snippet, width = snippetWidth)
+    class(snippet) <- snippet_class
   }
-  seq_snippet <- .toSeqSnippet(x[[i]], snippetWidth)
-  if (!is.null(names(x))){
-    seq_snippet <- .format_utf8(seq_snippet, width = snippetWidth)
-  }
-  cat(format(paste0("[", i,"]"), width = iW, justify = "right"), " ",
-      format(width, width = widthW, justify = "right"), " ",
-      seq_snippet,
-      sep = "")
+  cat(format(paste("[", i,"]", sep=""), width=iW, justify="right"), " ",
+      format(width, width=widthW, justify="right"), " ",
+      add_colors(snippet),
+      sep="")
   if (!is.null(names(x))) {
     snippet_name <- names(x)[i]
-    if (is.na(snippet_name)){
+    if (is.na(snippet_name))
       snippet_name <- "<NA>"
-    } else if (nchar(snippet_name) > .namesW) {
-      snippet_name <- paste0(substr(snippet_name, 1, .namesW-3), "...")
-    }
-    cat(" ", snippet_name, sep = "")
+    else if (nchar(snippet_name) > .namesW)
+      snippet_name <- paste0(substr(snippet_name, 1L, .namesW - 1L),
+                             compact_ellipsis)
+    cat(" ", snippet_name, sep="")
   }
   cat("\n")
 }

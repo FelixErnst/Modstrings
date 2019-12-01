@@ -3,7 +3,6 @@
 \docType{package}
 \name{Modstrings}
 \alias{Modstrings}
-\alias{Modstrings-package}
 \title{Modstrings: implementation of Biostrings to work with nucleotide 
 sequences containing modified nucleotides.}
 \description{

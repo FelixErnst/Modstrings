@@ -17,16 +17,31 @@ QualityScaledModDNAStringSet(x, quality)
 
 QualityScaledModRNAStringSet(x, quality)
 
-readQualityScaledModDNAStringSet(filepath, quality.scoring = c("phred",
-  "solexa", "illumina"), nrec = -1L, skip = 0L,
-  seek.first.rec = FALSE, use.names = TRUE)
+readQualityScaledModDNAStringSet(
+  filepath,
+  quality.scoring = c("phred", "solexa", "illumina"),
+  nrec = -1L,
+  skip = 0L,
+  seek.first.rec = FALSE,
+  use.names = TRUE
+)
 
-readQualityScaledModRNAStringSet(filepath, quality.scoring = c("phred",
-  "solexa", "illumina"), nrec = -1L, skip = 0L,
-  seek.first.rec = FALSE, use.names = TRUE)
+readQualityScaledModRNAStringSet(
+  filepath,
+  quality.scoring = c("phred", "solexa", "illumina"),
+  nrec = -1L,
+  skip = 0L,
+  seek.first.rec = FALSE,
+  use.names = TRUE
+)
 
-writeQualityScaledModStringSet(x, filepath, append = FALSE,
-  compress = FALSE, compression_level = NA)
+writeQualityScaledModStringSet(
+  x,
+  filepath,
+  append = FALSE,
+  compress = FALSE,
+  compression_level = NA
+)
 }
 \arguments{
 \item{x}{For the \code{QualityScaled*StringSet} constructors: Either a 
