@@ -203,10 +203,10 @@ setMethod(
   snippet_width <- getOption("width") - 2L - iW - widthW
   if (!is.null(names(x)))
     snippet_width <- snippet_width - .namesW - 1L
-  snippet <- .toSeqSnippet(x[[i]], snippetWidth)
+  snippet <- .toSeqSnippet(x[[i]], snippet_width)
   if (!is.null(names(x))) {
     snippet_class <- class(snippet)
-    snippet <- .format_utf8(seq_snippet, width = snippetWidth)
+    snippet <- .format_utf8(snippet, width = snippet_width)
     class(snippet) <- snippet_class
   }
   cat(format(paste("[", i,"]", sep=""), width=iW, justify="right"), " ",
@@ -219,7 +219,7 @@ setMethod(
       snippet_name <- "<NA>"
     else if (nchar(snippet_name) > .namesW)
       snippet_name <- paste0(substr(snippet_name, 1L, .namesW - 1L),
-                             compact_ellipsis)
+                             .compact_ellipsis)
     cat(" ", snippet_name, sep="")
   }
   cat("\n")
@@ -260,7 +260,6 @@ setMethod(
   }
 }
 
-#' @export
 setMethod(
   "show", "ModStringSet",
   function(object)

@@ -30,6 +30,7 @@ XStringSetList <- Biostrings:::XStringSetList
 
 # show functions
 .toSeqSnippet <- Biostrings:::toSeqSnippet
+.compact_ellipsis <- Biostrings:::compact_ellipsis
 .XStringSet.show_frame_header <- Biostrings:::.XStringSet.show_frame_header
 
 # IRanges

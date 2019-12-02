@@ -284,7 +284,7 @@ setMethod(
   }
 )
 
-# Show
+# Show 
 
 ### Placeholder, initialized in .onLoad()
 MODDNA_COLORED_LETTERS <- NULL
@@ -293,7 +293,8 @@ MODRNA_COLORED_LETTERS <- NULL
 ### Return a named character vector where all the names are single letters.
 ### Colors for A, C, G, and T were inspired by
 ###   https://en.wikipedia.org/wiki/Nucleotide#Structure
-### Called in .onLoad() to initialize DNA_AND_RNA_COLORED_LETTERS.
+### Called in .onLoad() to initialize MODDNA_COLORED_LETTERS and 
+### MODRNA_COLORED_LETTERS
 #' @importFrom crayon make_style inverse
 make_MODDNA_COLORED_LETTERS <- function()
 {
@@ -329,8 +330,6 @@ make_MODRNA_COLORED_LETTERS <- function()
   ans["."] <- "."
   ans
 }
-
-# make_MODDNA_AND_MODRNA_COLORED_LETTERS <- Biostrings:::make_DNA_AND_RNA_COLORED_LETTERS
 
 ### 'x' must be a character vector.
 .add_modx_colors <- function(x,COLORED_LETTERS){

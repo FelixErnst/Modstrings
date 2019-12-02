@@ -40,7 +40,9 @@ Imports:
     IRanges,
     XVector,
     stringi,
-    stringr
+    stringr,
+    crayon,
+    grDevices
 Suggests: 
     BiocStyle,
     knitr,
