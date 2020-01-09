@@ -98,9 +98,9 @@ head(nomenclature(ModRNAString()))
 
 ```{r object_creation2}
 r <- RNAString("ACGUG")
-mr2 <- modifyNucleotides(r,5,"m7G")
+mr2 <- modifyNucleotides(r,5L,"m7G")
 mr2
-mr3 <- modifyNucleotides(r,5,"7G",nc.type = "nc")
+mr3 <- modifyNucleotides(r,5L,"7G",nc.type = "nc")
 mr3
 ```
 
@@ -108,7 +108,7 @@ In addition, one can also use the `alphabet()` function and subset to the
 desired modifications.
 
 ```{r object_creation3, }
-mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33]))
+mr4 <- ModRNAString(paste0("ACGU",alphabet(ModRNAString())[33L]))
 mr4
 ```
 
@@ -132,8 +132,9 @@ mr5
 ```{r object_creation5}
 rs <- RNAStringSet(list(r,r,r,r,r))
 names(rs) <- paste0("Sequence", seq_along(rs))
-gr2 <- GRanges(seqnames = names(rs)[c(1,1,2,3,3,4,5,5)],
-               ranges = IRanges(start = c(4,5,5,4,5,5,4,5),width = 1),
+gr2 <- GRanges(seqnames = names(rs)[c(1L,1L,2L,3L,3L,4L,5L,5L)],
+               ranges = IRanges(start = c(4L,5L,5L,4L,5L,5L,4L,5L),
+                                width = 1L),
                mod = c("D","m7G","m7G","D","m7G","m7G","D","m7G"))
 gr2
 mrs <- combineIntoModstrings(rs, gr2)
@@ -156,7 +157,7 @@ modification. The next chunk fails, since the originating base for m7G is of
 course G.
 
 ```{r object_creation_test, error=TRUE, purl=FALSE}
-modifyNucleotides(r,4,"m7G")
+modifyNucleotides(r,4L,"m7G")
 ```
 
 Calls for both functions check the sanity for this operation, so that the next
@@ -164,7 +165,7 @@ bit is always `TRUE`.
 
 ```{r object_comparison_teaser}
 r <- RNAString("ACGUG")
-mr2 <- modifyNucleotides(r,5,"m7G")
+mr2 <- modifyNucleotides(r,5L,"m7G")
 r == RNAString(mr2)
 ```
 
@@ -177,7 +178,7 @@ objects depending on the type (`ModRNA` to `RNA` and `ModDNA` to `DNA`).
 r == ModRNAString(r)
 r == mr
 rs == ModRNAStringSet(rs)
-rs == c(mrs[1:3],rs[4:5])
+rs == c(mrs[1L:3L],rs[4L:5L])
 ```
 
 # Conversion of ModString objects
@@ -257,7 +258,7 @@ Pattern matching is implemented as well as expected for `XString` objects.
 matchPattern("U7",mr)
 vmatchPattern("D7",mrs)
 mrl <- unlist(mrs)
-matchLRPatterns("7ACGU","U7ACG",100,mrl)
+matchLRPatterns("7ACGU","U7ACG",100L,mrl)
 ```
 
 # Future development
@@ -277,10 +278,10 @@ The file needs to be UTF-8 encoded.
 # read the lines
 test <- readLines(system.file("extdata","test.fasta",package = "Modstrings"),
                       encoding = "UTF-8")
-head(test,2)
+head(test,2L)
 # keep every second line as sequence, the other one as name
-names <- test[seq.int(from = 1, to = 104, by = 2)]
-seq <- test[seq.int(from = 2, to = 104, by = 2)]
+names <- test[seq.int(from = 1L, to = 104L, by = 2L)]
+seq <- test[seq.int(from = 2L, to = 104L, by = 2L)]
 # sanitize input. This needs to be adapt to the individual case
 names <- gsub(" ","_",
               gsub("> ","",
