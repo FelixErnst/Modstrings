@@ -301,7 +301,7 @@ separate(seq)
 # Sessioninfo
 
 ```{r sessioninfo}
-sessioninfo::session_info()
+sessionInfo()
 ```
 
 <a name="References"></a>

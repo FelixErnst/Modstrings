@@ -72,5 +72,5 @@ Collate:
     'datasets.R'
     'zzz.R'
 VignetteBuilder: knitr
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 BugReports: https://github.com/FelixErnst/Modstrings/issues

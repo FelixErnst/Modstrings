@@ -295,36 +295,43 @@ MODRNA_COLORED_LETTERS <- NULL
 ###   https://en.wikipedia.org/wiki/Nucleotide#Structure
 ### Called in .onLoad() to initialize MODDNA_COLORED_LETTERS and 
 ### MODRNA_COLORED_LETTERS
-#' @importFrom crayon make_style inverse
+#' @importFrom crayon make_style
+#' @importFrom grDevices rgb
 make_MODDNA_COLORED_LETTERS <- function()
 {
+  ms <- crayon::make_style
+  regrbl <- grDevices::rgb
   ## modified DNA nucleotide letters
-  ans <- setNames(sprintf(make_style(rgb(0.2,0.2,0.2), bg=TRUE)(make_style(rgb(0,1,0))("%s")),
-                          letters(MOD_DNA_STRING_CODEC)),
-                  letters(MOD_DNA_STRING_CODEC))
+  ans <- sprintf(ms(regrbl(0.2,0.2,0.2), bg=TRUE)(ms(regrbl(0,1,0))("%s")),
+                 letters(MOD_DNA_STRING_CODEC))
+  names(ans) <- letters(MOD_DNA_STRING_CODEC)
   # base colours
-  ans["A"] <- make_style(rgb(1, 0.5, 0.5), bg=TRUE)(make_style("black")("A"))
-  ans["C"] <- make_style(rgb(0.5, 1, 0.5), bg=TRUE)(make_style("black")("C"))
-  ans["G"] <- make_style(rgb(0.5, 1, 1), bg=TRUE)(make_style("black")("G"))
-  ans["T"] <- make_style(rgb(1, 0.8, 0.5), bg=TRUE)(make_style("black")("T"))
-  ans["N"] <- make_style("grey", bg=TRUE)(make_style(rgb(0.4,0.4,0.4))("N"))
+  ans["A"] <- ms(regrbl(1, 0.5, 0.5), bg=TRUE)(ms("black")("A"))
+  ans["C"] <- ms(regrbl(0.5, 1, 0.5), bg=TRUE)(ms("black")("C"))
+  ans["G"] <- ms(regrbl(0.5, 1, 1), bg=TRUE)(ms("black")("G"))
+  ans["T"] <- ms(regrbl(1, 0.8, 0.5), bg=TRUE)(ms("black")("T"))
+  ans["N"] <- ms("grey", bg=TRUE)(ms(regrbl(0.4,0.4,0.4))("N"))
   ans["-"] <- "-"
   ans["+"] <- "+"
   ans["."] <- "."
   ans
 }
+#' @importFrom crayon make_style
+#' @importFrom grDevices rgb
 make_MODRNA_COLORED_LETTERS <- function()
 {
+  ms <- crayon::make_style
+  regrbl <- grDevices::rgb
   ## modified RNA nucleotide letters
-  ans <- setNames(sprintf(make_style(rgb(0.2,0.2,0.2), bg=TRUE)(make_style(rgb(0,1,0))("%s")),
-                          letters(MOD_RNA_STRING_CODEC)),
-                  letters(MOD_RNA_STRING_CODEC))
+  ans <- sprintf(ms(regrbl(0.2,0.2,0.2), bg=TRUE)(ms(regrbl(0,1,0))("%s")),
+                 letters(MOD_RNA_STRING_CODEC))
+  names(ans) <- letters(MOD_RNA_STRING_CODEC)
   # base colours
-  ans["A"] <- make_style(rgb(1, 0.5, 0.5), bg=TRUE)(make_style("black")("A"))
-  ans["C"] <- make_style(rgb(0.5, 1, 0.5), bg=TRUE)(make_style("black")("C"))
-  ans["G"] <- make_style(rgb(0.5, 1, 1), bg=TRUE)(make_style("black")("G"))
-  ans["U"] <- make_style(rgb(1, 0.8, 0.5), bg=TRUE)(make_style("black")("U"))
-  ans["N"] <- make_style("grey", bg=TRUE)(make_style(rgb(0.4,0.4,0.4))("N"))
+  ans["A"] <- ms(regrbl(1, 0.5, 0.5), bg=TRUE)(ms("black")("A"))
+  ans["C"] <- ms(regrbl(0.5, 1, 0.5), bg=TRUE)(ms("black")("C"))
+  ans["G"] <- ms(regrbl(0.5, 1, 1), bg=TRUE)(ms("black")("G"))
+  ans["U"] <- ms(regrbl(1, 0.8, 0.5), bg=TRUE)(ms("black")("U"))
+  ans["N"] <- ms("grey", bg=TRUE)(ms(regrbl(0.4,0.4,0.4))("N"))
   ans["-"] <- "-"
   ans["+"] <- "+"
   ans["."] <- "."

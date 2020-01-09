@@ -21,13 +21,13 @@
 
 \S4method{XStringSet}{ModStringSet}(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
 
-modsRNA
+data(modsRNA)
 
-modsDNA
+data(modsDNA)
 
-MOD_RNA_DICT_MODOMICS
+data(MOD_RNA_DICT_MODOMICS)
 
-MOD_RNA_DICT_TRNADB
+data(MOD_RNA_DICT_TRNADB)
 }
 \arguments{
 \item{seqtype, x, start, end, width, use.names}{used internally}
