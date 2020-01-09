@@ -29,6 +29,7 @@ XStringSetList <- Biostrings:::XStringSetList
 .check_fasta_index <- Biostrings:::.check_fasta_index
 
 # show functions
+.namesW <- Biostrings:::.namesW
 .toSeqSnippet <- Biostrings:::toSeqSnippet
 .compact_ellipsis <- Biostrings:::compact_ellipsis
 .XStringSet.show_frame_header <- Biostrings:::.XStringSet.show_frame_header
