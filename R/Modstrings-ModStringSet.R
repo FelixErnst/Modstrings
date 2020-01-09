@@ -190,8 +190,6 @@ setMethod(
 # Needs to be implemented since format messes up encoding. .format_utf8 is the
 # replacement
 
-.namesW <- 20
-
 .format_utf8 <- function(x,
                          width){
   missingNChar <- width - nchar(x)
