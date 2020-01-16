@@ -274,7 +274,7 @@ This is a quick example showing how sequence information containing modified
 nucleotides can be imported into an R session using the `Modstrings` package.
 The file needs to be UTF-8 encoded.
 
-```{r cars}
+```{r }
 # read the lines
 test <- readLines(system.file("extdata","test.fasta",package = "Modstrings"),
                       encoding = "UTF-8")
@@ -289,12 +289,14 @@ names <- gsub(" ","_",
                         names)))
 seq <- gsub("-","",gsub("_","",seq))
 names(seq) <- names
-
+```
+```{r }
 # sanitize special characters to Modstrings equivalent
 seq <- sanitizeFromModomics(seq)
 seq <- ModRNAStringSet(seq)
 seq
-
+```
+```{r }
 # convert the contained modifications into a tabular format
 separate(seq)
 ```
