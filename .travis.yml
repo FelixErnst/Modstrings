@@ -1,6 +1,5 @@
 language: r
 r:
-  - bioc-release
   - bioc-devel
 before_install:
   - sudo apt-get update
