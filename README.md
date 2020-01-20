@@ -1,6 +1,6 @@
-# Modstrings: implementation of Biostrings to work with nucleotide sequences containing modified nucleotides
+# Modstrings: implementation of Biostrings to work with nucleotide sequences containing modified nucleotides [![Build Status](https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master)](https://travis-ci.com/FelixErnst/Modstrings) [![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
 
-<img src="https://github.com/FelixErnst/BiocStickers/blob/Modstrings/Modstrings/Modstrings.png" height="300" align="right">
+<img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="300" align="right">
 
 RNA are usually in some form post-transcriptionally modified. Most prominent
 examples are of course rRNA and tRNA, but in recent years mRNA was also
