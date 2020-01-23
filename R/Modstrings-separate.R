@@ -22,10 +22,10 @@ NULL
                        stringset)
   names(MIndexList) <- pattern[f]
   f_found <- vapply(MIndexList,
-              function(mi){
-                any(lengths(width(mi)) > 0L)
-              },
-              logical(1))
+                    function(mi){
+                      any(lengths(width(mi)) > 0L)
+                    },
+                    logical(1))
   if(sum(f_found) != sum(f)){
     stop("Something went wrong.")
   }
@@ -194,8 +194,8 @@ setMethod(
 # is valid
 .combine_to_new_nc_ident <- function(gr, seqtype)
 {
-  nc_type <- .get_nc_type(mcols(gr)$mod, seqtype)
-  nc <- .get_nc_ident(mcols(gr)$mod, seqtype, nc_type)
+  nc_type <- .get_nc_type(gr$mod,seqtype)
+  nc <- .get_nc_ident(gr$mod,seqtype,nc_type)
   if(is.null(nc)){
     return(gr)
   }
@@ -203,9 +203,9 @@ setMethod(
   f <- tmp %in% (seq_len(10)-1L)
   base <- unique(unlist(tmp[!f]))
   if(length(base) != 1L){
-    stop("Multiple modifications found for position '",unique(start(gr)),"'.",
-         "They could not be combined into a single modification since the base ",
-         "nucleotides do not match.",
+    stop("Multiple modifications found for position '",unique(start(gr)),"'. ",
+         "They could not be combined into a single modification since the base",
+         " nucleotides do not match.",
          call. = FALSE)
   }
   newnc <- vapply(tmp[f],
@@ -238,7 +238,7 @@ setMethod(
   if(length(overlappingPos) > 0L){
     newgr <- lapply(overlappingPos,
                     function(i){
-                      .combine_to_new_nc_ident(gr[start(gr) == i,], seqtype)
+                      .combine_to_new_nc_ident(gr[start(gr) == i,],seqtype)
                     })
     gr <- gr[!(start(gr) %in% overlappingPos)]
     gr <- unlist(GRangesList(c(list(gr),newgr)))
@@ -246,14 +246,14 @@ setMethod(
   }
   gr
 }
-.combine_modifications_in_GRanges <- function(gr, seqtype){
+.combine_modifications_in_GRanges <- function(gr,seqtype){
   .combine_modifications(gr,seqtype)
 }
-.combine_modifications_in_GRangesList <- function(gr, seqtype){
+.combine_modifications_in_GRangesList <- function(gr,seqtype){
   gr <- GRangesList(lapply(gr,
-               function(g){
-                 .combine_modifications(g,seqtype)
-               }))
+                           function(g){
+                             .combine_modifications(g,seqtype)
+                           }))
   gr
 }
 
@@ -266,7 +266,7 @@ setMethod(
          "XStringSet object.",
          call. = FALSE)
   }
-  if(unique(width(gr)) != 1){
+  if(any(unique(width(gr)) != 1)){
     stop("width() of GRanges elements must all be == 1",
          call. = FALSE)
   }
@@ -282,12 +282,13 @@ setMethod(
   .get_nc_type(gr$mod,seqtype)
   # this can also be done with checking the findOverlaps(gr) length. This
   # should however be faster
-  if(any(duplicated(start(gr)))){
+  f <- duplicated(start(gr))
+  if(any(f)){
     if(!is.null(mcols(gr)$quality)){
       stop("Multiple modifications found for position '",start(gr)[f],"'.",
            call. = FALSE)
     }
-    gr <- .combine_modifications_in_GRanges(gr, seqtype)
+    gr <- .combine_modifications_in_GRanges(gr,seqtype)
     if(any(duplicated(start(gr)))){
       f <- which(duplicated(start(gr)))
       stop("Multiple modifications found for position '",start(gr)[f],"'.",
@@ -321,15 +322,8 @@ setMethod(
          " for the XStringSet object.",
          call. = FALSE)
   }
-  if(unique(unlist(width(gr))) != 1){
+  if(any(unique(unlist(width(gr))) != 1)){
     stop("width() of GRangesList elements must all be == 1",
-         call. = FALSE)
-  }
-  modCol <- vapply(gr,
-                   function(z){"mod" %in% colnames(S4Vectors::mcols(z))},
-                   logical(1))
-  if(!all(modCol)){
-    stop("Elements of the GRangesList object do not contain a 'mod' column.",
          call. = FALSE)
   }
   # check if modifications are compatible with type of input string

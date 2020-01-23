@@ -4,11 +4,23 @@ test_that("ModString separate/combine:",{
   seq <- ModDNAString(dnaTestSeq)
   gr <- separate(seq)
   #
-  expect_true(all(is.na(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModRNA", "short"))))
-  expect_equal(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModRNA", "nc"),
-               mcols(gr)$mod)
-  expect_equal(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModDNA", "nc"),
-               mcols(gr)$mod)
+  gr2 <- gr
+  strand(gr2[1]) <- "-"
+  expect_warning(combineIntoModstrings(as(seq,"DNAString"),gr2),
+                 "Annotations on the minus strand will not be used.")
+  gr2 <- gr
+  end(gr2[2]) <- 60L 
+  start(gr2[2]) <- 60L 
+  expect_error(expect_warning(combineIntoModstrings(as(seq,"DNAString"),gr2)),
+               "GRanges object contains coordinates out of bounds")
+  start(gr2[2]) <- 10L
+  end(gr2[2]) <- 11L
+  expect_error(combineIntoModstrings(as(seq,"DNAString"),gr2),
+               "width\\(\\) of GRanges elements must all be == 1")
+  gr2 <- gr
+  mcols(gr2)$mod <- NULL
+  expect_error(combineIntoModstrings(as(seq,"DNAString"),gr2),
+               "GRanges object does not contain a 'mod' column.")
   #
   expect_equal(length(gr),47)
   seq2 <- combineIntoModstrings(as(seq,"DNAString"),gr)
@@ -18,6 +30,18 @@ test_that("ModString separate/combine:",{
   rnaTestSeq <- paste(alphabet(ModRNAString()), collapse = "")
   seq <- ModRNAString(rnaTestSeq)
   gr <- separate(seq)
+  #
+  gr2 <- gr
+  gr2 <- gr2[c(5,24)]
+  start(gr2) <- 13L
+  end(gr2) <- 13L
+  actual <- combineIntoModstrings(as(seq,"RNAString"),gr2)
+  expect_equal(length(separate(actual)),1L)
+  expect_equal(unname(separate(actual)$mod),"m1Am")
+  mcols(gr2)$quality <- 10L
+  expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
+               "Multiple modifications found for position '13'.")
+  #
   expect_equal(length(gr),145)
   seq2 <- combineIntoModstrings(as(seq,"RNAString"),gr)
   expect_equal(as.character(seq2),as.character(seq))
@@ -46,6 +70,32 @@ test_that("ModString separate/combine:",{
                            "C" = rnaTestSeq))
   gr <- separate(set)
   expect_equal(length(gr),435)
+  #
+  expect_error(combineIntoModstrings(as(set,"RNAStringSet"),
+                                     GenomicRanges::GRangesList()),
+               "'gr' is empty \\(length\\(\\) == 0L\\)")
+  expect_error(combineIntoModstrings(unname(as(set,"RNAStringSet")),gr),
+               "Names of XStringSet object do not match the seqnames")
+  gr2 <- gr
+  end(gr2[1]) <- 200L
+  start(gr2[1]) <- 200L
+  expect_error( combineIntoModstrings(as(set,"RNAStringSet"),gr2),
+                "Elements of the GRangesList object contain coordinates out")
+  gr2 <- gr
+  end(gr2[1]) <- 10L
+  expect_error(combineIntoModstrings(as(set,"RNAStringSet"),gr2),
+               "width\\(\\) of GRangesList elements must all be == 1")
+  gr2 <- gr
+  gr2 <- gr2[c(5,24)]
+  start(gr2) <- 13L
+  end(gr2) <- 13L
+  actual <- combineIntoModstrings(as(set,"RNAStringSet"),gr2)
+  expect_equal(length(separate(actual)),1L)
+  expect_equal(unname(separate(actual)$mod),"m1Am")
+  mcols(gr2)$quality <- 10L
+  expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
+               "Multiple modifications found for position '13'.")
+  #
   set2 <- combineIntoModstrings(as(set,"RNAStringSet"),gr)
   expect_equal(as.character(set2),as.character(set))
   expect_s4_class(set2,"ModRNAStringSet")
