@@ -6,11 +6,11 @@ NULL
 additional_base_codes <- c(N = 15L, `-` = 16L, `+` = 32L, `.` = 64L)
 
 .load_mod_dictionary <- function(file){
+  on.exit({close(con)})
   con <- file(file)
   file <- stringr::str_split(readLines(con,
                                        encoding = "UTF-8"),
                              "\t")
-  close(con)
   # remove commented lines
   file <- file[!substr(lapply(file,"[",1),1,1) %in% c("#","")]
   #

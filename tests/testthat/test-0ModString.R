@@ -15,6 +15,19 @@ test_that("ModString:",{
   expect_equal(length(ModRNAString(rnaTestSeq)),nchar(rnaTestSeq))
   rnaTestSeq <- paste0(rnaTestSeq,rnaTestSeq,rnaTestSeq)
   expect_equal(as.character(ModRNAString(rnaTestSeq)),rnaTestSeq)
+  actual <- ModDNAString("AGCT7")
+  actual2 <- actual
+  seqtype(actual2) <- "ModDNA"
+  expect_equal(actual,actual2)
+  expect_s3_class(as.vector(actual),"factor")
+  expect_type(as.vector(actual),"integer")
+  expect_output(show(actual))
+  # comparison
+  expect_error(ModDNAString("AGCT") == ModRNAString("AGCT"))
+  expect_true(ModDNAString("AGCT") == DNAString("AGCT"))
+  # internals
+  expect_s4_class(Modstrings:::sharedXVector(actual),"SharedRaw")
+  expect_type(Modstrings:::offsetXVector(actual),"integer")
 })
 context("ModStringSet")
 test_that("ModStringSet:",{

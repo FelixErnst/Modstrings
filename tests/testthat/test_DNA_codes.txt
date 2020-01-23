@@ -1,0 +1,5 @@
+name	short_name	abbrev	orig_base	nc	value	oneByteInteger
+5-putrescinylthymine	5pT	p	T	5pT	3	112
+3-methylthymine	3mT	δ	T	3mT	5	1
+O4-methylthymine	O4meT	O	T	O4meT	6	79
+1-methylthymine	1mT	]	T	1mT	7	93

@@ -31,13 +31,13 @@ NULL
 #' @export
 setMethod("alphabet", "ModString",
           function(x, baseOnly = FALSE){
-            names(xscodes(x, baseOnly = baseOnly, multiByteLetterNames = TRUE))
+            names(xscodes(x, baseOnly = baseOnly))
           })
 #' @rdname alphabet
 #' @export
 setMethod("alphabet", "ModStringSet",
           function(x, baseOnly = FALSE){
-            names(xscodes(x, baseOnly = baseOnly, multiByteLetterNames = TRUE))
+            names(xscodes(x, baseOnly = baseOnly))
           })
 #' @rdname alphabet
 #' @export
@@ -141,22 +141,19 @@ setClassUnion("Modstrings", c("ModString","ModStringSet"))
 
 #' @importFrom Biostrings xscodes
 setMethod("xscodes","Modstrings",
-          function(x, baseOnly = FALSE, multiByteLetterNames = FALSE){
+          function(x, baseOnly = FALSE){
             if (!assertive::is_a_bool(baseOnly)){
-              stop("'baseOnly' must be TRUE or FALSE")
-            }
-            if (!assertive::is_a_bool(multiByteLetterNames)){
               stop("'baseOnly' must be TRUE or FALSE")
             }
             switch(seqtype(x),
                    ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES,
                                               .DNA_BASE_CODES,
                                               baseOnly,
-                                              multiByteLetterNames),
+                                              multiByteLetterNames = TRUE),
                    ModRNA = .ModDNAorRNAcodes(MOD_RNA_BASE_CODES,
                                               .RNA_BASE_CODES,
                                               baseOnly,
-                                              multiByteLetterNames),
+                                              multiByteLetterNames = TRUE),
                    0:255
             )
           })

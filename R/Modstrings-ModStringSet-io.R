@@ -327,7 +327,7 @@ NULL
     #
     f <- seq_along(ans)
     if(nrec > -1L){
-      f <- (skip + 1L):(skip + 1L + nrec)
+      f <- f[f %in% (skip + 1L):(skip + 1L + nrec - 1L)]
     }
     ans <- ans[f]
     qual <- qual[f]
@@ -337,7 +337,7 @@ NULL
   ans <- do.call(c,lapply(ans,paste0(elementType,"Set")))
   f <- seq_along(ans)
   if(nrec > -1L){
-    f <- (skip + 1L):(skip + 1L + nrec)
+    f <- f[f %in% (skip + 1L):(skip + 1L + nrec - 1L)]
   }
   ans <- ans[f]
   ans
@@ -484,9 +484,11 @@ readModRNAStringSet <- function(filepath, format = "fasta", nrec = -1L,
     qualities <- mcols(x)$qualities
   if (!is.null(qualities)) {
     if (!is(qualities, "BStringSet"))
-      stop(wmsg("'qualities' must be NULL or a BStringSet object"))
+      stop("'qualities' must be NULL or a BStringSet object",
+           call. = FALSE)
     if (length(qualities) != length(x))
-      stop(wmsg("'x' and 'qualities' must have the same length"))
+      stop("'x' and 'qualities' must have the same length",
+           call. = FALSE)
   }
   length <- length(x)
   chunk_size <- 100
@@ -542,11 +544,14 @@ writeModStringSet <- function(x, filepath, append = FALSE, compress = FALSE,
   res <- try(switch(format,
                     "fasta" = .write_ModStringSet_to_fasta(x, con, ...),
                     "fastq" = .write_ModStringSet_to_fastq(x, con, ...)),
-             silent = FALSE)
+             silent = TRUE)
   close(con)
-  if (is(res, "try-error") && !append) {
-    if (!file.remove(filepath2))
-      warning("cannot remove file '", filepath2, "'")
+  if (is(res, "try-error")) {
+    if (!append) {
+      if (!file.remove(filepath2))
+        warning("cannot remove file '", filepath2, "'")
+    }
+    stop(res,call. = FALSE)
   }
   invisible(NULL)
 }

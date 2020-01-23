@@ -270,21 +270,8 @@ setAs("XString", "ModRNAString",
 setAs("character", "ModDNAString", function(from) ModDNAString(from))
 #' @export
 setAs("character", "ModRNAString", function(from) ModRNAString(from))
-#' @export
-setMethod(
-  "as.vector", "ModString",
-  function(x){
-    codec <- modscodec(seqtype(x))
-    x_alphabet <- letters(codec)
-    code2pos <- as.integer(unlist(lapply(oneByteCodes(codec), charToRaw)))
-    x_alphabet <- x_alphabet[order(code2pos)]
-    ans <- as.integer(x)
-    attributes(ans) <- list(levels = x_alphabet, class = "factor")
-    as.vector(ans)
-  }
-)
 
-# Show 
+# Show -------------------------------------------------------------------------
 
 ### Placeholder, initialized in .onLoad()
 MODDNA_COLORED_LETTERS <- NULL

@@ -73,8 +73,7 @@ setMethod("alphabetFrequency", "ModDNAString",
           function(x, as.prob = FALSE, baseOnly = FALSE)
           {
             ans <- .XString.nucleotide_frequency(x, as.prob, baseOnly)
-            names(ans) <- names(xscodes(x, baseOnly = baseOnly,
-                                        multiByteLetterNames = TRUE))
+            names(ans) <- names(xscodes(x, baseOnly = baseOnly))
             ans
           }
 )
@@ -84,8 +83,7 @@ setMethod("alphabetFrequency", "ModRNAString",
           function(x, as.prob = FALSE, baseOnly = FALSE)
           {
             ans <- .XString.nucleotide_frequency(x, as.prob, baseOnly)
-            names(ans) <- names(xscodes(x, baseOnly = baseOnly,
-                                        multiByteLetterNames = TRUE))
+            names(ans) <- names(xscodes(x, baseOnly = baseOnly))
             ans
           }
 )
@@ -96,8 +94,7 @@ setMethod("alphabetFrequency", "ModDNAStringSet",
           {
             ans <- .XStringSet.nucleotide_frequency(x, as.prob, collapse,
                                                     baseOnly)
-            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly,
-                                           multiByteLetterNames = TRUE))
+            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly))
             ans
           }
 )
@@ -108,8 +105,7 @@ setMethod("alphabetFrequency", "ModRNAStringSet",
           {
             ans <- .XStringSet.nucleotide_frequency(x, as.prob, collapse,
                                                     baseOnly)
-            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly,
-                                           multiByteLetterNames = TRUE))
+            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly))
             ans
           }
 )
@@ -145,7 +141,7 @@ setMethod(
   function(x, as.prob = FALSE, shift = 0L, width = NULL, baseOnly = FALSE)
   {
     ans <- callNextMethod()
-    rownames(ans) <- names(xscodes(x, multiByteLetterNames = TRUE))
+    rownames(ans) <- names(xscodes(x))
     ans
   }
 )
