@@ -35,7 +35,7 @@ NULL
       stop("'at' must be a matrix or list of logicals",
            call. = FALSE)
     }
-    if (length(at) != length(x) || lengths(at) != x_width){
+    if (length(at) != length(x) || any(lengths(at) != x_width)){
       stop("'x' and 'at' must have the same dimensions",
            call. = FALSE)
     }
@@ -52,13 +52,13 @@ NULL
 }
 
 .check_letter_ModStringSet <- 
-  function(x, at,letter, .xname = assertive::get_name_in_parent(letter))
+  function(x, at, letter, .xname = assertive::get_name_in_parent(letter))
 {
   if (length(letter) != length(x)){
     stop("'x' and '",.xname,"' must have the same length",
          call. = FALSE)
   }
-  if(is.list(letter)){
+  if(is.list(letter) || is(letter,"List")){
     lengths <- lengths(letter)
   } else {
     lengths <- width(letter)
@@ -178,17 +178,17 @@ setMethod(
   {
     .check_verbose(verbose)
     if (length(x) == 0L){
-      stop("'x' has no element")
+      stop("'x' has no element", call. = FALSE)
     }
-    .norm_replace_pos_ModStringSet(x,
-                                   at)
+    .norm_replace_pos_ModStringSet(x, at)
     if (is(letter, "ModStringSet")){
       letter <- as.character(letter)
     }
     else if (!is.character(letter)){
-      stop("'letter' must be a ModStringSet object or a character vector")
+      stop("'letter' must be a ModStringSet object or a character vector",
+           call. = FALSE)
     }
-    .check_letter_ModStringSet(x,at,letter)
+    .check_letter_ModStringSet(x, at, letter)
     unlisted_x <- unlist(x, use.names = FALSE)
     if(is.list(at)){
       at <- unlist(at)

@@ -71,6 +71,11 @@ test_that("Writing and Reading ModStringSet:",{
   writeModStringSet(set, file, format = "fastq", qualities = qualities)
   read2 <- readQualityScaledModDNAStringSet(file)
   expect_equal(read,read2)
+  expect_error(writeQualityScaledModStringSet(set, file),
+               "'x' must be a QualityScaledXStringSet object")
+  writeQualityScaledModStringSet(read, file)
+  read2 <- readQualityScaledModDNAStringSet(file)
+  expect_equal(read,read2)
   ####################
   seqs <- paste0(paste(alphabet(ModRNAString()), collapse = ""),
                  c("A","G","C"))

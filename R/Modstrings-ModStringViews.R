@@ -57,13 +57,14 @@ setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
 #' @export
 setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 #' @export
+setAs("ModStringViews", "ModStringSet",
+      function(from){
+        as(from, paste0(seqtype(from),"StringSet"))
+      })
+#' @export
 setAs("ModStringSet", "Views", .XStringSetAsViews)
 #' @export
 setAs("ModStringSet", "ModStringViews", .XStringSetAsViews)
-#' @export
-setAs("ModStringViews", "ModDNAStringSet", function(from) ModDNAStringSet(from))
-#' @export
-setAs("ModStringViews", "ModRNAStringSet", function(from) ModRNAStringSet(from))
 
 
 # Comparison
@@ -79,7 +80,8 @@ setMethod("==", signature(e1 = "ModStringViews", e2 = "ModStringViews"),
               class2 <- class(subject(e2))
               stop("comparison between XStringViews objects with subjects of ",
                    "class \"", class1, "\" and \"", class2, "\" ",
-                   "is not supported")
+                   "is not supported",
+                   call. = FALSE)
             }
             .XStringViews.equal(e1, e2)
           }
@@ -92,7 +94,8 @@ setMethod("==", signature(e1 = "ModStringViews", e2 = "ModStringViews"),
     class2 <- class(e2)
     stop("comparison between an XStringViews object with a subject of ",
          "class \"", class1, "\" and a \"", class2, "\" instance ",
-         "is not supported")
+         "is not supported",
+         call. = FALSE)
   }
   .XStringViews.equal(e1, as(e2, "Views"))
 }

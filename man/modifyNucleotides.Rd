@@ -45,16 +45,17 @@ logical vectors.}
 
 \item{mod}{The modification short name or nomenclature
 
-If x is a \code{\link{ModString}} object, then letter must be a 
-\code{\link{ModString}} object or a character vector (with no NAs) with a 
-total number of letters (sum(nchar(letter))) equal to the number of locations
-specified in at.
+If \code{x} is a \code{\link{ModString}} object, then letter must be a 
+\code{\link{ModString}} object or a character vector (with no \code{NA}) with
+a total number of letters \code{(sum(nchar(letter)))} equal to the number of
+locations specified in at.
 
-If x is a rectangular \code{\link{ModStringSet}} object, then letter must be
-a \code{\link{ModStringSet}} object or a character vector of the same length
-as x. In addition, the number of letters in each element of letter must match
+If \code{x} is a rectangular \code{\link{ModStringSet}} object, then letter
+must be a \code{\link{ModStringSet}} object, a list of character vectors or a
+\code{\link[IRanges:AtomicList-class]{CharacterList}} of the same length as
+x. In addition, the number of letters in each element of letter must match
 the number of locations specified in the corresponding row of at
-(all(width(letter) == rowSums(at)))}
+\code{(all(width(letter) == rowSums(at)))}.}
 
 \item{nc.type}{the type of nomenclature to be used. Either "short" or "nc".
 "Short" for m3C would be "m3C", "nc" for m3C would be "3C". (

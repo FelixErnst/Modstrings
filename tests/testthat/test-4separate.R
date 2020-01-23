@@ -3,6 +3,13 @@ test_that("ModString separate/combine:",{
   dnaTestSeq <- paste(alphabet(ModDNAString()), collapse = "")
   seq <- ModDNAString(dnaTestSeq)
   gr <- separate(seq)
+  #
+  expect_true(all(is.na(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModRNA", "short"))))
+  expect_equal(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModRNA", "nc"),
+               mcols(gr)$mod)
+  expect_equal(Modstrings:::.get_nc_ident(mcols(gr)$mod, "ModDNA", "nc"),
+               mcols(gr)$mod)
+  #
   expect_equal(length(gr),47)
   seq2 <- combineIntoModstrings(as(seq,"DNAString"),gr)
   expect_equal(as.character(seq2),as.character(seq))

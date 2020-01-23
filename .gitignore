@@ -27,12 +27,4 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
-inst/doc
-Biostrings
-IRanges
-S4Vectors
-XVector
-GenomicRanges
-R-patched
-ViennaRNA-2.4.10
-*.fasta
+

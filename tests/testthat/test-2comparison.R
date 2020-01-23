@@ -1,5 +1,8 @@
 context("Sequence comparison")
 test_that("Sequence comparison:",{
+  r <- DNAString("ACGTG")
+  mr <- modifyNucleotides(r,5,"7mG")
+  #
   r <- RNAString("ACGUG")
   rs <- RNAStringSet(list(r,r,r,r,r))
   names(rs) <- paste0("Sequence", seq_along(rs))

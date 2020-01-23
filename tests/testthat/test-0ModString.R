@@ -28,6 +28,12 @@ test_that("ModString:",{
   # internals
   expect_s4_class(Modstrings:::sharedXVector(actual),"SharedRaw")
   expect_type(Modstrings:::offsetXVector(actual),"integer")
+  expect_type(shortName(actual),"character")
+  expect_type(fullName(actual),"character")
+  expect_type(nomenclature(actual),"character")
+  expect_true(all(shortName(actual) == nomenclature(actual)))
+  actual <- ModRNAString("AGCT7")
+  expect_true(all(shortName(actual) != nomenclature(actual)))
 })
 context("ModStringSet")
 test_that("ModStringSet:",{
@@ -56,6 +62,11 @@ test_that("ModStringSet:",{
   expect_equal(as.character(ModRNAStringSet(list(ModRNAString(seqs[1]),
                                                  ModRNAString(seqs[2]))[2])),
                unname(seqs[2]))
+  #
+  expect_type(shortName(actual),"character")
+  expect_type(fullName(actual),"character")
+  expect_type(nomenclature(actual),"character")
+  expect_true(all(shortName(actual) != nomenclature(actual)))
 })
 context("ModStringSetList")
 test_that("ModStringSetList:",{

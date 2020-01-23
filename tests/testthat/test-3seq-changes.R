@@ -1,18 +1,61 @@
 context("Sequence changes")
 test_that("Sequence changes:",{
   seq <- ModDNAString("AGTC")
+  expect_error(replaceLetterAt(seq,c(3,4),"CT",verbose = 1),
+               "'verbose' must be TRUE or FALSE")
+  expect_error(replaceLetterAt(seq,c(3,4),1),
+               "'letter' must be a ModString object or a character vector")
+  expect_error(replaceLetterAt(seq,c(3),"CT"),
+               "total nb of letters in 'letter' must be the")
+  expect_error(replaceLetterAt(seq,"c(3)","CT"),
+               "'at' must be a vector of integers")
+  #
   actual <- replaceLetterAt(seq,c(3,4),"CT")
   expect_equal(as.character(actual),"AGCT")
   seq <- ModRNAString("AGUC")
   actual <- replaceLetterAt(seq,c(3,4),"CU")
   expect_equal(as.character(actual),"AGCU")
+  # replaceLetterAt
+  expect_error(replaceLetterAt(ModDNAStringSet()),
+               "'x' has no element")
   #
   set <- ModDNAStringSet(c(paste0("AGT",alphabet(ModDNAString())[12]),
                            paste0("AGT",alphabet(ModDNAString())[12])))
+  expect_error(replaceLetterAt(set, 1),
+               "'at' must be a matrix or list of logicals")
+  expect_error(replaceLetterAt(set,
+                               matrix(rep(c(FALSE,FALSE,TRUE,TRUE),1),
+                                      nrow = 1,
+                                      byrow = TRUE),
+                               1),
+               "'x' and 'at' must have the same dimensions")
+  expect_error(replaceLetterAt(set,
+                               matrix(rep(c(FALSE,FALSE,TRUE,TRUE),2),
+                                      nrow = 2,
+                                      byrow = TRUE),
+                               1),
+               "'letter' must be a ModStringSet object or a character vector")
+  expect_error(replaceLetterAt(set,
+                               matrix(rep(c(FALSE,FALSE,TRUE,TRUE),2),
+                                      nrow = 2,
+                                      byrow = TRUE),
+                               c("CT")),
+               "'x' and 'letter' must have the same length")
+  expect_error(replaceLetterAt(set,
+                               matrix(rep(c(0,1,2,3),2),
+                                      nrow = 2,
+                                      byrow = TRUE),
+                               c("CT","CT")),
+               "'at' must be a matrix or list of logicals")
   actual <- replaceLetterAt(set,
                             matrix(rep(c(FALSE,FALSE,TRUE,TRUE),2),
                                    nrow = 2,
                                    byrow = TRUE),
+                            c("CT","CT"))
+  expect_equal(as.character(actual),c("AGCT","AGCT"))
+  actual <- replaceLetterAt(set,
+                            list(c(FALSE,FALSE,TRUE,TRUE),
+                                 c(FALSE,FALSE,TRUE,TRUE)),
                             c("CT","CT"))
   expect_equal(as.character(actual),c("AGCT","AGCT"))
   set <- ModRNAStringSet(c("AGUC","AGUC"))
@@ -22,7 +65,7 @@ test_that("Sequence changes:",{
                                    byrow = TRUE),
                             c("CU","CU"))
   expect_equal(as.character(actual),c("AGCU","AGCU"))
-  #
+  # modifyNucleotides
   seq <- ModDNAString("AGTC")
   actual <- modifyNucleotides(seq,c(1,2,4),c("1mA","7mG","3mC"))
   expect_equal(as.character(actual),"\"7T'")
@@ -30,13 +73,51 @@ test_that("Sequence changes:",{
   actual <- modifyNucleotides(seq,c(1,2,3,4),c("m1A","m7G","D","m3C"))
   expect_equal(as.character(actual),"\"7D'")
   #
+  expect_error(modifyNucleotides(ModDNAStringSet(),
+                                 matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
+                                        nrow = 2,
+                                        byrow = TRUE),
+                                 list(c("1mA","7mG","3mC"),
+                                      c("1mA","7mG","3mC"))),
+               "'x' has no element")
   set <- ModDNAStringSet(c("AGTC","AGTC"))
+  expect_error(modifyNucleotides(set,
+                                 matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
+                                        nrow = 2,
+                                        byrow = TRUE),
+                                 list(c("1mA","7mG","3mC"))),
+               "'x' and 'mod' must have the same length")
+  expect_error(modifyNucleotides(set,
+                                 matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
+                                        nrow = 2,
+                                        byrow = TRUE),
+                                 1),
+               "'mod' must be a ModStringSet object, a list")
   actual <- modifyNucleotides(set,
                               matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
                                      nrow = 2,
                                      byrow = TRUE),
                               list(c("1mA","7mG","3mC"),
                                    c("1mA","7mG","3mC")))
+  expect_equal(as.character(actual),c("\"7T'","\"7T'"))
+  actual <- modifyNucleotides(set,
+                              list(c(TRUE,TRUE,FALSE,TRUE),
+                                   c(TRUE,TRUE,FALSE,TRUE)),
+                              list(c("1mA","7mG","3mC"),
+                                   c("1mA","7mG","3mC")))
+  expect_equal(as.character(actual),c("\"7T'","\"7T'"))
+  actual <- modifyNucleotides(set,
+                              matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
+                                     nrow = 2,
+                                     byrow = TRUE),
+                              IRanges::CharacterList(c("1mA","7mG","3mC"),
+                                                     c("1mA","7mG","3mC")))
+  expect_equal(as.character(actual),c("\"7T'","\"7T'"))
+  actual <- modifyNucleotides(set,
+                              matrix(rep(c(TRUE,TRUE,FALSE,TRUE),2),
+                                     nrow = 2,
+                                     byrow = TRUE),
+                              ModDNAStringSet(c("\"7'","\"7'")))
   expect_equal(as.character(actual),c("\"7T'","\"7T'"))
   set <- ModRNAStringSet(c("AGUC","AGUC"))
   actual <- modifyNucleotides(set,

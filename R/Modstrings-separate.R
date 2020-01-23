@@ -177,12 +177,25 @@ setMethod(
 
 # trying to combine modifications if possible ----------------------------------
 
+# return the nc independent whether shortName or nomenclature was used
+.get_nc_ident <- function(mod, seqtype, nc_type){
+  if(nc_type == "short"){
+    modNames <- names(modsshortnames(seqtype))
+    f <- match(mod,modNames)
+    return(names(modsnomenclature(seqtype))[f])
+  }
+  if(nc_type == "nc"){
+    return(mod)
+  }
+  stop("Something went wrong.", call. = FALSE)
+}
+
 # assembles a new modification from nomenclature and checks if the new type
 # is valid
 .combine_to_new_nc_ident <- function(gr, seqtype)
 {
-  nc_type <- .get_nc_type(gr$mod,seqtype)
-  nc <- .get_nc_ident(gr$mod,seqtype,nc_type)
+  nc_type <- .get_nc_type(mcols(gr)$mod, seqtype)
+  nc <- .get_nc_ident(mcols(gr)$mod, seqtype, nc_type)
   if(is.null(nc)){
     return(gr)
   }
@@ -225,7 +238,7 @@ setMethod(
   if(length(overlappingPos) > 0L){
     newgr <- lapply(overlappingPos,
                     function(i){
-                      .combine_to_new_nc_ident(gr[start(gr) == i,],seqtype)
+                      .combine_to_new_nc_ident(gr[start(gr) == i,], seqtype)
                     })
     gr <- gr[!(start(gr) %in% overlappingPos)]
     gr <- unlist(GRangesList(c(list(gr),newgr)))
@@ -233,10 +246,10 @@ setMethod(
   }
   gr
 }
-.combine_modifications_in_GRanges <- function(gr,seqtype){
+.combine_modifications_in_GRanges <- function(gr, seqtype){
   .combine_modifications(gr,seqtype)
 }
-.combine_modifications_in_GRangesList <- function(gr,seqtype){
+.combine_modifications_in_GRangesList <- function(gr, seqtype){
   gr <- GRangesList(lapply(gr,
                function(g){
                  .combine_modifications(g,seqtype)
@@ -274,7 +287,7 @@ setMethod(
       stop("Multiple modifications found for position '",start(gr)[f],"'.",
            call. = FALSE)
     }
-    gr <- .combine_modifications_in_GRanges(gr,seqtype)
+    gr <- .combine_modifications_in_GRanges(gr, seqtype)
     if(any(duplicated(start(gr)))){
       f <- which(duplicated(start(gr)))
       stop("Multiple modifications found for position '",start(gr)[f],"'.",

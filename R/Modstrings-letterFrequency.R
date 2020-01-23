@@ -67,14 +67,20 @@ setMethod("hasOnlyBaseLetters", "ModRNAStringSet",
           function(x) hasOnlyBaseLetters(RNAStringSet(x))
 )
 
+
+.ModStringSet.alphabet_frequency <- function(x, as.prob, baseOnly){
+  ans <- .XString.nucleotide_frequency(x, as.prob, baseOnly)
+  names(ans) <- names(xscodes(x, baseOnly = baseOnly))
+  ans
+}
+
 #' @rdname letterFrequency
 #' @export
 setMethod("alphabetFrequency", "ModDNAString",
           function(x, as.prob = FALSE, baseOnly = FALSE)
           {
-            ans <- .XString.nucleotide_frequency(x, as.prob, baseOnly)
-            names(ans) <- names(xscodes(x, baseOnly = baseOnly))
-            ans
+            .ModStringSet.alphabet_frequency(x, as.prob = as.prob,
+                                             baseOnly = baseOnly)
           }
 )
 #' @rdname letterFrequency
@@ -82,20 +88,30 @@ setMethod("alphabetFrequency", "ModDNAString",
 setMethod("alphabetFrequency", "ModRNAString",
           function(x, as.prob = FALSE, baseOnly = FALSE)
           {
-            ans <- .XString.nucleotide_frequency(x, as.prob, baseOnly)
-            names(ans) <- names(xscodes(x, baseOnly = baseOnly))
-            ans
+            .ModStringSet.alphabet_frequency(x, as.prob = as.prob,
+                                             baseOnly = baseOnly)
           }
 )
+
+.ModStringSet.alphabet_frequency_Set <- function(x, as.prob, collapse, baseOnly){
+  ans <- .XStringSet.nucleotide_frequency(x, as.prob, collapse,
+                                          baseOnly)
+  if(collapse){
+    names(ans) <- names(xscodes(x, baseOnly = baseOnly))
+  } else {
+    colnames(ans) <- names(xscodes(x, baseOnly = baseOnly))
+  }
+  ans
+}
+
 #' @rdname letterFrequency
 #' @export
 setMethod("alphabetFrequency", "ModDNAStringSet",
           function(x, as.prob = FALSE, collapse = FALSE, baseOnly = FALSE)
           {
-            ans <- .XStringSet.nucleotide_frequency(x, as.prob, collapse,
-                                                    baseOnly)
-            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly))
-            ans
+            .ModStringSet.alphabet_frequency_Set(x, as.prob = as.prob,
+                                                 collapse = collapse,
+                                                 baseOnly = baseOnly)
           }
 )
 #' @rdname letterFrequency
@@ -103,10 +119,9 @@ setMethod("alphabetFrequency", "ModDNAStringSet",
 setMethod("alphabetFrequency", "ModRNAStringSet",
           function(x, as.prob = FALSE, collapse = FALSE, baseOnly = FALSE)
           {
-            ans <- .XStringSet.nucleotide_frequency(x, as.prob, collapse,
-                                                    baseOnly)
-            colnames(ans) <- names(xscodes(x, baseOnly = baseOnly))
-            ans
+            .ModStringSet.alphabet_frequency_Set(x, as.prob = as.prob,
+                                                 collapse = collapse,
+                                                 baseOnly = baseOnly)
           }
 )
 

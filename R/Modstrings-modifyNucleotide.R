@@ -1,24 +1,11 @@
 #' @include Modstrings.R
 NULL
 
-# return the nc independent whether shortName or nomenclature was used
-.get_nc_ident <- function(mod,seqtype,nc_type){
-  if(nc_type == "short"){
-    modNames <- names(modsshortnames(seqtype))
-    f <- match(mod,modNames)
-    return(names(modsnomenclature(seqtype))[f])
-  }
-  if(nc_type == "nc"){
-    return(mod)
-  }
-  stop("Something went wrong.",
-       call. = FALSE)
-}
-
 # normalize the modification type using the nomenclature type
 .norm_seqtype_modtype <- function(mod,
                                   seqtype,
-                                  nc_type){
+                                  nc_type,
+                                  class){
   modNames <- switch(nc_type,
                      "short" = modsshortnames(seqtype),
                      "nc" = modsnomenclature(seqtype))
@@ -28,7 +15,7 @@ NULL
     stop("No modification for the identifiers '",
          paste(mod[!(mod %in% names(modNames))],
                collapse = "','"),
-         "' for a '",paste0(seqtype, "String"),"' found.",
+         "' for a '",class,"' found.",
          call. = FALSE)
   }
   modValues
@@ -62,16 +49,17 @@ NULL
 #' 
 #' @param mod The modification short name or nomenclature
 #' 
-#' If x is a \code{\link{ModString}} object, then letter must be a 
-#' \code{\link{ModString}} object or a character vector (with no NAs) with a 
-#' total number of letters (sum(nchar(letter))) equal to the number of locations
-#' specified in at.
+#' If \code{x} is a \code{\link{ModString}} object, then letter must be a 
+#' \code{\link{ModString}} object or a character vector (with no \code{NA}) with
+#' a total number of letters \code{(sum(nchar(letter)))} equal to the number of
+#' locations specified in at.
 #' 
-#' If x is a rectangular \code{\link{ModStringSet}} object, then letter must be
-#' a \code{\link{ModStringSet}} object or a character vector of the same length
-#' as x. In addition, the number of letters in each element of letter must match
+#' If \code{x} is a rectangular \code{\link{ModStringSet}} object, then letter
+#' must be a \code{\link{ModStringSet}} object, a list of character vectors or a
+#' \code{\link[IRanges:AtomicList-class]{CharacterList}} of the same length as
+#' x. In addition, the number of letters in each element of letter must match
 #' the number of locations specified in the corresponding row of at
-#' (all(width(letter) == rowSums(at)))
+#' \code{(all(width(letter) == rowSums(at)))}.
 #' 
 #' @param nc.type the type of nomenclature to be used. Either "short" or "nc".
 #' "Short" for m3C would be "m3C", "nc" for m3C would be "3C". (
@@ -112,7 +100,7 @@ setMethod(
       stop("lengths of 'at' and 'mod' need to be equal.",
            call. = FALSE)
     }
-    modValues <- .norm_seqtype_modtype(mod,seqtype(x),nc.type)
+    modValues <- .norm_seqtype_modtype(mod, seqtype(x), nc.type)
     codec <- modscodec(seqtype(x))
     f <- values(codec)[match(modValues, values(codec))]
     current_letter <- unlist(lapply(at,
@@ -158,14 +146,17 @@ setMethod(
     }
     .norm_replace_pos_ModStringSet(x,at)
     if (is(mod, "ModStringSet")) {
-      mod <- lapply(mod,
-                    function(m){
-                      unname(as.character(split(m,seq_len(length(m)))))
-                    })
+      tmp <- separate(mod, nc.type = nc.type)
+      mod <- split(unname(mcols(tmp)$mod), seqnames(tmp))
     }
-    if (!is.list(mod)){
-      stop("'mod' must be a ModStringSet object or a list of character vectors")
+    if (!is.list(mod) && !is(mod,"CharacterList")){
+      stop("'mod' must be a ModStringSet object, a list of character vectors ",
+           "or a CharacterList of the same length as 'x'",
+           call. = FALSE)
     }
+    # a preamptive check - return value is not used
+    .norm_seqtype_modtype(unlist(mod),seqtype(x),nc.type,class(x))
+    #
     .check_letter_ModStringSet(x,at,mod)
     unlisted_x <- unlist(x, use.names = FALSE)
     if(is.list(at)){
