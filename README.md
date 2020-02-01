@@ -9,7 +9,7 @@ discovered to be post-transcriptionally modified.
 In many resources, like the tRNAdb ([Juehling et al. 2009](#Literature)) or the
 modomics database ([Boccaletto et al. 2018](#Literature)), a dictionary for
 modified nucleotides was published. However, in the Bioconductor universe these
-information were not directly accessible ore representable, since they rely 
+information were not directly accessible or representable, since they rely 
 extensively on special characters in the RNA modification alphabet.
 
 Therefore, the`Modstrings` package implements the `ModRNAString` class by
