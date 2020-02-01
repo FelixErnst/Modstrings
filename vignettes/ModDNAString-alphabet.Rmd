@@ -35,7 +35,7 @@ colnames(df) <- c("modification",
                   "orig. base",
                   "abbreviation")
 knitr::kable(
-  df, caption = 'List of supported DNA modifications by ModDNAString objects.'
+  df, caption = 'List of DNA modifications supported by ModDNAString objects.'
 )
 ```
 
