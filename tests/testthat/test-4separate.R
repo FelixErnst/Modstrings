@@ -35,6 +35,14 @@ test_that("ModString separate/combine:",{
   gr2 <- gr2[c(5,24)]
   start(gr2) <- 13L
   end(gr2) <- 13L
+  #
+  expect_error(combineIntoModstrings(as(seq,"RNAString"),shift(gr2,1)),
+               "Modification type does not match")
+  expect_warning(expect_equal(as.character(combineIntoModstrings(as(seq,"RNAString"),shift(gr2,1),
+                                                                 stop.on.error = FALSE)),
+                              as.character(as(seq,"RNAString"))),
+                 "Modification type does not match")
+  #
   actual <- combineIntoModstrings(as(seq,"RNAString"),gr2)
   expect_equal(length(separate(actual)),1L)
   expect_equal(unname(separate(actual)$mod),"m1Am")

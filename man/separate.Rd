@@ -18,6 +18,7 @@ combineIntoModstrings(
   gr,
   with.qualities = FALSE,
   quality.type = "Phred",
+  stop.on.error = TRUE,
   verbose = FALSE,
   ...
 )
@@ -31,6 +32,7 @@ combineIntoModstrings(
   gr,
   with.qualities = FALSE,
   quality.type = "Phred",
+  stop.on.error = TRUE,
   verbose = FALSE,
   ...
 )
@@ -40,6 +42,7 @@ combineIntoModstrings(
   gr,
   with.qualities = FALSE,
   quality.type = "Phred",
+  stop.on.error = TRUE,
   verbose = FALSE,
   ...
 )
@@ -49,6 +52,7 @@ combineIntoModstrings(
   gr,
   with.qualities = FALSE,
   quality.type = "Phred",
+  stop.on.error = TRUE,
   verbose = FALSE,
   ...
 )
@@ -74,6 +78,10 @@ construct a \code{\link{QualityScaledModStringSet}} object.}
 \item{quality.type}{the type of \code{QualityXStringSet} used, if 
 \code{with.qualities = TRUE}. Must be on of the following values: 
 \code{"Phred","Solexa","Illumina"}.}
+
+\item{stop.on.error}{For \code{combineIntoModstrings}: \code{TRUE}(default)
+or \code{FALSE}: Should an error be raised upon encounter of incompatible 
+positions?}
 
 \item{verbose}{For \code{combineIntoModstrings}: \code{TRUE} or \code{FALSE}
 (default): Should verbose information reported on the positions filled with 

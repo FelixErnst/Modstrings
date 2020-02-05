@@ -11,19 +11,68 @@
 \title{Modifying nucleotides in a nucleotide sequence (or set of sequences) 
 at specified locations}
 \usage{
-modifyNucleotides(x, at, mod, nc.type = "short", verbose = FALSE)
+modifyNucleotides(
+  x,
+  at,
+  mod,
+  nc.type = "short",
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{ModString}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{ModString}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{ModStringSet}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{ModStringSet}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{DNAString}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{DNAString}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{RNAString}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{RNAString}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{DNAStringSet}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{DNAStringSet}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 
-\S4method{modifyNucleotides}{RNAStringSet}(x, at, mod, nc.type = c("short", "nc"), verbose = FALSE)
+\S4method{modifyNucleotides}{RNAStringSet}(
+  x,
+  at,
+  mod,
+  nc.type = c("short", "nc"),
+  stop.on.error = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{x}{a \code{\link{ModString}} or \code{\link{ModStringSet}} object}
@@ -60,6 +109,10 @@ the number of locations specified in the corresponding row of at
 \item{nc.type}{the type of nomenclature to be used. Either "short" or "nc".
 "Short" for m3C would be "m3C", "nc" for m3C would be "3C". (
 \code{default = "short"})}
+
+\item{stop.on.error}{For \code{combineIntoModstrings}: \code{TRUE}(default)
+or \code{FALSE}: Should an error be raised upon encounter of incompatible 
+positions?}
 
 \item{verbose}{See \code{\link[Biostrings]{replaceLetterAt}}.}
 }

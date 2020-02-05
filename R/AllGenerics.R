@@ -59,7 +59,8 @@ setGeneric(name = "nomenclature",
 #' @export
 setGeneric(name = "modifyNucleotides",
            signature = "x",
-           def = function(x, at, mod, nc.type = "short", verbose = FALSE)
+           def = function(x, at, mod, nc.type = "short", stop.on.error = TRUE,
+                          verbose = FALSE)
              standardGeneric("modifyNucleotides"))
 
 
@@ -76,5 +77,5 @@ setGeneric(name = "separate",
 setGeneric(name = "combineIntoModstrings",
            signature = c("x","gr"),
            def = function(x, gr, with.qualities = FALSE, quality.type = "Phred",
-                          verbose = FALSE, ...)
+                          stop.on.error = TRUE, verbose = FALSE, ...)
              standardGeneric("combineIntoModstrings"))

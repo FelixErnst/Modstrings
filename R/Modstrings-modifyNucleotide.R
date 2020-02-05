@@ -21,6 +21,14 @@ NULL
   modValues
 }
 
+.check_stop.on.error <- function(stop.on.error)
+{
+  if (!assertive::is_a_bool(stop.on.error)){
+    stop("'stop.on.error' must be TRUE or FALSE",
+         call. = FALSE)
+  }
+}
+
 #' @rdname modifyNucleotides
 #' 
 #' @title Modifying nucleotides in a nucleotide sequence (or set of sequences) 
@@ -64,6 +72,9 @@ NULL
 #' @param nc.type the type of nomenclature to be used. Either "short" or "nc".
 #' "Short" for m3C would be "m3C", "nc" for m3C would be "3C". (
 #' \code{default = "short"})
+#' @param stop.on.error For \code{combineIntoModstrings}: \code{TRUE}(default)
+#' or \code{FALSE}: Should an error be raised upon encounter of incompatible 
+#' positions?
 #' @param verbose See \code{\link[Biostrings]{replaceLetterAt}}.
 #' 
 #' @return the input \code{\link{ModString}} or \code{\link{ModStringSet}}
@@ -90,9 +101,11 @@ NULL
 setMethod(
   "modifyNucleotides",
   signature = "ModString",
-  definition = function(x, at, mod, nc.type =  c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type =  c("short","nc"),
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     .check_verbose(verbose)
+    .check_stop.on.error(stop.on.error)
     nc.type <- match.arg(nc.type)
     at <- .check_replace_pos_ModString(x,at)
     assertive::assert_all_are_non_empty_character(mod)
@@ -110,23 +123,35 @@ setMethod(
                                         gsub("Mod","",class(x))))
                                     }))
     if(any(originatingBase(codec)[f] != current_letter)){
-      mismatch <- which(originatingBase(codec)[f] != current_letter)
-      stop("Modification type does not match the originating base:",
-           paste("\n",
-                 current_letter[mismatch],
-                 "!=",
-                 originatingBase(codec)[f[mismatch]],
-                 " for ",
-                 mod[mismatch]),
-           call. = FALSE)
+      mismatch <- originatingBase(codec)[f] != current_letter
+      n <- min(5L, sum(mismatch))
+      msg <- paste0("Modification type does not match the originating base:",
+                    paste("\n",
+                          current_letter[mismatch][seq_len(n)],
+                          "!=",
+                          originatingBase(codec)[f[mismatch][seq_len(n)]],
+                          " for ",
+                          mod[mismatch][seq_len(n)],
+                          collapse = ""))
+      if(sum(mismatch) > 5L){
+        msg <- paste0(msg,"\nand more ...")
+      }
+      if(stop.on.error){
+        stop(msg, call. = FALSE)
+      } else {
+        warning(paste0(msg,"\nSkipping these position(s) ..."), call. = FALSE)
+      }
+    } else {
+      mismatch <- rep(FALSE,length(f))
     }
     letter <- letters(codec)[f]
     letter <- vapply(letter,
                      .convert_letters_to_one_byte_codes,
                      character(1),
                      modscodec(seqtype(x)))
-    for(i in seq_along(at)){
-      x <- .call_XString_replace_letter_at(x, at[i], letter[[i]], verbose)
+    for(i in seq_along(at[!mismatch])){
+      x <- .call_XString_replace_letter_at(x, at[!mismatch][i],
+                                           letter[!mismatch][[i]], verbose)
     }
     x
   }
@@ -137,9 +162,11 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "ModStringSet",
-  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type = c("short","nc"), 
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     .check_verbose(verbose)
+    .check_stop.on.error(stop.on.error)
     nc.type <- match.arg(nc.type)
     if (length(x) == 0L){
       stop("'x' has no element")
@@ -168,6 +195,7 @@ setMethod(
                                       at,
                                       unlist(mod),
                                       nc.type = nc.type,
+                                      stop.on.error = stop.on.error, 
                                       verbose = verbose)
     relist(unlisted_ans, x)
   }
@@ -178,10 +206,11 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "DNAString",
-  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type = c("short","nc"), 
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     modifyNucleotides(as(x,"ModDNAString"), at, mod, nc.type = nc.type,
-                      verbose = verbose)
+                      stop.on.error = stop.on.error, verbose = verbose)
   }
 )
 #' @rdname modifyNucleotides
@@ -189,10 +218,11 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "RNAString",
-  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type = c("short","nc"),
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     modifyNucleotides(as(x,"ModRNAString"), at, mod, nc.type = nc.type,
-                      verbose = verbose)
+                      stop.on.error = stop.on.error, verbose = verbose)
   }
 )
 #' @rdname modifyNucleotides
@@ -200,10 +230,11 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "DNAStringSet",
-  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type = c("short","nc"),
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     modifyNucleotides(as(x,"ModDNAStringSet"), at, mod, nc.type = nc.type,
-                      verbose = verbose)
+                      stop.on.error = stop.on.error, verbose = verbose)
   }
 )
 #' @rdname modifyNucleotides
@@ -211,9 +242,10 @@ setMethod(
 setMethod(
   "modifyNucleotides",
   signature = "RNAStringSet",
-  definition = function(x, at, mod, nc.type = c("short","nc"), verbose = FALSE)
+  definition = function(x, at, mod, nc.type = c("short","nc"),
+                        stop.on.error = TRUE, verbose = FALSE)
   {
     modifyNucleotides(as(x,"ModRNAStringSet"), at, mod, nc.type = nc.type,
-                      verbose = verbose)
+                      stop.on.error = stop.on.error, verbose = verbose)
   }
 )
