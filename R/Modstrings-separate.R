@@ -49,7 +49,6 @@ NULL
                                        ranges = ranges,
                                        strand = "+",
                                        mcols))
-  ans <- ans[order(seqnames(ans),start(ans))]
   if(any(!is.na(unlist(qualities)))){
     qualities <- matrix(unlist(qualities),nrow = nlength,byrow = TRUE)
     f_qualities <- matrix(unlist(lapply(coverage(split(ranges,f_names)),
@@ -58,6 +57,7 @@ NULL
                           byrow = TRUE)
     ans$quality <- t(qualities)[t(f_qualities)]
   }
+  ans <- ans[order(match(seqnames(ans),names(stringset)),start(ans))]
   ans
 }
 
@@ -415,6 +415,7 @@ setMethod(
     SIMPLIFY = FALSE)
   list
 }
+
 .pos_to_logical_matrix <- function(x, at)
 {
   width <- width(x)
