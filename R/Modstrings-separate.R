@@ -249,27 +249,28 @@ setMethod(
 # sort in new modification annotation
 .combine_modifications <- function(gr, seqtype)
 {
-  overlappingPos <- start(gr)[duplicated(start(gr))]
-  if(length(overlappingPos) > 0L){
-    newgr <- lapply(overlappingPos,
-                    function(i){
-                      .combine_to_new_nc_ident(gr[start(gr) == i,],seqtype)
-                    })
-    gr <- gr[!(start(gr) %in% overlappingPos)]
-    gr <- unlist(GRangesList(c(list(gr),newgr)))
-    gr <- gr[order(start(gr))]
+  f_dup <- duplicated(gr)
+  if(any(f_dup)){
+    overlappingPos <- gr[f_dup]
+    overlappingPos <- unique(overlappingPos)
+    f_gr <- gr %in% overlappingPos
+    newgr <- lapply(split(gr[f_gr],as.character(gr[f_gr])),
+                    .combine_to_new_nc_ident,
+                    seqtype)
+    newgr <- unlist(GenomicRanges::GRangesList(unname(newgr)))
+    gr <- c(gr[!f_gr],newgr)
+    gr <- gr[order(gr)]
   }
   gr
 }
 .combine_modifications_in_GRanges <- function(gr,seqtype){
   .combine_modifications(gr,seqtype)
 }
-.combine_modifications_in_GRangesList <- function(gr,seqtype){
-  gr <- GRangesList(lapply(gr,
-                           function(g){
-                             .combine_modifications(g,seqtype)
-                           }))
-  gr
+.combine_modifications_in_GRangesList <- function(gr, seqtype){
+  unlisted_gr <- unlist(gr)
+  unlisted_gr <- .combine_modifications(unlisted_gr, seqtype)
+  split(unname(unlisted_gr),
+        factor(names(unlisted_gr),unique(names(unlisted_gr))))
 }
 
 # normalize GRanges inputs and check compatibility for combineIntoModstrings
@@ -337,8 +338,8 @@ setMethod(
          " elements of the GRangesList object.",
          call. = FALSE)
   }
-  f <- names(x) %in% vapply(seqnames, unique, character(1))
-  m <- match(names(x),vapply(seqnames, unique, character(1)))
+  f <- names(x) %in% unlist(unique(seqnames))
+  m <- match(names(x), unlist(unique(seqnames)))
   m <- m[!is.na(m)]
   if(any(max(end(gr))[m] > width(x[f]))){
     stop("Elements of the GRangesList object contain coordinates out of bounds",
@@ -351,7 +352,7 @@ setMethod(
   }
   #
   starts <- start(gr)
-  starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
+  starts <- any(duplicated(starts))
   if(any(starts)){
     qualityCol <- "quality" %in% colnames(unlist(S4Vectors::mcols(gr,level="within")))
     if(any(qualityCol)){
@@ -673,6 +674,7 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
+    browser()
     gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
