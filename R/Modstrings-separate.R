@@ -674,7 +674,6 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
-    browser()
     gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
