@@ -159,9 +159,12 @@ setMethod(
 
 # remove any unneccessary information
 # warn if minus strand information are present
-.norm_GRanges <- function(gr)
+.norm_GRanges <- function(gr, drop.additional.columns = TRUE)
 {
-  mcols <- mcols(gr)[,colnames(mcols(gr)) %in% c("mod","quality"),drop = FALSE]
+  mcols <- mcols(gr)
+  if(drop.additional.columns){
+    mcols <- mcols[, colnames(mcols) %in% c("mod","quality"), drop = FALSE]
+  }
   gr <- GRanges(seqnames = as.character(seqnames(gr)),
                 ranges = ranges(gr),
                 strand = strand(gr),
@@ -172,12 +175,12 @@ setMethod(
   }
   gr[as.character(strand(gr)) %in% c("*","+")]
 }
-.norm_GRangesList <- function(gr)
+
+.norm_GRangesList <- function(gr, drop.additional.columns = TRUE)
 {
-  ans <- unlist(gr)
-  ans <- .norm_GRanges(ans)
-  split(ans,
-        seqnames(ans))
+  ans <- unlist(gr, use.names = FALSE)
+  ans <- .norm_GRanges(ans, drop.additional.columns)
+  split(ans, seqnames(ans))
 }
 
 
@@ -310,9 +313,9 @@ setMethod(
   gr
 }
 
-.norm_GRangesList_for_combine <- function(x,gr)
+.norm_GRangesList_for_combine <- function(x, gr, drop.additional.columns = TRUE)
 {
-  gr <- .norm_GRangesList(gr)
+  gr <- .norm_GRangesList(gr, drop.additional.columns)
   if(length(gr) == 0L){
     stop("'gr' is empty (length() == 0L)", call. = FALSE)
   }
@@ -659,7 +662,7 @@ setMethod(
     } else {
       gr <- split(unname(gr), names(gr))
     }
-    removeIncompatibleModifications(gr, x)
+    unlist(removeIncompatibleModifications(gr, x), use.names = FALSE)
   }
 )
 
@@ -670,7 +673,7 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
-    gr <- .norm_GRangesList_for_combine(x, gr)
+    gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
     m <- m[f]
