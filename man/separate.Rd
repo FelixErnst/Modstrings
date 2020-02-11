@@ -3,11 +3,15 @@
 \name{separate}
 \alias{separate}
 \alias{combineIntoModstrings}
+\alias{removeIncompatibleModifications}
 \alias{separate,ModString-method}
 \alias{separate,ModStringSet-method}
 \alias{combineIntoModstrings,XString,GRanges-method}
 \alias{combineIntoModstrings,XStringSet,GRangesList-method}
 \alias{combineIntoModstrings,XStringSet,GRanges-method}
+\alias{removeIncompatibleModifications,GRanges,XString-method}
+\alias{removeIncompatibleModifications,GRanges,XStringSet-method}
+\alias{removeIncompatibleModifications,GRangesList,XStringSet-method}
 \title{Separating and combining a ModString object into/from a XString and a 
 GRanges object}
 \usage{
@@ -22,6 +26,8 @@ combineIntoModstrings(
   verbose = FALSE,
   ...
 )
+
+removeIncompatibleModifications(gr, x, ...)
 
 \S4method{separate}{ModString}(x, nc.type = c("short", "nc"))
 
@@ -56,6 +62,12 @@ combineIntoModstrings(
   verbose = FALSE,
   ...
 )
+
+\S4method{removeIncompatibleModifications}{GRanges,XString}(gr, x)
+
+\S4method{removeIncompatibleModifications}{GRanges,XStringSet}(gr, x)
+
+\S4method{removeIncompatibleModifications}{GRangesList,XStringSet}(gr, x)
 }
 \arguments{
 \item{x}{For \code{separate}: a \code{ModString} or \code{ModStringSet}
@@ -107,6 +119,9 @@ transfered from/to tabular data with these functions.
 \code{combineIntoModstrings} expects \code{seqnames(gr)} or \code{names(gr)} 
 to match the available \code{names(x)}. Only information with strand 
 information \code{*} and \code{+} are used.
+
+\code{removeIncompatibleModifications} filters incompatible modification from
+a \code{GRanges} or \code{GRangesList}.
 }
 \examples{
 seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))

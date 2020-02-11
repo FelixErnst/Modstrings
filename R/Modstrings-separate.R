@@ -62,7 +62,7 @@ NULL
 }
 
 #' @rdname separate
-#' @aliases combineIntoModstrings separate
+#' @aliases combineIntoModstrings separate removeIncompatibleModifications
 #'
 #' @title Separating and combining a ModString object into/from a XString and a 
 #' GRanges object
@@ -76,6 +76,9 @@ NULL
 #' \code{combineIntoModstrings} expects \code{seqnames(gr)} or \code{names(gr)} 
 #' to match the available \code{names(x)}. Only information with strand 
 #' information \code{*} and \code{+} are used.
+#' 
+#' \code{removeIncompatibleModifications} filters incompatible modification from
+#' a \code{GRanges} or \code{GRangesList}.
 #'
 #' @param x For \code{separate}: a \code{ModString} or \code{ModStringSet}
 #' object
@@ -317,7 +320,14 @@ setMethod(
     stop("GRanges object does not contain a 'mod' column.",
          call. = FALSE)
   }
-  seqnames <- lapply(gr, function(z){as.character(seqnames(z))})
+  # check if modifications are compatible with type of input string
+  seqtype <- seqtype(x)
+  if(!stringr::str_detect(seqtype,"Mod")){
+    seqtype <- paste0("Mod",seqtype)
+  }
+  .get_nc_type(unlist(S4Vectors::mcols(gr@unlistData)$mod),seqtype)
+  #
+  seqnames <- as(seqnames(gr),"CharacterList")
   if(is.null(names(x)) ||
      !all(unique(unlist(seqnames)) %in% names(x))){
     stop("Names of XStringSet object do not match the seqnames or names in the",
@@ -336,27 +346,15 @@ setMethod(
     stop("width() of GRangesList elements must all be == 1",
          call. = FALSE)
   }
-  # check if modifications are compatible with type of input string
-  seqtype <- seqtype(x)
-  if(!stringr::str_detect(seqtype,"Mod")){
-    seqtype <- paste0("Mod",seqtype)
-  }
-  vapply(gr,
-         function(g){
-           .get_nc_type(g$mod,seqtype)
-         },
-         character(1))
   #
   starts <- start(gr)
   starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
   if(any(starts)){
-    qualityCol <- 
-      vapply(gr,
-             function(z){"quality" %in% colnames(S4Vectors::mcols(z))},
-             logical(1))
+    qualityCol <- "quality" %in% colnames(unlist(S4Vectors::mcols(gr,level="within")))
     if(any(qualityCol)){
       stop("Multiple modifications found for position in element '",
-           which(starts),"'.",
+           which(starts),"'. Remove quality metadata column or remove ",
+           "overlapping modifications.",
            call. = FALSE)
     }
     gr <- .combine_modifications_in_GRangesList(gr,seqtype)
@@ -542,15 +540,13 @@ setMethod(
     m <- m[f]
     if (!S4Vectors::isConstant(width(x))){
       at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                 lapply(gr, start)[m])
+                                 start(gr)[m])
     } else {
       at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                   lapply(gr, start)[m])
+                                   start(gr)[m])
     }
-    ans_seq <- modifyNucleotides(x[f], at, 
-                                 lapply(gr[m],function(z){
-                                   S4Vectors::mcols(z)$mod
-                                 }),
+    mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
+    ans_seq <- modifyNucleotides(x[f], at, mod,
                                  stop.on.error = stop.on.error,
                                  verbose = verbose)
     ans_seq <- c(ans_seq,x[!f])
@@ -579,7 +575,7 @@ setMethod(
     # If names are set use these. Otherwise use seqnames
     if(is.null(names(gr))){
       gr <- split(gr, seqnames(gr))
-      gr <- gr[!vapply(gr,is.null,logical(1))]
+      gr <- gr[lengths(gr) != 0L]
     } else {
       gr <- split(unname(gr), names(gr))
     }
@@ -589,15 +585,13 @@ setMethod(
     m <- m[f]
     if (!S4Vectors::isConstant(width(x))){
       at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                 lapply(gr, start)[m])
+                                 start(gr)[m])
     } else {
       at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                   lapply(gr, start)[m])
+                                   start(gr)[m])
     }
-    ans_seq <- modifyNucleotides(x[f], at,
-                                 lapply(gr[m],function(z){
-                                   S4Vectors::mcols(z)$mod
-                                 }),
+    mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
+    ans_seq <- modifyNucleotides(x[f], at, mod,
                                  stop.on.error = stop.on.error,
                                  verbose = verbose)
     ans_seq <- c(ans_seq,x[!f])
@@ -606,5 +600,92 @@ setMethod(
       return(ans_seq)
     }
     .convert_to_QualityScaledStringSet(ans_seq, gr, quality.type, ...)
+  }
+)
+
+
+# removeIncompatibleModifications ----------------------------------------------
+
+.remove_incompatbile_modifications <- function(x, at, mod){
+  at <- .check_replace_pos_ModString(x,at)
+  assertive::assert_all_are_non_empty_character(as.character(mod))
+  if(length(at) != length(mod)){
+    stop("lengths of 'at' and 'mod' need to be equal.",
+         call. = FALSE)
+  }
+  # check if originating base matches the modification
+  seqtype <- paste0("Mod",gsub("Mod","",seqtype(x)))
+  modValues <- .norm_seqtype_modtype(unlist(mod), seqtype, "short", class(x))
+  codec <- modscodec(seqtype)
+  f <- values(codec)[match(modValues, values(codec))]
+  current_letter <- lapply(at,
+                           function(i){
+                             subseq(x,i,i)
+                           })
+  current_letter <-  as(do.call(paste0(seqtype(current_letter[[1L]]),"StringSet"),
+                                list(current_letter)),
+                        paste0(gsub("Mod","",seqtype(current_letter[[1L]])),"StringSet"))
+  current_letter <- as.character(current_letter)
+  mismatch <- originatingBase(codec)[f] != current_letter
+  mismatch
+}
+
+#' @rdname separate
+#' @export
+setMethod(
+  "removeIncompatibleModifications",
+  signature = c(gr = "GRanges", x = "XString"),
+  function(gr, x)
+  {
+    x <- as(x, paste0("Mod", seqtype(x), "String"))
+    gr <- .norm_GRanges_for_combine(x,gr)
+    at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
+                                 list(start(gr)))
+    gr[.remove_incompatbile_modifications(x, as.vector(at),
+                                          S4Vectors::mcols(gr)$mod)]
+  }
+)
+
+#' @rdname separate
+#' @export
+setMethod(
+  "removeIncompatibleModifications",
+  signature = c(gr = "GRanges", x = "XStringSet"),
+  function(gr, x)
+  {
+    if(is.null(names(gr))){
+      gr <- split(gr, seqnames(gr))
+      gr <- gr[lengths(gr) != 0L]
+    } else {
+      gr <- split(unname(gr), names(gr))
+    }
+    removeIncompatibleModifications(gr, x)
+  }
+)
+
+#' @rdname separate
+#' @export
+setMethod(
+  "removeIncompatibleModifications",
+  signature = c(gr = "GRangesList", x = "XStringSet"),
+  function(gr, x)
+  {
+    gr <- .norm_GRangesList_for_combine(x, gr)
+    m <- match(names(x),names(gr))
+    f <- !is.na(m)
+    m <- m[f]
+    if (!S4Vectors::isConstant(width(x))){
+      at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
+                                 start(gr)[m])
+    } else {
+      at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet"))[f],
+                                   start(gr)[m])
+    }
+    mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
+    part <- IRanges::PartitioningByEnd(gr[m])
+    mismatch <- .remove_incompatbile_modifications(unlist(x[f]), unlist(at), 
+                                                   unlist(mod))
+    ans <- gr[!relist(mismatch,part)]
+    ans[lengths(ans) != 0L]
   }
 )

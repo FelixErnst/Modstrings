@@ -5,3 +5,4 @@ Changes in version 1.3 (2019-12-01)
 + Display ModDNA and ModRNA sequences in color
 + combineIntoModstrings() is now 'vectorized' for multiple sequences. Sequences with the same name are treated independently and are modified equally
 + add stop.on.error option for combineIntoModstrings()
++ added removeIncompatibleModifications()

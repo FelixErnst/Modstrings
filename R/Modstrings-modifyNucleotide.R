@@ -108,20 +108,23 @@ setMethod(
     .check_stop.on.error(stop.on.error)
     nc.type <- match.arg(nc.type)
     at <- .check_replace_pos_ModString(x,at)
-    assertive::assert_all_are_non_empty_character(mod)
+    assertive::assert_all_are_non_empty_character(as.character(unlist(mod)))
     if(length(at) != length(mod)){
       stop("lengths of 'at' and 'mod' need to be equal.",
            call. = FALSE)
     }
-    modValues <- .norm_seqtype_modtype(mod, seqtype(x), nc.type)
+    # check if originating base matches the modification
+    modValues <- .norm_seqtype_modtype(mod, seqtype(x), nc.type, class(x))
     codec <- modscodec(seqtype(x))
     f <- values(codec)[match(modValues, values(codec))]
-    current_letter <- unlist(lapply(at,
-                                    function(i){
-                                      as.character(as(
-                                        subseq(x,i,i),
-                                        gsub("Mod","",class(x))))
-                                    }))
+    current_letter <- lapply(at,
+                             function(i){
+                               subseq(x,i,i)
+                             })
+    current_letter <-  as(do.call(paste0(seqtype(current_letter[[1L]]),"StringSet"),
+                                  list(current_letter)),
+                          paste0(gsub("Mod","",seqtype(current_letter[[1L]])),"StringSet"))
+    current_letter <- as.character(current_letter)
     if(any(originatingBase(codec)[f] != current_letter)){
       mismatch <- originatingBase(codec)[f] != current_letter
       n <- min(5L, sum(mismatch))
@@ -144,6 +147,7 @@ setMethod(
     } else {
       mismatch <- rep(FALSE,length(f))
     }
+    #
     letter <- letters(codec)[f]
     letter <- vapply(letter,
                      .convert_letters_to_one_byte_codes,
@@ -182,7 +186,7 @@ setMethod(
            call. = FALSE)
     }
     # a preamptive check - return value is not used
-    .norm_seqtype_modtype(unlist(mod),seqtype(x),nc.type,class(x))
+    .norm_seqtype_modtype(unlist(mod), seqtype(x), nc.type, class(x))
     #
     .check_letter_ModStringSet(x,at,mod)
     unlisted_x <- unlist(x, use.names = FALSE)
