@@ -626,10 +626,7 @@ setMethod(
                            function(i){
                              subseq(x,i,i)
                            })
-  current_letter <-  as(do.call(paste0(seqtype(current_letter[[1L]]),"StringSet"),
-                                list(current_letter)),
-                        paste0(gsub("Mod","",seqtype(current_letter[[1L]])),"StringSet"))
-  current_letter <- as.character(current_letter)
+  current_letter <- vapply(current_letter,as.character,character(1))
   mismatch <- originatingBase(codec)[f] != current_letter
   mismatch
 }
