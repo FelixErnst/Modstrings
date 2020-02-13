@@ -122,6 +122,10 @@ setMethod(
                                subseq(x,i,i)
                              })
     current_letter <- vapply(current_letter,as.character,character(1))
+    class <- paste0(class(x),"Set")
+    current_letter <- as(do.call(class, list(current_letter)),
+                         gsub("Mod","",class))
+    current_letter <- as.character(current_letter)
     if(any(originatingBase(codec)[f] != current_letter)){
       mismatch <- originatingBase(codec)[f] != current_letter
       n <- min(5L, sum(mismatch))

@@ -627,6 +627,12 @@ setMethod(
                              subseq(x,i,i)
                            })
   current_letter <- vapply(current_letter,as.character,character(1))
+  if(is(x,"ModString")){
+    class <- paste0(class(x),"Set")
+    current_letter <- as(do.call(class, list(current_letter)),
+                         gsub("Mod","",class))
+    current_letter <- as.character(current_letter)
+  }
   mismatch <- originatingBase(codec)[f] != current_letter
   mismatch
 }
@@ -671,7 +677,6 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
-    browser()
     gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
