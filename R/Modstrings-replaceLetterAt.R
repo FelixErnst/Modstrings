@@ -3,7 +3,7 @@ NULL
 
 # derived from Biostrings/R/replaceLetterAt.R ----------------------------------
 
-.check_replace_pos_ModString <- function(x, at)
+.norm_replace_pos_ModString <- function(x, at)
 {
   if (is(at, "Rle")){
     at <- as.vector(at)
@@ -27,11 +27,11 @@ NULL
   at
 }
 
-.norm_replace_pos_ModStringSet <- function(x, at)
+.check_replace_pos_ModStringSet <- function(x, at)
 {
   x_width <- width(x)
   if(is.list(at)){
-    if(!is.logical(unlist(at))){
+    if(!is.logical(at[[1L]])){
       stop("'at' must be a matrix or list of logicals",
            call. = FALSE)
     }
@@ -154,7 +154,7 @@ setMethod(
   definition = function(x, at, letter, verbose = FALSE)
   {
     .check_verbose(verbose)
-    at <- .check_replace_pos_ModString(x,at)
+    at <- .norm_replace_pos_ModString(x,at)
     if (is(letter, "ModString")){
       letter <- as.character(letter)
     }
@@ -180,7 +180,7 @@ setMethod(
     if (length(x) == 0L){
       stop("'x' has no element", call. = FALSE)
     }
-    .norm_replace_pos_ModStringSet(x, at)
+    .check_replace_pos_ModStringSet(x, at)
     if (is(letter, "ModStringSet")){
       letter <- as.character(letter)
     }

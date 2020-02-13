@@ -611,7 +611,7 @@ setMethod(
 # removeIncompatibleModifications ----------------------------------------------
 
 .remove_incompatbile_modifications <- function(x, at, mod){
-  at <- .check_replace_pos_ModString(x,at)
+  at <- .norm_replace_pos_ModString(x,at)
   assertive::assert_all_are_non_empty_character(as.character(mod))
   if(length(at) != length(mod)){
     stop("lengths of 'at' and 'mod' need to be equal.",
@@ -674,6 +674,7 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
+    browser()
     gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
@@ -687,8 +688,9 @@ setMethod(
     }
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
     part <- IRanges::PartitioningByEnd(gr[m])
-    mismatch <- .remove_incompatbile_modifications(unlist(x[f]), unlist(at), 
-                                                   unlist(mod))
+    at <- unlist(IRanges::LogicalList(at))
+    mod <- unlist(mod)
+    mismatch <- .remove_incompatbile_modifications(unlist(x[f]), at, mod)
     ans <- gr[!relist(mismatch,part)]
     ans[lengths(ans) != 0L]
   }

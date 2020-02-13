@@ -107,7 +107,7 @@ setMethod(
     .check_verbose(verbose)
     .check_stop.on.error(stop.on.error)
     nc.type <- match.arg(nc.type)
-    at <- .check_replace_pos_ModString(x,at)
+    at <- .norm_replace_pos_ModString(x,at)
     assertive::assert_all_are_non_empty_character(as.character(unlist(mod)))
     if(length(at) != length(mod)){
       stop("lengths of 'at' and 'mod' need to be equal.",
@@ -175,7 +175,7 @@ setMethod(
     if (length(x) == 0L){
       stop("'x' has no element")
     }
-    .norm_replace_pos_ModStringSet(x,at)
+    .check_replace_pos_ModStringSet(x,at)
     if (is(mod, "ModStringSet")) {
       tmp <- separate(mod, nc.type = nc.type)
       mod <- split(unname(mcols(tmp)$mod), seqnames(tmp))
@@ -191,7 +191,7 @@ setMethod(
     .check_letter_ModStringSet(x,at,mod)
     unlisted_x <- unlist(x, use.names = FALSE)
     if(is.list(at)){
-      at <- unlist(at)
+      at <- unlist(IRanges::LogicalList(at)) # apparently a bit more efficient
     } else {
       at <- as.vector(t(at))
     }
