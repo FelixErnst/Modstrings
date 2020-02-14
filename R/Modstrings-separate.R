@@ -199,6 +199,36 @@ setMethod(
   stop("Something went wrong.", call. = FALSE)
 }
 
+.merge_non_unique_mcols_do <- function(col){
+  if(is(col,"List")){
+    class <- classNameForDisplay(col)
+    col <- unique(as.list(col))
+    if(length(col) != 1L){
+      max <- max(lengths(col))
+      col <- lapply(seq_len(max),
+                    function(i){
+                      paste(lapply(col,"[",i),collapse = ",")
+                    })
+      col <- list(as.character(col))
+    }
+    return(do.call(class,col))
+  } else {
+    return(paste0(col,collapse = ","))
+  }
+}
+
+.merge_non_unique_mcols <- function(mcols){
+  unique_mcols <- lapply(mcols,unlist)
+  unique_mcols <- lapply(unique_mcols,unique)
+  f_unique <- lengths(unique_mcols) == 1L
+  ans <- mcols[1L,,drop=FALSE]
+  if(any(!f_unique)){
+    ans[,!f_unique] <- lapply(mcols[,!f_unique,drop=FALSE],
+                              .merge_non_unique_mcols_do)
+  }
+  ans
+}
+
 # assembles a new modification from nomenclature and checks if the new type
 # is valid
 .combine_to_new_nc_ident <- function(gr, seqtype)
@@ -240,10 +270,13 @@ setMethod(
     f <- match(newnc,names(modsnomenclature(seqtype)))
     newnc <- names(modsshortnames(seqtype))[f]
   }
+  mcols <- mcols(gr)
+  mcols$mod <- newnc
+  mcols <- .merge_non_unique_mcols(mcols)
   GRanges(seqnames = unique(as.character(seqnames(gr))),
           ranges = unique(ranges(gr)),
           strand = unique(as.character(strand(gr))),
-          mod = newnc)
+          mcols)
 }
 
 # sort in new modification annotation
