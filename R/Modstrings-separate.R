@@ -643,8 +643,7 @@ setMethod(
 
 # removeIncompatibleModifications ----------------------------------------------
 
-.remove_incompatbile_modifications <- function(x, at, mod, strand){
-  minus_strand <- as.factor(strand) == "-"
+.remove_incompatbile_modifications <- function(x, at, mod){
   at <- .norm_replace_pos_ModString(x,at)
   assertive::assert_all_are_non_empty_character(as.character(mod))
   if(length(at) != length(mod)){
@@ -660,18 +659,12 @@ setMethod(
                            function(i){
                              subseq(x,i,i)
                            })
+  current_letter <- vapply(current_letter,as.character,character(1))
   if(is(x,"ModString")){
-    current_letter <- vapply(current_letter,as.character,character(1))
     class <- paste0(class(x),"Set")
     current_letter <- as(do.call(class, list(current_letter)),
                          gsub("Mod","",class))
-    current_letter[minus_strand] <- 
-      reverseComplement(current_letter[minus_strand])
     current_letter <- as.character(current_letter)
-  } else {
-    current_letter[minus_strand] <- 
-      lapply(current_letter[minus_strand],reverseComplement)
-    current_letter <- vapply(current_letter,as.character,character(1))
   }
   mismatch <- originatingBase(codec)[f] != current_letter
   mismatch
@@ -688,10 +681,8 @@ setMethod(
     gr <- .norm_GRanges_for_combine(x,gr)
     at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
-    mismatch <- .remove_incompatbile_modifications(x, as.vector(at),
-                                                   S4Vectors::mcols(gr)$mod,
-                                                   strand(gr))
-    gr[!mismatch]
+    gr[.remove_incompatbile_modifications(x, as.vector(at),
+                                          S4Vectors::mcols(gr)$mod)]
   }
 )
 
@@ -731,13 +722,11 @@ setMethod(
                                    start(gr)[m])
     }
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
-    mismatch <- Map(.remove_incompatbile_modifications,
-                    x[f],
-                    at,
-                    mod,
-                    strand(gr)[m])
-    mismatch <- IRanges::LogicalList(mismatch)
-    gr <- gr[!mismatch]
-    gr[lengths(gr) != 0L]
+    part <- IRanges::PartitioningByEnd(gr[m])
+    at <- unlist(IRanges::LogicalList(at))
+    mod <- unlist(mod)
+    mismatch <- .remove_incompatbile_modifications(unlist(x[f]), at, mod)
+    ans <- gr[!relist(mismatch,part)]
+    ans[lengths(ans) != 0L]
   }
 )
