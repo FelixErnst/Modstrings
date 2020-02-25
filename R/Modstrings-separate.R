@@ -681,8 +681,9 @@ setMethod(
     gr <- .norm_GRanges_for_combine(x,gr)
     at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
-    gr[.remove_incompatbile_modifications(x, as.vector(at),
-                                          S4Vectors::mcols(gr)$mod)]
+    mismatch <- .remove_incompatbile_modifications(x, as.vector(at),
+                                                   S4Vectors::mcols(gr)$mod)
+    gr[!mismatch]
   }
 )
 
@@ -722,11 +723,12 @@ setMethod(
                                    start(gr)[m])
     }
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
-    part <- IRanges::PartitioningByEnd(gr[m])
-    at <- unlist(IRanges::LogicalList(at))
-    mod <- unlist(mod)
-    mismatch <- .remove_incompatbile_modifications(unlist(x[f]), at, mod)
-    ans <- gr[!relist(mismatch,part)]
-    ans[lengths(ans) != 0L]
+    mismatch <- Map(.remove_incompatbile_modifications,
+                    x[f],
+                    at,
+                    mod)
+    mismatch <- IRanges::LogicalList(mismatch)
+    gr <- gr[!mismatch]
+    gr[lengths(gr) != 0L]
   }
 )
