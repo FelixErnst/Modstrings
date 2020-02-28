@@ -5,14 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Implementation of Biostrings to work with nucleotide sequences containing
-   modified nucleotides • Modstrings</title>
+<title>Working with modified nucleotide sequences  • Modstrings</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Implementation of Biostrings to work with nucleotide sequences containing
-   modified nucleotides">
+<script src="pkgdown.js"></script><meta property="og:title" content="Working with modified nucleotide sequences ">
 <meta property="og:description" content="Representing nucleotide modifications in a nucleotide sequence
     is usually done via special characters from a number of sources. This 
     represents a challenge to work with in R and the Biostrings package.
@@ -43,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
       </span>
     </div>
 
@@ -90,9 +88,9 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="modstrings-implementation-of-biostrings-to-work-with-nucleotide-sequences-containing-modified-nucleotides-build-status-codecov" class="section level1">
+<div id="modstrings-working-with-modified-nucleotide-sequences-build-status-codecov" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#modstrings-implementation-of-biostrings-to-work-with-nucleotide-sequences-containing-modified-nucleotides-build-status-codecov" class="anchor"></a>Modstrings: implementation of Biostrings to work with nucleotide sequences containing modified nucleotides <a href="https://travis-ci.com/FelixErnst/Modstrings"><img src="https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/gh/FelixErnst/Modstrings"><img src="https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="#modstrings-working-with-modified-nucleotide-sequences-build-status-codecov" class="anchor"></a>Modstrings: working with modified nucleotide sequences <a href="https://travis-ci.com/FelixErnst/Modstrings"><img src="https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/gh/FelixErnst/Modstrings"><img src="https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg" alt="codecov"></a>
 </h1></div>
 <p><img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="300" align="right"></p>
 <p>RNA are usually in some form post-transcriptionally modified. Most prominent examples are of course rRNA and tRNA, but in recent years mRNA was also discovered to be post-transcriptionally modified.</p>
