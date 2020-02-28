@@ -1,4 +1,4 @@
-# Modstrings: implementation of Biostrings to work with nucleotide sequences containing modified nucleotides [![Build Status](https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master)](https://travis-ci.com/FelixErnst/Modstrings) [![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
+# Modstrings: working with modified nucleotide sequences [![Build Status](https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master)](https://travis-ci.com/FelixErnst/Modstrings) [![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
 
 <img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="300" align="right">
 
