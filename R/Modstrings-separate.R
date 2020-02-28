@@ -201,20 +201,9 @@ setMethod(
 
 .merge_non_unique_mcols_do <- function(col){
   if(is(col,"List")){
-    class <- classNameForDisplay(col)
-    col <- unique(as.list(col))
-    if(length(col) != 1L){
-      max <- max(lengths(col))
-      col <- lapply(seq_len(max),
-                    function(i){
-                      paste(lapply(col,"[",i),collapse = ",")
-                    })
-      col <- list(as.character(col))
-    }
-    return(do.call(class,col))
-  } else {
-    return(paste0(col,collapse = ","))
+    col <- unlist(col, use.names = FALSE)
   }
+  return(relist(col,IRanges::PartitioningByEnd(length(col))))
 }
 
 .merge_non_unique_mcols <- function(mcols){
@@ -307,9 +296,9 @@ setMethod(
 }
 
 # normalize GRanges inputs and check compatibility for combineIntoModstrings
-.norm_GRanges_for_combine <- function(x,gr)
+.norm_GRanges_for_combine <- function(x,gr, drop.additional.columns = TRUE)
 {
-  gr <- .norm_GRanges(gr)
+  gr <- .norm_GRanges(gr, drop.additional.columns)
   if(any(max(end(gr)) > length(x))){
     stop("GRanges object contains coordinates out of bounds for the ",
          "XStringSet object.",
@@ -678,7 +667,7 @@ setMethod(
   function(gr, x)
   {
     x <- as(x, paste0("Mod", seqtype(x), "String"))
-    gr <- .norm_GRanges_for_combine(x,gr)
+    gr <- .norm_GRanges_for_combine(x,gr, drop.additional.columns = FALSE)
     at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
     mismatch <- .remove_incompatbile_modifications(x, as.vector(at),
@@ -715,13 +704,8 @@ setMethod(
     m <- match(names(x),names(gr))
     f <- !is.na(m)
     m <- m[f]
-    if (!S4Vectors::isConstant(width(x))){
-      at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                 start(gr)[m])
-    } else {
-      at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet"))[f],
-                                   start(gr)[m])
-    }
+    at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
+                               start(gr)[m])
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
     mismatch <- Map(.remove_incompatbile_modifications,
                     x[f],

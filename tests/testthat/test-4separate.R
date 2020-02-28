@@ -31,11 +31,12 @@ test_that("ModString separate/combine:",{
   seq <- ModRNAString(rnaTestSeq)
   gr <- separate(seq)
   #
-  gr2 <- gr
-  gr2 <- gr2[c(5,24)]
-  start(gr2) <- 13L
-  end(gr2) <- 13L
+  gr_test <- gr
+  gr_test <- gr_test[c(5,24)]
+  start(gr_test) <- 13L
+  end(gr_test) <- 13L
   #
+  gr2 <- gr_test
   expect_error(combineIntoModstrings(as(seq,"RNAString"),shift(gr2,1)),
                "Modification type does not match")
   expect_warning(expect_equal(as.character(combineIntoModstrings(as(seq,"RNAString"),shift(gr2,1),
@@ -43,12 +44,41 @@ test_that("ModString separate/combine:",{
                               as.character(as(seq,"RNAString"))),
                  "Modification type does not match")
   #
+  gr2 <- gr_test
+  gr2$mod <- c("Am","Gm")
+  expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
+               "Multiple modifications found for position '13'")
+  #
+  gr2 <- gr_test
+  gr2$unique <- "unique"
+  gr2$non_unique <- c("non_unique1","non_unique2")
   actual <- combineIntoModstrings(as(seq,"RNAString"),gr2)
   expect_equal(length(separate(actual)),1L)
   expect_equal(unname(separate(actual)$mod),"m1Am")
   mcols(gr2)$quality <- 10L
   expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
                "Multiple modifications found for position '13'.")
+  # removeIncompatibleModifications
+  mcols(gr2)$quality <- NULL
+  actual <- removeIncompatibleModifications(gr2, as(seq,"RNAString"))
+  expect_s4_class(actual,"GRanges")
+  expect_length(actual,1L)
+  expect_equal(colnames(mcols(actual)),c("mod","unique","non_unique"))
+  expect_type(mcols(actual)$unique,"character")
+  expect_length(mcols(actual)$unique, 1L)
+  expect_s4_class(mcols(actual)$non_unique,"CharacterList")
+  expect_length(mcols(actual)$non_unique[[1L]], 2L)
+  #
+  mcols(gr2)$non_unique <- 
+    IRanges::CharacterList(as.list(mcols(gr2)$non_unique))
+  actual <- removeIncompatibleModifications(gr2, as(seq,"RNAString"))
+  expect_s4_class(actual,"GRanges")
+  expect_length(actual,1L)
+  expect_equal(colnames(mcols(actual)),c("mod","unique","non_unique"))
+  expect_type(mcols(actual)$unique,"character")
+  expect_length(mcols(actual)$unique, 1L)
+  expect_s4_class(mcols(actual)$non_unique,"CharacterList")
+  expect_length(mcols(actual)$non_unique[[1L]], 2L)
   #
   expect_equal(length(gr),145)
   seq2 <- combineIntoModstrings(as(seq,"RNAString"),gr)
@@ -103,6 +133,22 @@ test_that("ModString separate/combine:",{
   mcols(gr2)$quality <- 10L
   expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
                "Multiple modifications found for position '13'.")
+  # removeIncompatibleModifications
+  gr2 <- gr
+  gr2 <- gr2[c(5,24)]
+  start(gr2) <- 13L
+  end(gr2) <- 13L
+  gr2$unique <- "unique"
+  gr2$non_unique <- c("non_unique1","non_unique2")
+  gr2 <- split(gr2,seqnames(gr2))
+  actual <- removeIncompatibleModifications(gr2, as(set,"RNAStringSet"))
+  expect_s4_class(actual,"GRangesList")
+  expect_length(actual,1L)
+  expect_equal(colnames(mcols(actual[[1L]])),c("mod","unique","non_unique"))
+  expect_type(mcols(actual[[1L]])$unique,"character")
+  expect_length(mcols(actual[[1L]])$unique, 1L)
+  expect_s4_class(mcols(actual[[1L]])$non_unique,"CharacterList")
+  expect_length(mcols(actual[[1L]])$non_unique[[1L]], 2L)
   #
   set2 <- combineIntoModstrings(as(set,"RNAStringSet"),gr)
   expect_equal(as.character(set2),as.character(set))
