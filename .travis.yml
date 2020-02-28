@@ -8,6 +8,11 @@ before_install:
 r_packages:
   - covr
   - magick
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+  deploy:
+    provider: script
+    script: Rscript -e 'pkgdown::deploy_site_github()'
+    skip_cleanup: true
 cache:
   packages: true
   directories:
@@ -17,5 +22,7 @@ after_success:
   - Rscript -e 'covr::codecov()'
 notifications:
   email:
-    on_success: felix.gm.ernst-travis@outlook.com
-    on_failure: felix.gm.ernst-travis@outlook.com
+    recipients:
+      - felix.gm.ernst-travis@outlook.com
+    on_success: change
+    on_failure: always
