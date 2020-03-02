@@ -158,6 +158,7 @@ a \code{GRanges} or \code{GRangesList}. \code{incompatibleModifications()}
 returns the logical vector used for this operation.
 }
 \examples{
+library(GenomicRanges)
 # ModDNAString
 seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
 seq

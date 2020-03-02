@@ -123,6 +123,7 @@ NULL
 #' @export
 #'
 #' @examples
+#' library(GenomicRanges)
 #' # ModDNAString
 #' seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
 #' seq
