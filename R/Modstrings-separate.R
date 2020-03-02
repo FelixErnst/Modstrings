@@ -140,7 +140,7 @@ NULL
 #' # Separating RNA modifications
 #' gr <- gr[1]
 #' separate(gr)
-#' # ... and combineine them again (both operations work only on a subset of
+#' # ... and combine them again (both operations work only on a subset of
 #' # modifications)
 #' combineModifications(separate(gr))
 #' 
@@ -936,8 +936,7 @@ setMethod(
     } else {
       gr <- split(unname(gr), names(gr))
     }
-    unlist(removeIncompatibleModifications(gr, x, do.combine = FALSE),
-           use.names = FALSE)
+    unlist(removeIncompatibleModifications(gr, x), use.names = FALSE)
   }
 )
 

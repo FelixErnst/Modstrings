@@ -175,7 +175,7 @@ gr
 # Separating RNA modifications
 gr <- gr[1]
 separate(gr)
-# ... and combineine them again (both operations work only on a subset of
+# ... and combine them again (both operations work only on a subset of
 # modifications)
 combineModifications(separate(gr))
 
