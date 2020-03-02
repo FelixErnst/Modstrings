@@ -62,28 +62,36 @@ test_that("ModString separate/combine:",{
   mcols(gr2)$quality <- NULL
   actual <- removeIncompatibleModifications(gr2, as(seq,"RNAString"))
   expect_s4_class(actual,"GRanges")
-  expect_length(actual,1L)
+  expect_length(actual,2L)
   expect_equal(colnames(mcols(actual)),c("mod","unique","non_unique"))
   expect_type(mcols(actual)$unique,"character")
-  expect_length(mcols(actual)$unique, 1L)
-  expect_s4_class(mcols(actual)$non_unique,"CharacterList")
-  expect_length(mcols(actual)$non_unique[[1L]], 2L)
+  expect_length(mcols(actual)$unique, 2L)
+  expect_type(mcols(actual)$non_unique,"character")
+  expect_length(mcols(actual)$non_unique[[1L]], 1L)
   #
   mcols(gr2)$non_unique <- 
     IRanges::CharacterList(as.list(mcols(gr2)$non_unique))
   actual <- removeIncompatibleModifications(gr2, as(seq,"RNAString"))
   expect_s4_class(actual,"GRanges")
-  expect_length(actual,1L)
+  expect_length(actual,2L)
   expect_equal(colnames(mcols(actual)),c("mod","unique","non_unique"))
   expect_type(mcols(actual)$unique,"character")
-  expect_length(mcols(actual)$unique, 1L)
+  expect_length(mcols(actual)$unique, 2L)
   expect_s4_class(mcols(actual)$non_unique,"CharacterList")
-  expect_length(mcols(actual)$non_unique[[1L]], 2L)
+  expect_length(mcols(actual)$non_unique[[1L]], 1L)
   #
   expect_equal(length(gr),145)
   seq2 <- combineIntoModstrings(as(seq,"RNAString"),gr)
   expect_equal(as.character(seq2),as.character(seq))
   expect_s4_class(seq2,"ModRNAString")
+  # separate GRanges
+  gr_sep <- separate(gr)
+  expect_s4_class(gr_sep, "GRanges")
+  expect_length(gr_sep,170L)
+  expect_equal(gr_sep[1:2]$mod,c("Am","m1A"))
+  # combineModifications GRanges
+  gr_comb <- combineModifications(gr_sep)
+  expect_true(all(gr == gr_comb))
   #
   dnaTestSeq <- paste(alphabet(ModDNAString()), collapse = "")
   set <- ModDNAStringSet(c("A" = dnaTestSeq,
@@ -146,9 +154,9 @@ test_that("ModString separate/combine:",{
   expect_length(actual,1L)
   expect_equal(colnames(mcols(actual[[1L]])),c("mod","unique","non_unique"))
   expect_type(mcols(actual[[1L]])$unique,"character")
-  expect_length(mcols(actual[[1L]])$unique, 1L)
-  expect_s4_class(mcols(actual[[1L]])$non_unique,"CharacterList")
-  expect_length(mcols(actual[[1L]])$non_unique[[1L]], 2L)
+  expect_length(mcols(actual[[1L]])$unique, 2L)
+  expect_type(mcols(actual[[1L]])$non_unique,"character")
+  expect_length(mcols(actual[[1L]])$non_unique[[1L]], 1L)
   #
   set2 <- combineIntoModstrings(as(set,"RNAStringSet"),gr)
   expect_equal(as.character(set2),as.character(set))
@@ -161,6 +169,17 @@ test_that("ModString separate/combine:",{
   set3 <- combineIntoModstrings(as(set,"RNAStringSet"),grl)
   expect_equal(as.character(set3),as.character(set))
   expect_s4_class(set3,"ModRNAStringSet")
+  # separate GRangesList
+  grl_sep <- separate(grl)
+  expect_s4_class(grl_sep, "GRangesList")
+  expect_length(grl_sep,length(grl))
+  expect_length(grl_sep[[1L]],170L)
+  expect_length(grl_sep[[2L]],170L)
+  expect_length(grl_sep[[3L]],170L)
+  expect_equal(grl_sep[[1L]][1:2]$mod,c("Am","m1A"))
+  # combineModifications GRangesList
+  grl_comb <- combineModifications(grl_sep)
+  expect_true(all(all(grl == grl_comb)))
   #
   dnaTestSeq <- paste(alphabet(ModDNAString()), collapse = "")
   seq <- ModDNAString(dnaTestSeq)

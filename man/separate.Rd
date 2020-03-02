@@ -3,12 +3,21 @@
 \name{separate}
 \alias{separate}
 \alias{combineIntoModstrings}
+\alias{combineModifications}
+\alias{incompatibleModifications}
 \alias{removeIncompatibleModifications}
 \alias{separate,ModString-method}
 \alias{separate,ModStringSet-method}
+\alias{separate,GRanges-method}
+\alias{separate,GRangesList-method}
 \alias{combineIntoModstrings,XString,GRanges-method}
 \alias{combineIntoModstrings,XStringSet,GRangesList-method}
 \alias{combineIntoModstrings,XStringSet,GRanges-method}
+\alias{combineModifications,GRanges-method}
+\alias{combineModifications,GRangesList-method}
+\alias{incompatibleModifications,GRanges,XString-method}
+\alias{incompatibleModifications,GRanges,XStringSet-method}
+\alias{incompatibleModifications,GRangesList,XStringSet-method}
 \alias{removeIncompatibleModifications,GRanges,XString-method}
 \alias{removeIncompatibleModifications,GRanges,XStringSet-method}
 \alias{removeIncompatibleModifications,GRangesList,XStringSet-method}
@@ -27,11 +36,19 @@ combineIntoModstrings(
   ...
 )
 
+combineModifications(gr, ...)
+
+incompatibleModifications(gr, x, ...)
+
 removeIncompatibleModifications(gr, x, ...)
 
 \S4method{separate}{ModString}(x, nc.type = c("short", "nc"))
 
 \S4method{separate}{ModStringSet}(x, nc.type = c("short", "nc"))
+
+\S4method{separate}{GRanges}(x)
+
+\S4method{separate}{GRangesList}(x)
 
 \S4method{combineIntoModstrings}{XString,GRanges}(
   x,
@@ -63,6 +80,16 @@ removeIncompatibleModifications(gr, x, ...)
   ...
 )
 
+\S4method{combineModifications}{GRanges}(gr)
+
+\S4method{combineModifications}{GRangesList}(gr)
+
+\S4method{incompatibleModifications}{GRanges,XString}(gr, x)
+
+\S4method{incompatibleModifications}{GRanges,XStringSet}(gr, x)
+
+\S4method{incompatibleModifications}{GRangesList,XStringSet}(gr, x)
+
 \S4method{removeIncompatibleModifications}{GRanges,XString}(gr, x)
 
 \S4method{removeIncompatibleModifications}{GRanges,XStringSet}(gr, x)
@@ -70,10 +97,10 @@ removeIncompatibleModifications(gr, x, ...)
 \S4method{removeIncompatibleModifications}{GRangesList,XStringSet}(gr, x)
 }
 \arguments{
-\item{x}{For \code{separate}: a \code{ModString} or \code{ModStringSet}
-object
+\item{x}{For \code{separate}: a \code{ModString}/\code{ModStringSet} or 
+\code{GRanges}/\code{GRangesList}object
 
-For \code{combineIntoModstrings}: a \code{XStringSet} and a \code{GRanges} 
+For \code{combineIntoModstrings}: a \code{XString} and a \code{XStringSet} 
 object.}
 
 \item{nc.type}{the type of nomenclature to be used. Either "short" or "nc".
@@ -120,8 +147,15 @@ transfered from/to tabular data with these functions.
 to match the available \code{names(x)}. Only information with strand 
 information \code{*} and \code{+} are used.
 
+\code{separate} when used with a \code{GRanges}/\code{GRangesList} object
+will return an object of the same type, but with modifications seperated. For
+example an element with \code{mod = "m1Am"} will be returned as two elemens
+with \code{mod = c("Am","m1A")}. The reverse operation is available via
+\code{combineModifications()}.
+
 \code{removeIncompatibleModifications} filters incompatible modification from
-a \code{GRanges} or \code{GRangesList}.
+a \code{GRanges} or \code{GRangesList}. \code{incompatibleModifications()} 
+returns the logical vector used for this operation.
 }
 \examples{
 seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))

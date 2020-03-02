@@ -82,6 +82,20 @@ setGeneric(name = "combineIntoModstrings",
 
 #' @rdname separate
 #' @export
+setGeneric(name = "combineModifications",
+           signature = c("gr"),
+           def = function(gr, ...)
+             standardGeneric("combineModifications"))
+
+#' @rdname separate
+#' @export
+setGeneric(name = "incompatibleModifications",
+           signature = c("gr", "x"),
+           def = function(gr, x, ...)
+             standardGeneric("incompatibleModifications"))
+
+#' @rdname separate
+#' @export
 setGeneric(name = "removeIncompatibleModifications",
            signature = c("gr", "x"),
            def = function(gr, x, ...)

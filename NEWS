@@ -1,8 +1,17 @@
 Changes in version 0.99.0 (2019-01-15)
 + Submitted to Bioconductor
 
-Changes in version 1.3 (2019-12-01)
+Changes in version 1.3.2 (2019-12-01)
 + Display ModDNA and ModRNA sequences in color
+
+Changes in version 1.3.3 (2019-02-05)
 + combineIntoModstrings() is now 'vectorized' for multiple sequences. Sequences with the same name are treated independently and are modified equally
 + add stop.on.error option for combineIntoModstrings()
+
+Changes in version 1.3.4 (2019-02-05)
 + added removeIncompatibleModifications()
+
+Changes in version 1.3.9 (2019-03-02)
++ added incompatibleModifications(), which returns a logical for manual subsetting
++ added combineModifications() to allow modifications to be combined manually
++ added separate() for GRanges to allow modification to be separated, if possible

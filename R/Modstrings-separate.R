@@ -77,13 +77,20 @@ NULL
 #' to match the available \code{names(x)}. Only information with strand 
 #' information \code{*} and \code{+} are used.
 #' 
-#' \code{removeIncompatibleModifications} filters incompatible modification from
-#' a \code{GRanges} or \code{GRangesList}.
-#'
-#' @param x For \code{separate}: a \code{ModString} or \code{ModStringSet}
-#' object
+#' \code{separate} when used with a \code{GRanges}/\code{GRangesList} object
+#' will return an object of the same type, but with modifications seperated. For
+#' example an element with \code{mod = "m1Am"} will be returned as two elemens
+#' with \code{mod = c("Am","m1A")}. The reverse operation is available via
+#' \code{combineModifications()}.
 #' 
-#' For \code{combineIntoModstrings}: a \code{XStringSet} and a \code{GRanges} 
+#' \code{removeIncompatibleModifications} filters incompatible modification from
+#' a \code{GRanges} or \code{GRangesList}. \code{incompatibleModifications()} 
+#' returns the logical vector used for this operation.
+#'
+#' @param x For \code{separate}: a \code{ModString}/\code{ModStringSet} or 
+#' \code{GRanges}/\code{GRangesList}object
+#' 
+#' For \code{combineIntoModstrings}: a \code{XString} and a \code{XStringSet} 
 #' object.
 #' @param gr a GRanges object
 #' @param with.qualities \code{TRUE} or \code{FALSE} (default): Should the 
@@ -107,9 +114,7 @@ NULL
 #' \item{\code{default.quality}:} {For \code{combineIntoModstrings}: the 
 #' \code{default.quality} default value for non-modified positions. (default: 
 #' \code{default.quality = 0L})}
-#' }
-#' 
-#' 
+#' } 
 #'
 #' @return for \code{separate} a \code{GRanges} object and for 
 #' \code{combineIntoModstrings} a \code{ModString*} object or a 
@@ -152,6 +157,124 @@ setMethod(
     ans <- .from_ModStringSet_to_GRanges(x, qualities, codec = codec,
                                          nc.type = nc.type)
     ans
+  }
+)
+
+# separate for GRanges ---------------------------------------------------------
+
+.norm_GRanges_for_separate <- function(gr)
+{
+  if(!("mod" %in% colnames(S4Vectors::mcols(gr)))){
+    stop("GRanges object does not contain a 'mod' column.",
+         call. = FALSE)
+  }
+  if(any(unique(width(gr)) != 1)){
+    stop("width() of GRanges elements must all be == 1",
+         call. = FALSE)
+  }
+  gr
+}
+
+.norm_GRangesList_for_separate <- function(grl)
+{
+  relist(.norm_GRanges_for_separate(unlist(grl, use.names = FALSE)), grl)
+}
+
+.detect_seqtype_in_GRanges <- function(gr){
+  mod <- mcols(gr)$mod
+  if(all(mod %in% names(modsshortnames("ModRNA")))){
+    return("ModRNA")
+  }
+  if(all(mod %in% names(modsshortnames("ModDNA")))){
+    return("ModDNA")
+  }
+  stop("Couldn't detect the seqtype of value in 'mod' column.")
+}
+
+.detect_seqtype_in_GRangesList <- function(grl){
+  .detect_seqtype_in_GRanges(unlist(grl, use.names = FALSE))
+}
+
+# create a library for converting combined modifications (as names) to seperate 
+# modifications (as values)
+.get_short_nc_lib <- function(seqtype){
+  short_nc <- names(modsnomenclature(seqtype))
+  # split into codes and the base
+  base <- regmatches(short_nc,regexpr("[AGCUX]$",short_nc))
+  code <- regmatches(short_nc,regexpr("^[^AGCUX]+",short_nc))
+  code_split <- strsplit(code,"")
+  # methylattion are always first
+  ribo_meth <- vapply(code_split,"[",character(1),1L) == "0" &
+    vapply(code_split,"[",character(1),2L) != "0"
+  ribo_meth[is.na(ribo_meth)] <- FALSE
+  # assemble result lib
+  lib <- as.list(short_nc)
+  # add the ribometh variations
+  lib[ribo_meth] <- pc(paste0("0",base[ribo_meth]),
+                       paste0(substr(code[ribo_meth],2,length(code[ribo_meth])),
+                              base[ribo_meth]))
+  #
+  names(lib) <- short_nc
+  lib
+}
+
+# try to separate modification annotation. Only possible for RNA modifications
+.separate_modifications <- function(gr, seqtype)
+{
+  nc <- .get_nc_ident(mcols(gr)$mod, seqtype, "short")
+  lib <- .get_short_nc_lib(seqtype)
+  new_nc <- lib[nc]
+  gr <- gr[unlist(Map(rep,seq_along(gr),lengths(new_nc)))]
+  f <- match(unlist(new_nc), names(modsnomenclature(seqtype)))
+  mcols(gr)$mod <- names(modsshortnames(seqtype))[f]
+  gr
+}
+.separate_modifications_in_GRanges <- function(gr, seqtype){
+  .separate_modifications(gr, seqtype)
+}
+.separate_modifications_in_GRangesList <- function(grl, seqtype){
+  names <- names(grl)
+  if(is.null(names)){
+    names(grl) <- seq_along(grl)
+  }
+  unlisted_gr <- unlist(grl)
+  unlisted_gr <- .separate_modifications(unlisted_gr, seqtype)
+  ans <- split(unname(unlisted_gr),
+               factor(names(unlisted_gr),unique(names(unlisted_gr))))
+  names(ans) <- names
+  ans
+}
+
+#' @rdname separate
+#' @export
+setMethod(
+  "separate",
+  signature = "GRanges",
+  function(x)
+  {
+    x <- .norm_GRanges_for_separate(x)
+    seqtype <- .detect_seqtype_in_GRanges(x)
+    if(seqtype != "ModRNA"){ # currently only supported for "ModRNA"
+      return(x)
+    }
+    x <- .separate_modifications_in_GRanges(x, seqtype)
+    x 
+  }
+)
+#' @rdname separate
+#' @export
+setMethod(
+  "separate",
+  signature = "GRangesList",
+  function(x)
+  {
+    x <- .norm_GRangesList_for_separate(x)
+    seqtype <- .detect_seqtype_in_GRangesList(x)
+    if(seqtype != "ModRNA"){ # separate currently only supported for "ModRNA"
+      return(x)
+    }
+    x <- .separate_modifications_in_GRangesList(x, seqtype)
+    x
   }
 )
 
@@ -247,7 +370,7 @@ setMethod(
                   character(1),
                   collapse = "")
   # order the nc base on first digit
-  newnc <- newnc[order(unlist(tmp[f][,1]))]
+  newnc <- newnc[order(vapply(tmp[f],"[",character(1),1L))]
   newnc <- paste0(paste0(newnc,collapse = ""),base)
   newnc <- newnc[newnc %in% names(modsnomenclature(seqtype))]
   if(length(newnc) == 0L){
@@ -276,7 +399,8 @@ setMethod(
     overlappingPos <- gr[f_dup]
     overlappingPos <- unique(overlappingPos)
     f_gr <- gr %in% overlappingPos
-    newgr <- lapply(split(gr[f_gr],as.character(gr[f_gr])),
+    newgr <- lapply(split(gr[f_gr],factor(as.character(gr[f_gr]),
+                                          unique(as.character(gr[f_gr])))),
                     .combine_to_new_nc_ident,
                     seqtype)
     newgr <- unlist(GenomicRanges::GRangesList(unname(newgr)))
@@ -296,13 +420,18 @@ setMethod(
 }
 
 # normalize GRanges inputs and check compatibility for combineIntoModstrings
-.norm_GRanges_for_combine <- function(x,gr, drop.additional.columns = TRUE)
+.norm_GRanges_for_combine <- function(x, gr, drop.additional.columns = TRUE,
+                                      do.combine = FALSE)
 {
   gr <- .norm_GRanges(gr, drop.additional.columns)
-  if(any(max(end(gr)) > length(x))){
-    stop("GRanges object contains coordinates out of bounds for the ",
-         "XStringSet object.",
-         call. = FALSE)
+  if(is(x,"XString")){
+    if(any(max(end(gr)) > length(x))){
+      stop("GRanges object contains coordinates out of bounds for the ",
+           "XStringSet object.",
+           call. = FALSE)
+    }
+  } else {
+    x <- do.call(paste0(x,"String"),list("N"))
   }
   if(any(unique(width(gr)) != 1)){
     stop("width() of GRanges elements must all be == 1",
@@ -313,30 +442,29 @@ setMethod(
          call. = FALSE)
   }
   # check if modifications are compatible with type of input string
-  seqtype <- seqtype(x)
-  if(!stringr::str_detect(seqtype,"Mod")){
-    seqtype <- paste0("Mod",seqtype)
-  }
-  .get_nc_type(gr$mod,seqtype)
+  seqtype <- paste0("Mod",gsub("Mod","",seqtype(x)))
+  .get_nc_type(gr$mod, seqtype)
   # this can also be done with checking the findOverlaps(gr) length. This
   # should however be faster
   f <- duplicated(start(gr))
-  if(any(f)){
+  if(any(f) & do.combine){
+    f <- which(duplicated(start(gr)))
+    msg <- paste0("Multiple modifications found for position '", start(gr)[f],
+                  "'.")
     if(!is.null(mcols(gr)$quality)){
-      stop("Multiple modifications found for position '",start(gr)[f],"'.",
-           call. = FALSE)
+      stop(msg, " Remove quality metadata column or remove overlapping",
+           " modifications.", call. = FALSE)
     }
     gr <- .combine_modifications_in_GRanges(gr,seqtype)
     if(any(duplicated(start(gr)))){
-      f <- which(duplicated(start(gr)))
-      stop("Multiple modifications found for position '",start(gr)[f],"'.",
-           call. = FALSE)
+      stop(msg, " They could not be combined.", call. = FALSE)
     }
   }
   gr
 }
 
-.norm_GRangesList_for_combine <- function(x, gr, drop.additional.columns = TRUE)
+.norm_GRangesList_for_combine <- function(x, gr, drop.additional.columns = TRUE,
+                                          do.combine = FALSE)
 {
   gr <- .norm_GRangesList(gr, drop.additional.columns)
   if(length(gr) == 0L){
@@ -346,50 +474,50 @@ setMethod(
     stop("GRanges object does not contain a 'mod' column.",
          call. = FALSE)
   }
-  # check if modifications are compatible with type of input string
-  seqtype <- seqtype(x)
-  if(!stringr::str_detect(seqtype,"Mod")){
-    seqtype <- paste0("Mod",seqtype)
-  }
-  .get_nc_type(unlist(S4Vectors::mcols(gr@unlistData)$mod),seqtype)
   #
-  seqnames <- as(seqnames(gr),"CharacterList")
-  if(is.null(names(x)) ||
-     !all(unique(unlist(seqnames)) %in% names(x))){
-    stop("Names of XStringSet object do not match the seqnames or names in the",
-         " elements of the GRangesList object.",
-         call. = FALSE)
+  if(is(x,"XStringSet")){
+    seqnames <- as(seqnames(gr),"CharacterList")
+    if(is.null(names(x)) ||
+       !all(unique(unlist(seqnames)) %in% names(x))){
+      stop("Names of XStringSet object do not match the seqnames or names in the",
+           " elements of the GRangesList object.",
+           call. = FALSE)
+    }
+    f <- names(x) %in% unlist(unique(seqnames))
+    m <- match(names(x), unlist(unique(seqnames)))
+    m <- m[!is.na(m)]
+    if(any(max(end(gr))[m] > width(x[f]))){
+      stop("Elements of the GRangesList object contain coordinates out of bounds",
+           " for the XStringSet object.",
+           call. = FALSE)
+    }
+    if(any(unique(unlist(width(gr))) != 1)){
+      stop("width() of GRangesList elements must all be == 1",
+           call. = FALSE)
+    }
+  } else {
+    x <- do.call(paste0(x,"StringSet"),list("N"))
   }
-  f <- names(x) %in% unlist(unique(seqnames))
-  m <- match(names(x), unlist(unique(seqnames)))
-  m <- m[!is.na(m)]
-  if(any(max(end(gr))[m] > width(x[f]))){
-    stop("Elements of the GRangesList object contain coordinates out of bounds",
-         " for the XStringSet object.",
-         call. = FALSE)
-  }
-  if(any(unique(unlist(width(gr))) != 1)){
-    stop("width() of GRangesList elements must all be == 1",
-         call. = FALSE)
-  }
+  # check if modifications are compatible with type of input string
+  seqtype <- paste0("Mod",gsub("Mod","",seqtype(x)))
+  .get_nc_type(unlist(S4Vectors::mcols(gr@unlistData)$mod), seqtype)
   #
   starts <- start(gr)
   starts <- any(duplicated(starts))
-  if(any(starts)){
+  if(any(starts) & do.combine){
+    msg <- paste0("Multiple modifications found for position in element '",
+                  which(starts),"'.")
     qualityCol <- "quality" %in% colnames(unlist(S4Vectors::mcols(gr,level="within")))
     if(any(qualityCol)){
-      stop("Multiple modifications found for position in element '",
-           which(starts),"'. Remove quality metadata column or remove ",
-           "overlapping modifications.",
+      stop(msg," Remove quality metadata column or remove overlapping",
+           " modifications.",
            call. = FALSE)
     }
-    gr <- .combine_modifications_in_GRangesList(gr,seqtype)
+    gr <- .combine_modifications_in_GRangesList(gr, seqtype)
     starts <- start(gr)
     starts <- vapply(starts, function(z){any(duplicated(z))},logical(1))
     if(any(starts)){
-      stop("Multiple modifications found for position in element '",
-           which(starts),"'.",
-           call. = FALSE)
+      stop(msg, " They could not be combined.", call. = FALSE)
     }
   }
   gr
@@ -530,7 +658,7 @@ setMethod(
             paste0("Mod",
                    seqtype(x),
                    "String"))
-    gr <- .norm_GRanges_for_combine(x,gr)
+    gr <- .norm_GRanges_for_combine(x, gr, do.combine = TRUE)
     nc.type <- .get_nc_type(gr$mod,seqtype(x))
     at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
@@ -560,7 +688,7 @@ setMethod(
       stop("with.qualities has to be TRUE or FALSE.")
     }
     quality.type <- match.arg(quality.type, c("Phred", "Solexa", "Illumina"))
-    gr <- .norm_GRangesList_for_combine(x, gr)
+    gr <- .norm_GRangesList_for_combine(x, gr, do.combine = TRUE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
     m <- m[f]
@@ -605,7 +733,7 @@ setMethod(
     } else {
       gr <- split(unname(gr), names(gr))
     }
-    gr <- .norm_GRangesList_for_combine(x, gr)
+    gr <- .norm_GRangesList_for_combine(x, gr, do.combine = TRUE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
     m <- m[f]
@@ -629,12 +757,42 @@ setMethod(
   }
 )
 
+# combineModifications ---------------------------------------------------------
 
-# removeIncompatibleModifications ----------------------------------------------
+#' @rdname separate
+#' @export
+setMethod(
+  "combineModifications",
+  signature = c(gr = "GRanges"),
+  function(gr)
+  {
+    seqtype <- .detect_seqtype_in_GRanges(gr)
+    gr <- .norm_GRanges_for_combine(seqtype, gr, drop.additional.columns = FALSE,
+                                    do.combine = TRUE)
+    gr
+  }
+)
 
-.remove_incompatbile_modifications <- function(x, at, mod){
+#' @rdname separate
+#' @export
+setMethod(
+  "combineModifications",
+  signature = c(gr = "GRangesList"),
+  function(gr)
+  {
+    seqtype <- .detect_seqtype_in_GRanges(gr)
+    gr <- .norm_GRangesList_for_combine(seqtype, gr, drop.additional.columns = FALSE,
+                                        do.combine = TRUE)
+    gr
+  }
+)
+
+
+# incompatibleModifications ---------------------------------------------------- 
+
+.incompatbile_modifications <- function(x, at, mod){
   at <- .norm_replace_pos_ModString(x,at)
-  assertive::assert_all_are_non_empty_character(as.character(mod))
+  assertive::assert_all_are_non_empty_character(as.character(unlist(mod)))
   if(length(at) != length(mod)){
     stop("lengths of 'at' and 'mod' need to be equal.",
          call. = FALSE)
@@ -655,9 +813,73 @@ setMethod(
                          gsub("Mod","",class))
     current_letter <- as.character(current_letter)
   }
-  mismatch <- originatingBase(codec)[f] != current_letter
-  mismatch
+  originating_base <- lapply(relist(f,mod),
+                             function(i){originatingBase(codec)[i]})
+  mismatch <- IRanges::CharacterList(originating_base) != current_letter
+  unlist(mismatch, use.names = FALSE)
 }
+
+#' @rdname separate
+#' @export
+setMethod(
+  "incompatibleModifications",
+  signature = c(gr = "GRanges", x = "XString"),
+  function(gr, x)
+  {
+    gr <- .norm_GRanges_for_combine(x, gr, drop.additional.columns = FALSE,
+                                    do.combine = FALSE)
+    at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
+                                 list(start(gr)))
+    mod <- S4Vectors::mcols(gr)$mod
+    mod <- split(mod, start(gr))
+    mismatch <- .incompatbile_modifications(x, as.vector(at), mod)
+    mismatch
+  }
+)
+
+
+#' @rdname separate
+#' @export
+setMethod(
+  "incompatibleModifications",
+  signature = c(gr = "GRanges", x = "XStringSet"),
+  function(gr, x)
+  {
+    if(is.null(names(gr))){
+      gr <- split(gr, seqnames(gr))
+      gr <- gr[lengths(gr) != 0L]
+    } else {
+      gr <- split(unname(gr), names(gr))
+    }
+    unlist(incompatibleModifications(gr, x), use.names = FALSE)
+  }
+)
+
+#' @rdname separate
+#' @export
+setMethod(
+  "incompatibleModifications",
+  signature = c(gr = "GRangesList", x = "XStringSet"),
+  function(gr, x)
+  {
+    gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE,
+                                        do.combine = FALSE)
+    m <- match(names(x),names(gr))
+    f <- !is.na(m)
+    m <- m[f]
+    at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
+                               start(gr)[m])
+    mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
+    mismatch <- Map(.incompatbile_modifications,
+                    x[f],
+                    at,
+                    mod)
+    mismatch <- relist(unlist(mismatch, use.names = FALSE), gr)
+    mismatch
+  }
+)
+
+# removeIncompatibleModifications ----------------------------------------------
 
 #' @rdname separate
 #' @export
@@ -666,12 +888,13 @@ setMethod(
   signature = c(gr = "GRanges", x = "XString"),
   function(gr, x)
   {
-    x <- as(x, paste0("Mod", seqtype(x), "String"))
-    gr <- .norm_GRanges_for_combine(x,gr, drop.additional.columns = FALSE)
+    gr <- .norm_GRanges_for_combine(x,gr, drop.additional.columns = FALSE,
+                                    do.combine = FALSE)
     at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
                                  list(start(gr)))
-    mismatch <- .remove_incompatbile_modifications(x, as.vector(at),
-                                                   S4Vectors::mcols(gr)$mod)
+    mod <- S4Vectors::mcols(gr)$mod
+    mod <- split(mod, start(gr))
+    mismatch <- .incompatbile_modifications(x, as.vector(at), mod)
     gr[!mismatch]
   }
 )
@@ -689,7 +912,8 @@ setMethod(
     } else {
       gr <- split(unname(gr), names(gr))
     }
-    unlist(removeIncompatibleModifications(gr, x), use.names = FALSE)
+    unlist(removeIncompatibleModifications(gr, x, do.combine = FALSE),
+           use.names = FALSE)
   }
 )
 
@@ -700,18 +924,20 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
-    gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE)
+    gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE,
+                                        do.combine = FALSE)
     m <- match(names(x),names(gr))
     f <- !is.na(m)
     m <- m[f]
     at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
                                start(gr)[m])
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
-    mismatch <- Map(.remove_incompatbile_modifications,
+    mod <- lapply(mod,split,start(gr))
+    mismatch <- Map(.incompatbile_modifications,
                     x[f],
                     at,
                     mod)
-    mismatch <- IRanges::LogicalList(mismatch)
+    mismatch <- relist(unlist(mismatch, use.names = FALSE), gr)
     gr <- gr[!mismatch]
     gr[lengths(gr) != 0L]
   }
