@@ -21,8 +21,8 @@
 \alias{removeIncompatibleModifications,GRanges,XString-method}
 \alias{removeIncompatibleModifications,GRanges,XStringSet-method}
 \alias{removeIncompatibleModifications,GRangesList,XStringSet-method}
-\title{Separating and combining a ModString object into/from a XString and a 
-GRanges object}
+\title{Separating and combining a modification information into/from a
+  \code{XString} and a \code{GRanges} object}
 \usage{
 separate(x, nc.type = "short")
 
@@ -149,7 +149,7 @@ information \code{*} and \code{+} are used.
 
 \code{separate} when used with a \code{GRanges}/\code{GRangesList} object
 will return an object of the same type, but with modifications seperated. For
-example an element with \code{mod = "m1Am"} will be returned as two elemens
+example an element with \code{mod = "m1Am"} will be returned as two elements
 with \code{mod = c("Am","m1A")}. The reverse operation is available via
 \code{combineModifications()}.
 
@@ -158,7 +158,30 @@ a \code{GRanges} or \code{GRangesList}. \code{incompatibleModifications()}
 returns the logical vector used for this operation.
 }
 \examples{
+# ModDNAString
 seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
+seq
 gr <- separate(seq)
-seq <- combineIntoModstrings(as(seq,"DNAString"),gr)
+gr
+seq2 <- combineIntoModstrings(as(seq,"DNAString"),gr)
+seq2
+seq == seq2
+# ModRNAString
+seq <- ModRNAString(paste(alphabet(ModRNAString()), collapse = ""))
+seq
+gr <- separate(seq)
+gr
+# Separating RNA modifications
+gr <- gr[1]
+separate(gr)
+# ... and combineine them again (both operations work only on a subset of
+# modifications)
+combineModifications(separate(gr))
+
+# handling incompatible modifications
+seq <- RNAString("AGCU")
+gr <- GRanges(c("chr1:1:+","chr1:2:+"),mod="m1A")
+incompatibleModifications(gr,seq)
+#
+removeIncompatibleModifications(gr,seq)
 }
