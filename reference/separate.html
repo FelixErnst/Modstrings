@@ -45,8 +45,14 @@ transfered from/to tabular data with these functions.
 combineIntoModstrings expects seqnames(gr) or names(gr) 
 to match the available names(x). Only information with strand 
 information * and + are used.
+separate when used with a GRanges/GRangesList object
+will return an object of the same type, but with modifications seperated. For
+example an element with mod = &quot;m1Am&quot; will be returned as two elemens
+with mod = c(&quot;Am&quot;,&quot;m1A&quot;). The reverse operation is available via
+combineModifications().
 removeIncompatibleModifications filters incompatible modification from
-a GRanges or GRangesList." />
+a GRanges or GRangesList. incompatibleModifications() 
+returns the logical vector used for this operation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -79,7 +85,7 @@ a GRanges or GRangesList." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
       </span>
     </div>
 
@@ -142,8 +148,14 @@ transfered from/to tabular data with these functions.</p>
 <p><code>combineIntoModstrings</code> expects <code>seqnames(gr)</code> or <code><a href='https://rdrr.io/r/base/names.html'>names(gr)</a></code> 
 to match the available <code><a href='https://rdrr.io/r/base/names.html'>names(x)</a></code>. Only information with strand 
 information <code>*</code> and <code>+</code> are used.</p>
+<p><code>separate</code> when used with a <code>GRanges</code>/<code>GRangesList</code> object
+will return an object of the same type, but with modifications seperated. For
+example an element with <code>mod = "m1Am"</code> will be returned as two elemens
+with <code>mod = c("Am","m1A")</code>. The reverse operation is available via
+<code>combineModifications()</code>.</p>
 <p><code>removeIncompatibleModifications</code> filters incompatible modification from
-a <code>GRanges</code> or <code>GRangesList</code>.</p>
+a <code>GRanges</code> or <code>GRangesList</code>. <code>incompatibleModifications()</code> 
+returns the logical vector used for this operation.</p>
     </div>
 
     <pre class="usage"><span class='fu'>separate</span>(<span class='no'>x</span>, <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='st'>"short"</span>)
@@ -158,6 +170,10 @@ a <code>GRanges</code> or <code>GRangesList</code>.</p>
   <span class='no'>...</span>
 )
 
+<span class='fu'>combineModifications</span>(<span class='no'>gr</span>, <span class='no'>...</span>)
+
+<span class='fu'>incompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>, <span class='no'>...</span>)
+
 <span class='fu'>removeIncompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for ModString</span>
@@ -165,6 +181,12 @@ a <code>GRanges</code> or <code>GRangesList</code>.</p>
 
 <span class='co'># S4 method for ModStringSet</span>
 <span class='fu'>separate</span>(<span class='no'>x</span>, <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>))
+
+<span class='co'># S4 method for GRanges</span>
+<span class='fu'>separate</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for GRangesList</span>
+<span class='fu'>separate</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for XString,GRanges</span>
 <span class='fu'>combineIntoModstrings</span>(
@@ -199,6 +221,21 @@ a <code>GRanges</code> or <code>GRangesList</code>.</p>
   <span class='no'>...</span>
 )
 
+<span class='co'># S4 method for GRanges</span>
+<span class='fu'>combineModifications</span>(<span class='no'>gr</span>)
+
+<span class='co'># S4 method for GRangesList</span>
+<span class='fu'>combineModifications</span>(<span class='no'>gr</span>)
+
+<span class='co'># S4 method for GRanges,XString</span>
+<span class='fu'>incompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>)
+
+<span class='co'># S4 method for GRanges,XStringSet</span>
+<span class='fu'>incompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>)
+
+<span class='co'># S4 method for GRangesList,XStringSet</span>
+<span class='fu'>incompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>)
+
 <span class='co'># S4 method for GRanges,XString</span>
 <span class='fu'>removeIncompatibleModifications</span>(<span class='no'>gr</span>, <span class='no'>x</span>)
 
@@ -213,9 +250,9 @@ a <code>GRanges</code> or <code>GRangesList</code>.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>For <code>separate</code>: a <code>ModString</code> or <code>ModStringSet</code>
-object</p>
-<p>For <code>combineIntoModstrings</code>: a <code>XStringSet</code> and a <code>GRanges</code> 
+      <td><p>For <code>separate</code>: a <code>ModString</code>/<code>ModStringSet</code> or 
+<code>GRanges</code>/<code>GRangesList</code>object</p>
+<p>For <code>combineIntoModstrings</code>: a <code>XString</code> and a <code>XStringSet</code> 
 object.</p></td>
     </tr>
     <tr>
