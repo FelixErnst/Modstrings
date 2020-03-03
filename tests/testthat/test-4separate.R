@@ -139,8 +139,8 @@ test_that("ModString separate/combine:",{
   expect_equal(length(separate(actual)),1L)
   expect_equal(unname(separate(actual)$mod),"m1Am")
   mcols(gr2)$quality <- 10L
-  expect_error(combineIntoModstrings(as(seq,"RNAString"),gr2),
-               "Multiple modifications found for position '13'.")
+  expect_error(combineIntoModstrings(as(set,"RNAStringSet"),gr2),
+               "Multiple modifications found for position in element")
   # removeIncompatibleModifications
   gr2 <- gr
   gr2 <- gr2[c(5,24)]

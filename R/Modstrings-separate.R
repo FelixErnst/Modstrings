@@ -955,7 +955,7 @@ setMethod(
     at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
                                start(gr)[m])
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
-    mod <- lapply(mod,split,start(gr))
+    mod <- Map(split,mod,start(gr)[m])
     mismatch <- Map(.incompatbile_modifications,
                     x[f],
                     at,
