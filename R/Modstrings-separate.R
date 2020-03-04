@@ -894,6 +894,7 @@ setMethod(
     at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
                                start(gr)[m])
     mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
+    mod <- Map(split,mod,start(gr)[m])
     mismatch <- Map(.incompatbile_modifications,
                     x[f],
                     at,
@@ -912,13 +913,7 @@ setMethod(
   signature = c(gr = "GRanges", x = "XString"),
   function(gr, x)
   {
-    gr <- .norm_GRanges_for_combine(x,gr, drop.additional.columns = FALSE,
-                                    do.combine = FALSE)
-    at <- .pos_to_logical_matrix(as(x, paste0(seqtype(x), "StringSet")),
-                                 list(start(gr)))
-    mod <- S4Vectors::mcols(gr)$mod
-    mod <- split(mod, start(gr))
-    mismatch <- .incompatbile_modifications(x, as.vector(at), mod)
+    mismatch <- incompatibleModifications(gr, x)
     gr[!mismatch]
   }
 )
@@ -947,20 +942,7 @@ setMethod(
   signature = c(gr = "GRangesList", x = "XStringSet"),
   function(gr, x)
   {
-    gr <- .norm_GRangesList_for_combine(x, gr, drop.additional.columns = FALSE,
-                                        do.combine = FALSE)
-    m <- match(names(x),names(gr))
-    f <- !is.na(m)
-    m <- m[f]
-    at <- .pos_to_logical_list(as(x, paste0(seqtype(x), "StringSet"))[f],
-                               start(gr)[m])
-    mod <- S4Vectors::mcols(gr[m], level="within")[,"mod"]
-    mod <- Map(split,mod,start(gr)[m])
-    mismatch <- Map(.incompatbile_modifications,
-                    x[f],
-                    at,
-                    mod)
-    mismatch <- relist(unlist(mismatch, use.names = FALSE), gr)
+    mismatch <- incompatibleModifications(gr, x)
     gr <- gr[!mismatch]
     gr[lengths(gr) != 0L]
   }
