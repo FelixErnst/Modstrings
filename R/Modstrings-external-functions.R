@@ -31,7 +31,6 @@ XStringSetList <- Biostrings:::XStringSetList
 # show functions
 .namesW <- Biostrings:::.namesW
 .toSeqSnippet <- Biostrings:::toSeqSnippet
-.compact_ellipsis <- intToUtf8(0x2026L)
 .XStringSet.show_frame_header <- Biostrings:::.XStringSet.show_frame_header
 
 # IRanges
