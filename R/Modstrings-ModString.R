@@ -326,7 +326,9 @@ make_MODRNA_COLORED_LETTERS <- function()
 }
 
 ### 'x' must be a character vector.
-.add_modx_colors <- function(x,COLORED_LETTERS){
+.add_modx_colors <- function(x, COLORED_LETTERS){
+  if (!isTRUE(getOption("Biostrings.coloring", default=FALSE)))
+    return(x)
   ans <- vapply(x,
                 function(xi){
                   xi <- strsplit(xi,"")[[1L]]
