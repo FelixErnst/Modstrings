@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Modstrings</h1>
                         <h4 class="author">Felix G.M. Ernst &amp; Denis L.J. Lafontaine</h4>
             
-            <h4 class="date">2020-04-09</h4>
+            <h4 class="date">2020-04-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/FelixErnst/Modstrings/blob/master/vignettes/Modstrings.Rmd"><code>vignettes/Modstrings.Rmd</code></a></small>
       <div class="hidden name"><code>Modstrings.Rmd</code></div>
@@ -98,7 +98,7 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      Classes for DNA and RNA sequences containing modified nucleotides
+      <p>Classes for DNA and RNA sequences containing modified nucleotides</p>
     </div>
     
 <script type="text/javascript">
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="creating-a-modrnastring-object" class="section level1">
 <h1 class="hasAnchor">
-<a href="#creating-a-modrnastring-object" class="anchor"></a>Creating a ModRNAString object</h1>
+<a href="#creating-a-modrnastring-object" class="anchor"></a>Creating a <code>ModRNAString</code> object</h1>
 <p>In principle <code>ModRNAString</code> and <code>ModDNAString</code> objects can be created as any other <code>XString</code> object. However encoding issue will most certainly come into play, depending on the modification, the operation system and probably the R version. This is not a problem of how the data is internally used, but how the letter is transfered from the console to R and back.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Modstrings</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">GenomicRanges</span>)</pre></body></html></div>
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   -------
 ##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">rs2</span></pre></body></html></div>
-<pre><code>## RNAStringSet object of length 5:
+<pre><code>##   A RNAStringSet instance of length 5
 ##     width seq                                               names               
 ## [1]     5 ACGUG                                             Sequence1
 ## [2]     5 ACGUG                                             Sequence2
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="comparing-modstring-objects" class="section level1">
 <h1 class="hasAnchor">
-<a href="#comparing-modstring-objects" class="anchor"></a>Comparing ModString objects</h1>
+<a href="#comparing-modstring-objects" class="anchor"></a>Comparing <code>ModString</code> objects</h1>
 <p><code>ModString</code> objects can be directly compared to <code>RNAString</code> or <code>DNAString</code> objects depending on the type (<code>ModRNA</code> to <code>RNA</code> and <code>ModDNA</code> to <code>DNA</code>).</p>
 <div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">r</span> <span class="kw">==</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="no">r</span>)</pre></body></html></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -249,15 +249,16 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="conversion-of-modstring-objects" class="section level1">
 <h1 class="hasAnchor">
-<a href="#conversion-of-modstring-objects" class="anchor"></a>Conversion of ModString objects</h1>
+<a href="#conversion-of-modstring-objects" class="anchor"></a>Conversion of <code>ModString</code> objects</h1>
 <p><code>ModString</code> objects can be converted into each other. However any conversion will remove any information on modifications and revert each nucleotide back to its originating nucleotide.</p>
 <div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu">RNAString</span>(<span class="no">mr</span>)</pre></body></html></div>
-<pre><code>## 5-letter RNAString object
+<pre><code>##   5-letter "RNAString" instance
 ## seq: ACGUG</code></pre>
 </div>
 <div id="quality-scaled-modstring" class="section level1">
 <h1 class="hasAnchor">
-<a href="#quality-scaled-modstring" class="anchor"></a>Quality scaled ModString</h1>
+<a href="#quality-scaled-modstring" class="anchor"></a>Quality scaled <code>ModString</code>
+</h1>
 <p>Quality information can be encoded alongside <code>ModString</code> objects by combining it with a <code>XStringQuality</code> object inside a <code>QualityScaledModStringSet</code> object. Two class are implemented: <code>QualityScaledModRNAStringSet</code> and <code>QualityScaledModDNAStringSet</code>. They are usable as expected from a <code>QualityScaledXStringSet</code> object.</p>
 <div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="no">qmrs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">QualityScaledModRNAStringSet</a></span>(<span class="no">mrs</span>,
                                      <span class="fu">PhredQuality</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,
@@ -273,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-## PhredQuality object of length 5:
+##   A PhredQuality instance of length 5
 ##     width seq
 ## [1]     5 !!!!h
 ## [2]     5 !!!!h
@@ -307,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-## PhredQuality object of length 5:
+##   A PhredQuality instance of length 5
 ##     width seq
 ## [1]     5 !!!h!
 ## [2]     5 !!!!h
@@ -317,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="saving-and-reading-modstring-objects-tofrom-file" class="section level1">
 <h1 class="hasAnchor">
-<a href="#saving-and-reading-modstring-objects-tofrom-file" class="anchor"></a>Saving and reading ModString objects to/from file</h1>
+<a href="#saving-and-reading-modstring-objects-tofrom-file" class="anchor"></a>Saving and reading <code>ModString</code> objects to/from file</h1>
 <p>The nucleotide sequences with modifications can be saved to a <code>fasta</code> or <code>fastq</code> file using the functions <code><a href="../reference/ModStringSet-io.html">writeModStringSet()</a></code>. Reading of these files is achieved using <code><a href="../reference/ModStringSet-io.html">readModRNAStringSet()</a></code> or <code><a href="../reference/ModStringSet-io.html">readModDNAStringSet()</a></code>. In case of <code>fastq</code> files, the sequences can be automatically read as a <code>QualityScaledModRNAStringSet</code> using <code><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet()</a></code> function.</p>
 <div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="fu"><a href="../reference/ModStringSet-io.html">writeModStringSet</a></span>(<span class="no">mrs</span>, <span class="kw">file</span> <span class="kw">=</span> <span class="st">"test.fasta"</span>)
 <span class="co"># note the different function name. Otherwise empty qualities will be written</span>
@@ -343,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-## PhredQuality object of length 5:
+##   A PhredQuality instance of length 5
 ##     width seq
 ## [1]     5 !!!!h
 ## [2]     5 !!!!h
@@ -357,11 +358,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#pattern-matching" class="anchor"></a>Pattern matching</h1>
 <p>Pattern matching is implemented as well as expected for <code>XString</code> objects.</p>
 <div class="sourceCode" id="cb50"><html><body><pre class="r"><span class="fu">matchPattern</span>(<span class="st">"U7"</span>,<span class="no">mr</span>)</pre></body></html></div>
-<pre><code>## Views on a 5-letter ModRNAString subject
+<pre><code>##   Views on a 5-letter ModRNAString subject
 ## subject: ACGU7
 ## views:
-##       start end width
-##   [1]     4   5     2 [U7]</code></pre>
+##     start end width
+## [1]     4   5     2 [U7]</code></pre>
 <div class="sourceCode" id="cb52"><html><body><pre class="r"><span class="fu">vmatchPattern</span>(<span class="st">"D7"</span>,<span class="no">mrs</span>)</pre></body></html></div>
 <pre><code>## MIndex object of length 5
 ## $Sequence1
@@ -393,11 +394,11 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   [1]         4         5         2</code></pre>
 <div class="sourceCode" id="cb54"><html><body><pre class="r"><span class="no">mrl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">mrs</span>)
 <span class="fu">matchLRPatterns</span>(<span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="no">mrl</span>)</pre></body></html></div>
-<pre><code>## Views on a 25-letter ModRNAString subject
+<pre><code>##   Views on a 25-letter ModRNAString subject
 ## subject: ACGD7ACGU7ACGD7ACGU7ACGD7
 ## views:
-##       start end width
-##   [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</code></pre>
+##     start end width
+## [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</code></pre>
 </div>
 <div id="future-development" class="section level1">
 <h1 class="hasAnchor">
@@ -477,41 +478,39 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>Sessioninfo</h1>
 <div class="sourceCode" id="cb63"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
-<pre><code>## R Under development (unstable) (2020-04-09 r78184)
+<pre><code>## R version 3.6.3 (2020-02-29)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.6 LTS
+## Running under: Ubuntu 18.04.4 LTS
 ## 
 ## Matrix products: default
-## BLAS:   /home/travis/R-bin/lib/R/lib/libRblas.so
-## LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so
+## BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
+## LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 ## 
 ## attached base packages:
 ## [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] GenomicRanges_1.39.3 GenomeInfoDb_1.23.16 Modstrings_1.3.12   
-## [4] Biostrings_2.55.7    XVector_0.27.2       IRanges_2.21.8      
-## [7] S4Vectors_0.25.15    BiocGenerics_0.33.3  BiocStyle_2.15.6    
+## [1] GenomicRanges_1.38.0 GenomeInfoDb_1.22.1  Modstrings_1.3.12   
+## [4] Biostrings_2.54.0    XVector_0.26.0       IRanges_2.20.2      
+## [7] S4Vectors_0.24.3     BiocGenerics_0.32.0  BiocStyle_2.14.4    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.4.6               assertive.data_0.0-3      
-##  [3] compiler_4.1.0             BiocManager_1.30.10       
+##  [3] compiler_3.6.3             BiocManager_1.30.10       
 ##  [5] assertive.files_0.0-2      assertive.data.us_0.0-2   
 ##  [7] assertive.properties_0.0-4 bitops_1.0-6              
-##  [9] tools_4.1.0                zlibbioc_1.33.1           
+##  [9] tools_3.6.3                zlibbioc_1.32.0           
 ## [11] digest_0.6.25              assertive_0.3-5           
 ## [13] evaluate_0.14              memoise_1.1.0             
 ## [15] assertive.base_0.0-7       rlang_0.4.5               
-## [17] yaml_2.2.1                 pkgdown_1.5.1             
+## [17] yaml_2.2.1                 pkgdown_1.5.1.9000        
 ## [19] xfun_0.12                  GenomeInfoDbData_1.2.2    
 ## [21] stringr_1.4.0              knitr_1.28                
 ## [23] assertive.sets_0.0-3       assertive.matrices_0.0-2  
@@ -534,13 +533,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Boccaletto-2018">
-<p>Boccaletto, Pietro, Magdalena A. Machnicka, Elzbieta Purta, Pawel Piatkowski, Blazej Baginski, Tomasz K. Wirecki, Valérie de Crécy-Lagard, et al. 2018. “MODOMICS: A Database of Rna Modification Pathways. 2017 Update.” <em>Nucleic Acids Research</em> 46 (D1): D303–D307. <a href="https://doi.org/10.1093/nar/gkx1030" class="uri">https://doi.org/10.1093/nar/gkx1030</a>.</p>
+<p>Boccaletto, Pietro, Magdalena A. Machnicka, Elzbieta Purta, Pawel Piatkowski, Blazej Baginski, Tomasz K. Wirecki, Valérie de Crécy-Lagard, et al. 2018. “MODOMICS: A Database of Rna Modification Pathways. 2017 Update.” <em>Nucleic Acids Research</em> 46 (D1): D303–D307. <a href="https://doi.org/10.1093/nar/gkx1030">https://doi.org/10.1093/nar/gkx1030</a>.</p>
 </div>
 <div id="ref-Pages-2017">
-<p>H. Pagès, P. Aboyoun, R. Gentleman, and S. DebRoy. 2017. “Biostrings.” Bioconductor. <a href="https://doi.org/10.18129/B9.bioc.Biostrings" class="uri">https://doi.org/10.18129/B9.bioc.Biostrings</a>.</p>
+<p>H. Pagès, P. Aboyoun, R. Gentleman, and S. DebRoy. 2017. “Biostrings.” Bioconductor. <a href="https://doi.org/10.18129/B9.bioc.Biostrings">https://doi.org/10.18129/B9.bioc.Biostrings</a>.</p>
 </div>
 <div id="ref-Juehling-2009">
-<p>Jühling, Frank, Mario Mörl, Roland K. Hartmann, Mathias Sprinzl, Peter F. Stadler, and Joern Pütz. 2009. “TRNAdb 2009: Compilation of tRNA Sequences and tRNA Genes.” <em>Nucleic Acids Research</em> 37: D159–D162. <a href="https://doi.org/10.1093/nar/gkn772" class="uri">https://doi.org/10.1093/nar/gkn772</a>.</p>
+<p>Jühling, Frank, Mario Mörl, Roland K. Hartmann, Mathias Sprinzl, Peter F. Stadler, and Joern Pütz. 2009. “TRNAdb 2009: Compilation of tRNA Sequences and tRNA Genes.” <em>Nucleic Acids Research</em> 37: D159–D162. <a href="https://doi.org/10.1093/nar/gkn772">https://doi.org/10.1093/nar/gkn772</a>.</p>
 </div>
 </div>
 </div>
@@ -561,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
