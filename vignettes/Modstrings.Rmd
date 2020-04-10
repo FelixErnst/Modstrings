@@ -56,7 +56,7 @@ implemented as well. For details on the available letters have a look at the
 [RNA modification](ModRNAString-alphabet.html) and 
 [DNA modification](ModDNAString-alphabet.html alphabet vignettes.
 
-# Creating a ModRNAString object
+# Creating a `ModRNAString` object
 
 In principle `ModRNAString` and `ModDNAString` objects can be created as any 
 other `XString` object. However encoding issue will most certainly come into
@@ -169,7 +169,7 @@ mr2 <- modifyNucleotides(r,5L,"m7G")
 r == RNAString(mr2)
 ```
 
-# Comparing ModString objects
+# Comparing `ModString` objects
 
 `ModString` objects can be directly compared to `RNAString` or `DNAString` 
 objects depending on the type (`ModRNA` to `RNA` and `ModDNA` to `DNA`).
@@ -181,7 +181,7 @@ rs == ModRNAStringSet(rs)
 rs == c(mrs[1L:3L],rs[4L:5L])
 ```
 
-# Conversion of ModString objects
+# Conversion of `ModString` objects
 
 `ModString` objects can be converted into each other. However any conversion 
 will remove any information on modifications and revert each nucleotide back to 
@@ -191,7 +191,7 @@ its originating nucleotide.
 RNAString(mr)
 ```
 
-# Quality scaled ModString
+# Quality scaled `ModString`
 
 Quality information can be encoded alongside `ModString` objects by combining it
 with a `XStringQuality` object inside a `QualityScaledModStringSet` object. Two
@@ -219,7 +219,7 @@ qgr
 combineIntoModstrings(mrs,qgr, with.qualities = TRUE)
 ```
 
-# Saving and reading ModString objects to/from file
+# Saving and reading `ModString` objects to/from file
 
 The nucleotide sequences with modifications can be saved to a `fasta` or
 `fastq` file using the functions `writeModStringSet()`. Reading of these files

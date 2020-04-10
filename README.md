@@ -1,6 +1,12 @@
-# Modstrings: working with modified nucleotide sequences [![Build Status](https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master)](https://travis-ci.com/FelixErnst/Modstrings) [![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
+# Modstrings: working with modified nucleotide sequences <img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="200" align="right">
 
-<img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="300" align="right">
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/FelixErnst/Modstrings/workflows/R-CMD-check/badge.svg)](https://github.com/FelixErnst/Modstrings/actions/)
+[![Build Status](https://travis-ci.com/FelixErnst/Modstrings.svg?branch=master)](https://travis-ci.com/FelixErnst/Modstrings)
+[![BioC Build](https://bioconductor.org/shields/build/devel/bioc/Modstrings.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/Modstrings/)
+[![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
+[![BioC Years](https://bioconductor.org/shields/years-in-bioc/Modstrings.svg)](https://doi.org/doi:10.18129/B9.bioc.Modstrings)
+<!-- badges: end -->
 
 RNA are usually in some form post-transcriptionally modified. Most prominent
 examples are of course rRNA and tRNA, but in recent years mRNA was also
