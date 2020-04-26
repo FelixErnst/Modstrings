@@ -24,13 +24,13 @@ jobs:
 
       - name: Install R packages for CI
         run: |
-          install.packages('remotes')
+          install.packages(c('remotes', 'BiocManager'))
           remotes::install_github('r-hub/sysreqs')
         shell: Rscript {0}
         
       - name: Query dependencies
         run: |
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories())), "depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -49,8 +49,7 @@ jobs:
         
       - name: Install dependencies
         run: |
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
+          remotes::install_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories()))
           remotes::install_dev("pkgdown")
           remotes::install_cran("magick")
         shell: Rscript {0}
