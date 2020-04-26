@@ -39,7 +39,7 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ubuntu-r-3.6-pkgdown-${{ hashFiles('depends.Rds') }}
           restore-keys: ubuntu-r-3.6-pkgdown-
-          
+
       - name: Install system dependencies
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
@@ -47,10 +47,10 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs libcurl4-openssl-dev"
         
-      - name: Install dependencies
+      - name: Install R dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories()))
-          remotes::install_dev("pkgdown")
+          remotes::install_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories()), Ncpu = 2L)
+          remotes::install_cran("pkgdown")
           remotes::install_cran("magick")
         shell: Rscript {0}
 
