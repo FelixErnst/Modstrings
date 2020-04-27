@@ -37,8 +37,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ubuntu-r-3.6-pkgdown-${{ hashFiles('depends.Rds') }}
-          restore-keys: ubuntu-r-3.6-pkgdown-
+          key: ubuntu-r-3.6-pkgdown-new-${{ hashFiles('depends.Rds') }}
+          restore-keys: ubuntu-r-3.6-pkgdown-new
 
       - name: Install system dependencies
         env:
