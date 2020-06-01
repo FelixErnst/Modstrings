@@ -318,7 +318,7 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>GenomicRanges</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='input'><span class='co'># ModDNAString</span>
 <span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'><a href='alphabet.html'>alphabet</a></span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>()), <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>""</span>))
 <span class='no'>seq</span></div><div class='output co'>#&gt; 55-letter ModDNAString object
-#&gt; seq: ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</div><div class='input'><span class='no'>gr</span> <span class='kw'>&lt;-</span> <span class='fu'>separate</span>(<span class='no'>seq</span>)
+#&gt; seq: <span style='color: #000000;background-color: #BBBBBB;'>ACGT</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</span><span></div><div class='input'><span class='no'>gr</span> <span class='kw'>&lt;-</span> <span class='fu'>separate</span>(<span class='no'>seq</span>)
 <span class='no'>gr</span></div><div class='output co'>#&gt; GRanges object with 47 ranges and 1 metadata column:
 #&gt;        seqnames    ranges strand |         mod
 #&gt;           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -336,10 +336,10 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 #&gt;   -------
 #&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'><span class='no'>seq2</span> <span class='kw'>&lt;-</span> <span class='fu'>combineIntoModstrings</span>(<span class='fu'>as</span>(<span class='no'>seq</span>,<span class='st'>"DNAString"</span>),<span class='no'>gr</span>)
 <span class='no'>seq2</span></div><div class='output co'>#&gt; 55-letter ModDNAString object
-#&gt; seq: ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</div><div class='input'><span class='no'>seq</span> <span class='kw'>==</span> <span class='no'>seq2</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># ModRNAString</span>
+#&gt; seq: </span><span style='color: #000000;background-color: #BBBBBB;'>ACGT</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</span><span></div><div class='input'><span class='no'>seq</span> <span class='kw'>==</span> <span class='no'>seq2</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># ModRNAString</span>
 <span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'><a href='alphabet.html'>alphabet</a></span>(<span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span>()), <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>""</span>))
 <span class='no'>seq</span></div><div class='output co'>#&gt; 153-letter ModRNAString object
-#&gt; seq: ACGUN-+.œεξα"KO]±Γ}/£ÿ≠≈*∞[ω∏%2:B#≤Z...Ϩ≡Ϫ√ΘE=6¿(eDς9⊄«⊆I⊇8y∑WPQšÎ÷H&lt;;ÜVυY€</div><div class='input'><span class='no'>gr</span> <span class='kw'>&lt;-</span> <span class='fu'>separate</span>(<span class='no'>seq</span>)
+#&gt; seq: </span><span style='color: #000000;background-color: #BBBBBB;'>ACGU</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>œεξα"KO]±Γ}/£ÿ≠≈*∞[ω∏%2:B#≤Z</span><span>...</span><span style='color: #00BB00;background-color: #000000;'>Ϩ≡Ϫ√ΘE=6¿(eDς9⊄«⊆I⊇8y∑WPQšÎ÷H&lt;;ÜVυY€</span><span></div><div class='input'><span class='no'>gr</span> <span class='kw'>&lt;-</span> <span class='fu'>separate</span>(<span class='no'>seq</span>)
 <span class='no'>gr</span></div><div class='output co'>#&gt; GRanges object with 145 ranges and 1 metadata column:
 #&gt;         seqnames    ranges strand |         mod
 #&gt;            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -380,7 +380,7 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 #&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
 #&gt;   [1]     chr1         1      + |         m1A
 #&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div></pre>
+#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -396,7 +396,7 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

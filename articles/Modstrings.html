@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Modstrings</h1>
                         <h4 class="author">Felix G.M. Ernst &amp; Denis L.J. Lafontaine</h4>
             
-            <h4 class="date">2020-04-10</h4>
+            <h4 class="date">2020-06-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/FelixErnst/Modstrings/blob/master/vignettes/Modstrings.Rmd"><code>vignettes/Modstrings.Rmd</code></a></small>
       <div class="hidden name"><code>Modstrings.Rmd</code></div>
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   -------
 ##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">rs2</span></pre></body></html></div>
-<pre><code>##   A RNAStringSet instance of length 5
+<pre><code>## RNAStringSet object of length 5:
 ##     width seq                                               names               
 ## [1]     5 ACGUG                                             Sequence1
 ## [2]     5 ACGUG                                             Sequence2
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#conversion-of-modstring-objects" class="anchor"></a>Conversion of <code>ModString</code> objects</h1>
 <p><code>ModString</code> objects can be converted into each other. However any conversion will remove any information on modifications and revert each nucleotide back to its originating nucleotide.</p>
 <div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu">RNAString</span>(<span class="no">mr</span>)</pre></body></html></div>
-<pre><code>##   5-letter "RNAString" instance
+<pre><code>## 5-letter RNAString object
 ## seq: ACGUG</code></pre>
 </div>
 <div id="quality-scaled-modstring" class="section level1">
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-##   A PhredQuality instance of length 5
+## PhredQuality object of length 5:
 ##     width seq
 ## [1]     5 !!!!h
 ## [2]     5 !!!!h
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-##   A PhredQuality instance of length 5
+## PhredQuality object of length 5:
 ##     width seq
 ## [1]     5 !!!h!
 ## [2]     5 !!!!h
@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5
 ## 
-##   A PhredQuality instance of length 5
+## PhredQuality object of length 5:
 ##     width seq
 ## [1]     5 !!!!h
 ## [2]     5 !!!!h
@@ -358,11 +358,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#pattern-matching" class="anchor"></a>Pattern matching</h1>
 <p>Pattern matching is implemented as well as expected for <code>XString</code> objects.</p>
 <div class="sourceCode" id="cb50"><html><body><pre class="r"><span class="fu">matchPattern</span>(<span class="st">"U7"</span>,<span class="no">mr</span>)</pre></body></html></div>
-<pre><code>##   Views on a 5-letter ModRNAString subject
+<pre><code>## Views on a 5-letter ModRNAString subject
 ## subject: ACGU7
 ## views:
-##     start end width
-## [1]     4   5     2 [U7]</code></pre>
+##       start end width
+##   [1]     4   5     2 [U7]</code></pre>
 <div class="sourceCode" id="cb52"><html><body><pre class="r"><span class="fu">vmatchPattern</span>(<span class="st">"D7"</span>,<span class="no">mrs</span>)</pre></body></html></div>
 <pre><code>## MIndex object of length 5
 ## $Sequence1
@@ -394,11 +394,11 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   [1]         4         5         2</code></pre>
 <div class="sourceCode" id="cb54"><html><body><pre class="r"><span class="no">mrl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">mrs</span>)
 <span class="fu">matchLRPatterns</span>(<span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="no">mrl</span>)</pre></body></html></div>
-<pre><code>##   Views on a 25-letter ModRNAString subject
+<pre><code>## Views on a 25-letter ModRNAString subject
 ## subject: ACGD7ACGU7ACGD7ACGU7ACGD7
 ## views:
-##     start end width
-## [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</code></pre>
+##       start end width
+##   [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</code></pre>
 </div>
 <div id="future-development" class="section level1">
 <h1 class="hasAnchor">
@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>Sessioninfo</h1>
 <div class="sourceCode" id="cb63"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
-<pre><code>## R version 3.6.3 (2020-02-29)
+<pre><code>## R version 4.0.0 (2020-04-24)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 18.04.4 LTS
 ## 
@@ -497,34 +497,34 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] GenomicRanges_1.38.0 GenomeInfoDb_1.22.1  Modstrings_1.3.12   
-## [4] Biostrings_2.54.0    XVector_0.26.0       IRanges_2.20.2      
-## [7] S4Vectors_0.24.3     BiocGenerics_0.32.0  BiocStyle_2.14.4    
+## [1] GenomicRanges_1.40.0 GenomeInfoDb_1.24.0  Modstrings_1.3.12   
+## [4] Biostrings_2.56.0    XVector_0.28.0       IRanges_2.22.2      
+## [7] S4Vectors_0.26.1     BiocGenerics_0.34.0  BiocStyle_2.16.0    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.4.6               assertive.data_0.0-3      
-##  [3] compiler_3.6.3             BiocManager_1.30.10       
+##  [3] compiler_4.0.0             BiocManager_1.30.10       
 ##  [5] assertive.files_0.0-2      assertive.data.us_0.0-2   
 ##  [7] assertive.properties_0.0-4 bitops_1.0-6              
-##  [9] tools_3.6.3                zlibbioc_1.32.0           
+##  [9] tools_4.0.0                zlibbioc_1.34.0           
 ## [11] digest_0.6.25              assertive_0.3-5           
 ## [13] evaluate_0.14              memoise_1.1.0             
-## [15] assertive.base_0.0-7       rlang_0.4.5               
-## [17] yaml_2.2.1                 pkgdown_1.5.1.9000        
-## [19] xfun_0.12                  GenomeInfoDbData_1.2.2    
+## [15] assertive.base_0.0-7       rlang_0.4.6               
+## [17] yaml_2.2.1                 pkgdown_1.5.1             
+## [19] xfun_0.14                  GenomeInfoDbData_1.2.3    
 ## [21] stringr_1.4.0              knitr_1.28                
 ## [23] assertive.sets_0.0-3       assertive.matrices_0.0-2  
 ## [25] assertive.datetimes_0.0-2  assertive.strings_0.0-3   
 ## [27] assertive.types_0.0-3      desc_1.2.0                
 ## [29] fs_1.4.1                   rprojroot_1.3-2           
 ## [31] assertive.code_0.0-3       R6_2.4.1                  
-## [33] rmarkdown_2.1              bookdown_0.18             
+## [33] rmarkdown_2.2              bookdown_0.19             
 ## [35] magrittr_1.5               assertive.models_0.0-2    
 ## [37] assertive.numbers_0.0-2    codetools_0.2-16          
-## [39] backports_1.1.6            htmltools_0.4.0           
+## [39] backports_1.1.7            htmltools_0.4.0           
 ## [41] MASS_7.3-51.5              assertthat_0.2.1          
 ## [43] stringi_1.4.6              assertive.data.uk_0.0-2   
-## [45] RCurl_1.98-1.1             assertive.reflection_0.0-4
+## [45] RCurl_1.98-1.2             assertive.reflection_0.0-4
 ## [47] crayon_1.3.4</code></pre>
 <p><a name="References"></a></p>
 </div>
@@ -560,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
