@@ -46,7 +46,7 @@ jobs:
         
       - name: Query dependencies
         run: |
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories())), "depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE, repos = c(BiocManager::repositories(),getOption('repos'))), "depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -67,7 +67,7 @@ jobs:
         
       - name: Install R dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE, repos = c(getOption('repos'), BiocManager::repositories()), Ncpu = 2L)
+          remotes::install_deps(dependencies = TRUE, repos = c(BiocManager::repositories(),getOption('repos')), Ncpu = 2L)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
           remotes::install_cran("magick")
