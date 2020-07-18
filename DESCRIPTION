@@ -1,8 +1,8 @@
 Package: Modstrings
 Type: Package
 Title: Working with modified nucleotide sequences 
-Version: 1.5.0
-Date: 2020-03-21
+Version: 1.5.1
+Date: 2020-07-18
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
@@ -32,7 +32,6 @@ Depends:
     Biostrings (>= 2.51.5)
 Imports:
     methods,
-    assertive,
     BiocGenerics,
     GenomicRanges,
     S4Vectors,

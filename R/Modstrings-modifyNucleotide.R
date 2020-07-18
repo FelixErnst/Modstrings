@@ -23,7 +23,7 @@ NULL
 
 .check_stop.on.error <- function(stop.on.error)
 {
-  if (!assertive::is_a_bool(stop.on.error)){
+  if (!.is_a_bool(stop.on.error)){
     stop("'stop.on.error' must be TRUE or FALSE",
          call. = FALSE)
   }
@@ -108,7 +108,9 @@ setMethod(
     .check_stop.on.error(stop.on.error)
     nc.type <- match.arg(nc.type)
     at <- .norm_replace_pos_ModString(x,at)
-    assertive::assert_all_are_non_empty_character(as.character(unlist(mod)))
+    if(!.is_non_empty_character(as.character(unlist(mod)))){
+      stop("'mod' must all be non empty characters.", call. = FALSE)
+    }
     if(length(at) != length(mod)){
       stop("lengths of 'at' and 'mod' need to be equal.",
            call. = FALSE)

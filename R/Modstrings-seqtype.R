@@ -142,8 +142,8 @@ setClassUnion("Modstrings", c("ModString","ModStringSet"))
 #' @importFrom Biostrings xscodes
 setMethod("xscodes","Modstrings",
           function(x, baseOnly = FALSE){
-            if (!assertive::is_a_bool(baseOnly)){
-              stop("'baseOnly' must be TRUE or FALSE")
+            if (!.is_a_bool(baseOnly)){
+              stop("'baseOnly' must be TRUE or FALSE", call. = FALSE)
             }
             switch(seqtype(x),
                    ModDNA = .ModDNAorRNAcodes(MOD_DNA_BASE_CODES,

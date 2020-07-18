@@ -52,7 +52,7 @@ NULL
 }
 
 .check_letter_ModStringSet <- 
-  function(x, at, letter, .xname = assertive::get_name_in_parent(letter))
+  function(x, at, letter, .xname = .get_name_in_parent(letter))
 {
   if (length(letter) != length(x)){
     stop("'x' and '",.xname,"' must have the same length",
@@ -78,7 +78,7 @@ NULL
 
 .check_verbose <- function(verbose)
 {
-  if (!assertive::is_a_bool(verbose)){
+  if (!.is_a_bool(verbose)){
     stop("'verbose' must be TRUE or FALSE",
          call. = FALSE)
   }

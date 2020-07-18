@@ -7,15 +7,15 @@ test_that("Writing and Reading ModStringSet:",{
   file <- tempfile()
   write("",file = file)
   expect_error(readModDNAStringSet(file),
-               "No fasta blocks found.")
+               "No fasta blocks found")
   expect_error(writeModStringSet(),
                "'x' must be an ModStringSet object")
   expect_error(writeModStringSet(set),
-               "'filepath' must be a single string")
+               "'filepath' must be a single character value")
   expect_error(writeModStringSet(set, file, format = 1),
-               "'format' must be a single string")
+               "'format' must be a single character value")
   expect_error(writeModStringSet(set, file, append = 1),
-               "'append' must be a single logical")
+               "'append' must be TRUE or FALSE")
   writeModStringSet(set, file)
   read <- readModDNAStringSet(file)
   expect_equal(names(readModDNAStringSet(file,nrec = 2)),c("A","B"))

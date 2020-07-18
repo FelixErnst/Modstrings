@@ -708,8 +708,8 @@ setMethod(
   {
     .check_verbose(verbose)
     .check_stop.on.error(stop.on.error)
-    if(!assertive::is_a_bool(with.qualities)){
-      stop("with.qualities has to be TRUE or FALSE.")
+    if(!.is_a_bool(with.qualities)){
+      stop("with.qualities has to be TRUE or FALSE.", call. = FALSE)
     }
     quality.type <- match.arg(quality.type, c("Phred", "Solexa", "Illumina"))
     gr <- .norm_GRangesList_for_combine(x, gr, do.combine = TRUE)
@@ -746,8 +746,8 @@ setMethod(
   {
     .check_verbose(verbose)
     .check_stop.on.error(stop.on.error)
-    if(!assertive::is_a_bool(with.qualities)){
-      stop("with.qualities has to be TRUE or FALSE.")
+    if(!.is_a_bool(with.qualities)){
+      stop("with.qualities has to be TRUE or FALSE.", call. = FALSE)
     }
     quality.type <- match.arg(quality.type, c("Phred", "Solexa", "Illumina"))
     # If names are set use these. Otherwise use seqnames
@@ -816,7 +816,9 @@ setMethod(
 
 .incompatbile_modifications <- function(x, at, mod){
   at <- .norm_replace_pos_ModString(x,at)
-  assertive::assert_all_are_non_empty_character(as.character(unlist(mod)))
+  if(!.is_non_empty_character(as.character(unlist(mod)))){
+    stop("'mod' must all be non empty characters.", call. = FALSE)
+  }
   if(length(at) != length(mod)){
     stop("lengths of 'at' and 'mod' need to be equal.",
          call. = FALSE)

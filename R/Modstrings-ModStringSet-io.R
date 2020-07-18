@@ -38,8 +38,9 @@ NULL
   on.exit(.close_filexp_list(filexp_list))
   nrec <- .normarg_nrec(nrec)
   skip <- .normarg_skip(skip)
-  if (!assertive::is_a_bool(seek.first.rec))
-    stop("'seek.first.rec' must be TRUE or FALSE")
+  if (!.is_a_bool(seek.first.rec)){
+    stop("'seek.first.rec' must be TRUE or FALSE", call. = FALSE)
+  }
   # Guess what!? it does not like invalid one-letter sequence codes
   # suppress the warning. Results are valid noneheless for this purpose
   # However the offset cannot be used, since readBin output cannot be encoded
@@ -295,13 +296,11 @@ NULL
   on.exit(lapply(cons,close))
   nrec <- .normarg_nrec(nrec)
   skip <- .normarg_skip(skip)
-  if (!assertive::is_a_bool(seek.first.rec)){
-    stop("'seek.first.rec' must be TRUE or FALSE",
-         call. = FALSE)
+  if (!.is_a_bool(seek.first.rec)){
+    stop("'seek.first.rec' must be TRUE or FALSE", call. = FALSE)
   }
-  if (!assertive::is_a_bool(with.qualities)){
-    stop("'with.qualities' must be TRUE or FALSE",
-         call. = FALSE)
+  if (!.is_a_bool(with.qualities)){
+    stop("'with.qualities' must be TRUE or FALSE", call. = FALSE)
   }
   # parse files for ModStrings
   ans <- mapply(.read_ModStringSet_from_fastq_file_data,
@@ -347,12 +346,12 @@ NULL
                                seek.first.rec = FALSE, use.names = TRUE,
                                seqtype = "B", with.qualities = FALSE)
 {
-  if (!assertive::is_a_string(format)){
-    stop("'format' must be a single string")
+  if (!.is_a_string(format)){
+    stop("'format' must be a single string", call. = FALSE)
   }
   format <- match.arg(tolower(format), c("fasta","fastq"))
-  if (!assertive::is_a_bool(use.names)){
-    stop("'use.names' must be TRUE or FALSE")
+  if (!.is_a_bool(use.names)){
+    stop("'use.names' must be TRUE or FALSE", call. = FALSE)
   }
   elementType <- paste0(seqtype, "String")
   # fastq
@@ -436,11 +435,11 @@ readModRNAStringSet <- function(filepath, format = "fasta", nrec = -1L,
 
 .write_ModStringSet_to_fasta <- function(x, con, width = 80L, ...)
 {
-  if (!assertive::is_a_number(width)){
-    stop("'width' must be a single integer")
+  if (!.is_a_number(width)){
+    stop("'width' must be a single integer", call. = FALSE)
   }
   if (width < 1L){
-    stop("'width' must be an integer >= 1")
+    stop("'width' must be an integer >= 1", call. = FALSE)
   }
   length <- length(x)
   chunk_size <- 100
@@ -523,13 +522,13 @@ writeModStringSet <- function(x, filepath, append = FALSE, compress = FALSE,
                               compression_level = NA, format = "fasta", ...)
 {
   if (missing(x) || !is(x, "ModStringSet"))
-    stop("'x' must be an ModStringSet object")
-  if (missing(filepath) || !assertive::is_a_string(filepath))
-    stop("'filepath' must be a single string")
-  if (!assertive::is_a_string(format))
-    stop("'format' must be a single string")
-  if (!assertive::is_a_bool(append))
-    stop("'append' must be a single logical")
+    stop("'x' must be an ModStringSet object", call. = FALSE)
+  if (missing(filepath) || !.is_a_string(filepath))
+    stop("'filepath' must be a single character value.", call. = FALSE)
+  if (!.is_a_string(format))
+    stop("'format' must be a single character value.", call. = FALSE)
+  if (!.is_a_bool(append))
+    stop("'append' must be TRUE or FALSE.", call. = FALSE)
   format <- match.arg(tolower(format), c("fasta", "fastq"))
   compress <- .normarg_compress(compress)
   filepath2 <- path.expand(filepath)
