@@ -74,7 +74,7 @@ the same sequence (this time a ModString object)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@ the same sequence (this time a <code>ModString</code> object).</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ModString</span>
-<span class='fu'>Views</span>(<span class='no'>subject</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>Views</span><span class='op'>(</span><span class='va'>subject</span>, start <span class='op'>=</span> <span class='cn'>NULL</span>, end <span class='op'>=</span> <span class='cn'>NULL</span>, width <span class='op'>=</span> <span class='cn'>NULL</span>, names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,8 +160,9 @@ the same sequence (this time a <code>ModString</code> object).</p>
 <code><a href='https://rdrr.io/pkg/Biostrings/man/XStringViews-class.html'>XStringViews</a></code> class.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>(<span class='st'>"AGC6AGC6"</span>)
-<span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'>Views</span>(<span class='no'>seq</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>1</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>6</span>:<span class='fl'>8</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"AGC6AGC6"</span><span class='op'>)</span>
+<span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'>Views</span><span class='op'>(</span><span class='va'>seq</span>, start <span class='op'>=</span> <span class='fl'>3</span><span class='op'>:</span><span class='fl'>1</span>, end <span class='op'>=</span> <span class='fl'>6</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -177,7 +178,7 @@ the same sequence (this time a <code>ModString</code> object).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

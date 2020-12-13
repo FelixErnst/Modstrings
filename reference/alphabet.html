@@ -79,7 +79,7 @@ only." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -148,35 +148,35 @@ letters and modification letters, whereas <code>shortName()</code>,
 only.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>shortName</span>(<span class='no'>x</span>)
+    <pre class="usage"><span class='fu'>shortName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>fullName</span>(<span class='no'>x</span>)
+<span class='fu'>fullName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>nomenclature</span>(<span class='no'>x</span>)
-
-<span class='co'># S4 method for ModString</span>
-<span class='fu'>alphabet</span>(<span class='no'>x</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>alphabet</span>(<span class='no'>x</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>nomenclature</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModString</span>
-<span class='fu'>shortName</span>(<span class='no'>x</span>)
+<span class='fu'>alphabet</span><span class='op'>(</span><span class='va'>x</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>shortName</span>(<span class='no'>x</span>)
+<span class='fu'>alphabet</span><span class='op'>(</span><span class='va'>x</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModString</span>
-<span class='fu'>fullName</span>(<span class='no'>x</span>)
+<span class='fu'>shortName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>fullName</span>(<span class='no'>x</span>)
+<span class='fu'>shortName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModString</span>
-<span class='fu'>nomenclature</span>(<span class='no'>x</span>)
+<span class='fu'>fullName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>nomenclature</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>fullName</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for ModString</span>
+<span class='fu'>nomenclature</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for ModStringSet</span>
+<span class='fu'>nomenclature</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,15 +197,18 @@ occurances of the letters <code>N.-+</code>?</p></td>
     <p>a character vector.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>alphabet</span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>())</div><div class='output co'>#&gt;  [1] "A"  "C"  "G"  "T"  "N"  "-"  "+"  "."  "p"  "δ"  "O"  "]"  "D"  "J"  "e" 
+    <pre class="examples"><div class='input'><span class='fu'>alphabet</span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "A"  "C"  "G"  "T"  "N"  "-"  "+"  "."  "p"  "δ"  "O"  "]"  "D"  "J"  "e" 
 #&gt; [16] "g"  "`"  "b"  "U"  "∝"  "π"  "I"  "7"  "6"  "3"  "2"  "1"  "8"  "∉"  "⊆" 
 #&gt; [31] "⊇"  "R"  "α"  "m"  "h"  "×"  "f"  "4"  "ν"  "X"  "'"  "κ"  "o"  "("  ")" 
-#&gt; [46] "η"  "a"  "⇓"  "⇑"  "\"" "√"  "/"  "≡"  "ζ"  "~" </div><div class='input'><span class='fu'>shortName</span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>())</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
+#&gt; [46] "η"  "a"  "⇓"  "⇑"  "\"" "√"  "/"  "≡"  "ζ"  "~" </div><div class='input'><span class='fu'>shortName</span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
 #&gt;  [9] "dhpU"   "5caU"   "dU"     "DHdU"   "5nmU"   "dI"     "7mG"    "6mG"   
 #&gt; [17] "3mG"    "2mG"    "1mG"    "8oxoG"  "7a7dG"  "12eG"   "23eG"   "2,2mG" 
 #&gt; [25] "2ceG"   "5mC"    "5hmC"   "5gmC"   "5fC"    "5caC"   "4mC"    "34eC"  
 #&gt; [33] "3mC"    "3eC"    "2mC"    "1mC"    "9mA"    "7mA"    "6mA"    "4mA"   
-#&gt; [41] "3mA"    "1mA"    "6haA"   "2mA"    "2a6haA" "6,6mA"  "6ncmA" </div><div class='input'><span class='fu'>nomenclature</span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>())</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
+#&gt; [41] "3mA"    "1mA"    "6haA"   "2mA"    "2a6haA" "6,6mA"  "6ncmA" </div><div class='input'><span class='fu'>nomenclature</span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
 #&gt;  [9] "dhpU"   "5caU"   "dU"     "DHdU"   "5nmU"   "dI"     "7mG"    "6mG"   
 #&gt; [17] "3mG"    "2mG"    "1mG"    "8oxoG"  "7a7dG"  "12eG"   "23eG"   "2,2mG" 
 #&gt; [25] "2ceG"   "5mC"    "5hmC"   "5gmC"   "5fC"    "5caC"   "4mC"    "34eC"  
@@ -226,7 +229,7 @@ occurances of the letters <code>N.-+</code>?</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

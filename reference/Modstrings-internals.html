@@ -73,7 +73,7 @@ be used internally. Otherwise take care." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -137,25 +137,37 @@ be used internally. Otherwise take care." />
 be used internally. Otherwise take care.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for ModString</span>
-<span class='fu'>XString</span>(<span class='no'>seqtype</span>, <span class='no'>x</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
+    <pre class="usage"><span class='co'># S4 method for ModDNAString</span>
+<span class='fu'>seqtype</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for ModRNAString</span>
+<span class='fu'>seqtype</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for ModString</span>
+<span class='fu'>seqtype</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='co'># S4 method for ModString</span>
+<span class='fu'>XString</span><span class='op'>(</span><span class='va'>seqtype</span>, <span class='va'>x</span>, start <span class='op'>=</span> <span class='cn'>NA</span>, end <span class='op'>=</span> <span class='cn'>NA</span>, width <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>XStringSet</span>(<span class='no'>seqtype</span>, <span class='no'>x</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>use.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>seqtype</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>modsRNA</span>)
+<span class='co'># S4 method for ModStringSet</span>
+<span class='fu'>XStringSet</span><span class='op'>(</span><span class='va'>seqtype</span>, <span class='va'>x</span>, start <span class='op'>=</span> <span class='cn'>NA</span>, end <span class='op'>=</span> <span class='cn'>NA</span>, width <span class='op'>=</span> <span class='cn'>NA</span>, use.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>modsDNA</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>modsRNA</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>MOD_RNA_DICT_MODOMICS</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>modsDNA</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>MOD_RNA_DICT_TRNADB</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>MOD_RNA_DICT_MODOMICS</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>MOD_RNA_DICT_TRNADB</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>seqtype, x, start, end, width, use.names</th>
+      <th>seqtype, x, start, end, width, use.names, value</th>
       <td><p>used internally</p></td>
     </tr>
     </table>
@@ -185,7 +197,7 @@ be used internally. Otherwise take care.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

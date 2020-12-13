@@ -77,7 +77,7 @@ ModString objects contains more letters." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -145,43 +145,43 @@ aware, that the matices can become quite large, since the alphabet of
     </div>
 
     <pre class="usage"><span class='co'># S4 method for ModDNAString</span>
-<span class='fu'>hasOnlyBaseLetters</span>(<span class='no'>x</span>)
+<span class='fu'>hasOnlyBaseLetters</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModRNAString</span>
-<span class='fu'>hasOnlyBaseLetters</span>(<span class='no'>x</span>)
+<span class='fu'>hasOnlyBaseLetters</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModDNAString</span>
-<span class='fu'>alphabetFrequency</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModRNAString</span>
-<span class='fu'>alphabetFrequency</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModDNAStringSet</span>
-<span class='fu'>alphabetFrequency</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, collapse <span class='op'>=</span> <span class='cn'>FALSE</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModRNAStringSet</span>
-<span class='fu'>alphabetFrequency</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, collapse <span class='op'>=</span> <span class='cn'>FALSE</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for MaskedModString</span>
-<span class='fu'>alphabetFrequency</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringViews</span>
-<span class='fu'>letterFrequency</span>(<span class='no'>x</span>, <span class='no'>letters</span>, <span class='kw'>OR</span> <span class='kw'>=</span> <span class='st'>"|"</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>letterFrequency</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>letters</span>, OR <span class='op'>=</span> <span class='st'>"|"</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for MaskedModString</span>
-<span class='fu'>letterFrequency</span>(<span class='no'>x</span>, <span class='no'>letters</span>, <span class='kw'>OR</span> <span class='kw'>=</span> <span class='st'>"|"</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>letterFrequency</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>letters</span>, OR <span class='op'>=</span> <span class='st'>"|"</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>consensusMatrix</span>(<span class='no'>x</span>, <span class='kw'>as.prob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>baseOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>consensusMatrix</span><span class='op'>(</span><span class='va'>x</span>, as.prob <span class='op'>=</span> <span class='cn'>FALSE</span>, shift <span class='op'>=</span> <span class='fl'>0L</span>, width <span class='op'>=</span> <span class='cn'>NULL</span>, baseOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModDNAStringSet</span>
-<span class='fu'>consensusString</span>(<span class='no'>x</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>consensusString</span><span class='op'>(</span><span class='va'>x</span>, threshold <span class='op'>=</span> <span class='fl'>0.25</span>, shift <span class='op'>=</span> <span class='fl'>0L</span>, width <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModRNAStringSet</span>
-<span class='fu'>consensusString</span>(<span class='no'>x</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>consensusString</span><span class='op'>(</span><span class='va'>x</span>, threshold <span class='op'>=</span> <span class='fl'>0.25</span>, shift <span class='op'>=</span> <span class='fl'>0L</span>, width <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringViews</span>
-<span class='fu'>consensusString</span>(<span class='no'>x</span>, <span class='no'>threshold</span>, <span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>consensusString</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>threshold</span>, shift <span class='op'>=</span> <span class='fl'>0L</span>, width <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -240,8 +240,10 @@ objects or reported per element.</p></td>
     <p>a matrix with the results (letter x pos).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'><a href='alphabet.html'>alphabet</a></span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>()), <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>""</span>))
-<span class='fu'>hasOnlyBaseLetters</span>(<span class='no'>mod</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>alphabetFrequency</span>(<span class='no'>mod</span>)</div><div class='output co'>#&gt; A C G T N - + . p δ O ] D J e g ` b U ∝ π I 7 6 3 2 1 8 ∉ ⊆ ⊇ R α m h × f 4 ν X 
+    <pre class="examples"><div class='input'><span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>hasOnlyBaseLetters</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; A C G T N - + . p δ O ] D J e g ` b U ∝ π I 7 6 3 2 1 8 ∉ ⊆ ⊇ R α m h × f 4 ν X 
 #&gt; 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 #&gt; ' κ o ( ) η a ⇓ ⇑ " √ / ≡ ζ ~ 
 #&gt; 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 </div></pre>
@@ -260,7 +262,7 @@ objects or reported per element.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -76,7 +76,7 @@ identity of the base nucleotide to be" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -142,74 +142,74 @@ of sequences) based on the type of modification provided. It checks for the
 identity of the base nucleotide to be</p>
     </div>
 
-    <pre class="usage"><span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='st'>"short"</span>,
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='st'>"short"</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for ModString</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for ModStringSet</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for DNAString</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for RNAString</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for DNAStringSet</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for RNAStringSet</span>
-<span class='fu'>modifyNucleotides</span>(
-  <span class='no'>x</span>,
-  <span class='no'>at</span>,
-  <span class='no'>mod</span>,
-  <span class='kw'>nc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"short"</span>, <span class='st'>"nc"</span>),
-  <span class='kw'>stop.on.error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+<span class='fu'>modifyNucleotides</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>at</span>,
+  <span class='va'>mod</span>,
+  nc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"short"</span>, <span class='st'>"nc"</span><span class='op'>)</span>,
+  stop.on.error <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,20 +271,21 @@ object with the changes applied</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># modify nucleotides in a ModDNAString </span>
-<span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>(<span class='st'>"AGTC"</span>)
-<span class='no'>mseq1</span> <span class='kw'>&lt;-</span> <span class='fu'>modifyNucleotides</span>(<span class='no'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1mA"</span>,<span class='st'>"7mG"</span>,<span class='st'>"3mC"</span>))
+<span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"AGTC"</span><span class='op'>)</span>
+<span class='va'>mseq1</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1mA"</span>,<span class='st'>"7mG"</span>,<span class='st'>"3mC"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># This fails since m7G requires a G at the selected position in the sequence</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>mseq</span> <span class='kw'>&lt;-</span> <span class='fu'>modifyNucleotides</span>(<span class='no'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"7mG"</span>))
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>mseq</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"7mG"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># modify nucleotides in a ModRNAString </span>
-<span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span>(<span class='st'>"AGUC"</span>)
-<span class='no'>mseq1</span> <span class='kw'>&lt;-</span> <span class='fu'>modifyNucleotides</span>(<span class='no'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"m1A"</span>,<span class='st'>"m7G"</span>,<span class='st'>"m3C"</span>))
+<span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='st'>"AGUC"</span><span class='op'>)</span>
+<span class='va'>mseq1</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"m1A"</span>,<span class='st'>"m7G"</span>,<span class='st'>"m3C"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># This fails since m7G requires a G at the selected position in the sequence</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>mseq</span> <span class='kw'>&lt;-</span> <span class='fu'>modifyNucleotides</span>(<span class='no'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"m7G"</span>))
-}</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>mseq</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"m7G"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -300,7 +301,7 @@ object with the changes applied</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -73,7 +73,7 @@ a look the MaskedXString class." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ a look the <code><a href='https://rdrr.io/pkg/Biostrings/man/MaskedXString-class
     </div>
 
     <pre class="usage"><span class='co'># S4 method for MaskedModString</span>
-<span class='fu'>seqtype</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>seqtype</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,15 +155,16 @@ a look the <code><a href='https://rdrr.io/pkg/Biostrings/man/MaskedXString-class
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Mask positions</span>
-<span class='no'>mask</span> <span class='kw'>&lt;-</span> <span class='fu'>Mask</span>(<span class='kw'>mask.width</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>), <span class='kw'>width</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>))
-<span class='no'>mr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span>(<span class='st'>"ACGU7"</span>)
-<span class='fu'>masks</span>(<span class='no'>mr</span>) <span class='kw'>&lt;-</span> <span class='no'>mask</span>
+<span class='va'>mask</span> <span class='op'>&lt;-</span> <span class='fu'>Mask</span><span class='op'>(</span>mask.width<span class='op'>=</span><span class='fl'>5</span>, start<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>, width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='st'>"ACGU7"</span><span class='op'>)</span>
+<span class='fu'>masks</span><span class='op'>(</span><span class='va'>mr</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>mask</span>
 
 <span class='co'># Invert masks</span>
-<span class='no'>mr</span> <span class='kw'>&lt;-</span> <span class='fu'>gaps</span>(<span class='no'>mr</span>)
+<span class='va'>mr</span> <span class='op'>&lt;-</span> <span class='fu'>gaps</span><span class='op'>(</span><span class='va'>mr</span><span class='op'>)</span>
 
 <span class='co'># Drop the mask</span>
-<span class='fu'>masks</span>(<span class='no'>mr</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span></div></pre>
+<span class='fu'>masks</span><span class='op'>(</span><span class='va'>mr</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -179,7 +180,7 @@ a look the <code><a href='https://rdrr.io/pkg/Biostrings/man/MaskedXString-class
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

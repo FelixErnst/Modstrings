@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -82,13 +82,14 @@
 
       
 
-      </header><script src="Modstrings_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="Modstrings_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Modstrings_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="Modstrings_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Modstrings</h1>
                         <h4 class="author">Felix G.M. Ernst &amp; Denis L.J. Lafontaine</h4>
             
-            <h4 class="date">2020-07-18</h4>
+            <h4 class="date">2020-12-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/FelixErnst/Modstrings/blob/master/vignettes/Modstrings.Rmd"><code>vignettes/Modstrings.Rmd</code></a></small>
       <div class="hidden name"><code>Modstrings.Rmd</code></div>
@@ -126,57 +127,67 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#creating-a-modrnastring-object" class="anchor"></a>Creating a <code>ModRNAString</code> object</h1>
 <p>In principle <code>ModRNAString</code> and <code>ModDNAString</code> objects can be created as any other <code>XString</code> object. However encoding issue will most certainly come into play, depending on the modification, the operation system and probably the R version. This is not a problem of how the data is internally used, but how the letter is transfered from the console to R and back.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Modstrings</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">GenomicRanges</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># This works</span>
-<span class="no">mr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="st">"ACGU7"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">Modstrings</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges">GenomicRanges</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># This works</span>
+<span class="va">mr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU7"</span><span class="op">)</span>
 <span class="co"># This might work on Linux, but does not on Windows</span>
-<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="st">"ACGU≈"</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU≈"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGU≈</code></pre>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># This cause a misinterpretation on Windows. Omega gets added as O. </span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># This cause a misinterpretation on Windows. Omega gets added as O. </span>
 <span class="co"># This modifys the information from yW-72 (7-aminocarboxypropylwyosine) to </span>
 <span class="co"># m1I (1-methylinosine)</span>
-<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="st">"ACGUΩ"</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGUΩ"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGUΩ</code></pre>
 <p>To eliminate this issue the function <code>modifyNucleotide()</code> is implemented, which can use short names or the nomenclature of a modification to add it at the desired position.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="../reference/alphabet.html">shortName</a></span>(<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>()))</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/shortName.html">shortName</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "m1Am"    "m1Gm"    "m1Im"    "m1acp3Y" "m1A"     "m1G"</code></pre>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="../reference/alphabet.html">nomenclature</a></span>(<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>()))</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/shortName.html">nomenclature</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "01A"   "01G"   "019A"  "1309U" "1A"    "1G"</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">r</span> <span class="kw">&lt;-</span> <span class="fu">RNAString</span>(<span class="st">"ACGUG"</span>)
-<span class="no">mr2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span>(<span class="no">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span>)
-<span class="no">mr2</span></pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">RNAString</span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span>
+<span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span>
+<span class="va">mr2</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGU7</code></pre>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">mr3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span>(<span class="no">r</span>,<span class="fl">5L</span>,<span class="st">"7G"</span>,<span class="kw">nc.type</span> <span class="kw">=</span> <span class="st">"nc"</span>)
-<span class="no">mr3</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"7G"</span>,nc.type <span class="op">=</span> <span class="st">"nc"</span><span class="op">)</span>
+<span class="va">mr3</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGU7</code></pre>
-<p>In addition, one can also use the <code><a href="../reference/alphabet.html">alphabet()</a></code> function and subset to the desired modifications.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">mr4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"ACGU"</span>,<span class="fu"><a href="../reference/alphabet.html">alphabet</a></span>(<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>())[<span class="fl">33L</span>]))
-<span class="no">mr4</span></pre></body></html></div>
+<p>In addition, one can also use the <code><a href="../reference/shortName.html">alphabet()</a></code> function and subset to the desired modifications.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mr4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"ACGU"</span>,<span class="fu"><a href="../reference/shortName.html">alphabet</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">33L</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mr4</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGUB</code></pre>
 </div>
 <div id="streamlining-object-creation-and-modification" class="section level1">
 <h1 class="hasAnchor">
 <a href="#streamlining-object-creation-and-modification" class="anchor"></a>Streamlining object creation and modification</h1>
-<p>To offer a more streamlined functionality, which can take more information as input, the function <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is implemented. It takes a <code>XString</code> object and a <code>GRanges</code> object with a <code>mod</code> column and returns a <code>ModString</code> object. The information in the <code>mod</code> column must match the short name or nomenclature of the particular modification of interest as returned by the <code><a href="../reference/alphabet.html">shortName()</a></code> or <code><a href="../reference/alphabet.html">nomenclature()</a></code> functions as seen above.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">gr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span>(<span class="st">"1:5"</span>, <span class="kw">mod</span> <span class="kw">=</span> <span class="st">"m7G"</span>)
-<span class="no">mr5</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span>(<span class="no">r</span>, <span class="no">gr</span>)
-<span class="no">mr5</span></pre></body></html></div>
+<p>To offer a more streamlined functionality, which can take more information as input, the function <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is implemented. It takes a <code>XString</code> object and a <code>GRanges</code> object with a <code>mod</code> column and returns a <code>ModString</code> object. The information in the <code>mod</code> column must match the short name or nomenclature of the particular modification of interest as returned by the <code><a href="../reference/shortName.html">shortName()</a></code> or <code><a href="../reference/shortName.html">nomenclature()</a></code> functions as seen above.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"1:5"</span>, mod <span class="op">=</span> <span class="st">"m7G"</span><span class="op">)</span>
+<span class="va">mr5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">gr</span><span class="op">)</span>
+<span class="va">mr5</span></code></pre></div>
 <pre><code>## 5-letter ModRNAString object
 ## seq: ACGU7</code></pre>
 <p><code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is also implemented for <code>ModStringSet</code> objects.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">rs</span> <span class="kw">&lt;-</span> <span class="fu">RNAStringSet</span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">r</span>,<span class="no">r</span>,<span class="no">r</span>,<span class="no">r</span>,<span class="no">r</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rs</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Sequence"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span>(<span class="no">rs</span>))
-<span class="no">gr2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span>(<span class="kw">seqnames</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rs</span>)[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>,<span class="fl">1L</span>,<span class="fl">2L</span>,<span class="fl">3L</span>,<span class="fl">3L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>)],
-               <span class="kw">ranges</span> <span class="kw">=</span> <span class="fu">IRanges</span>(<span class="kw">start</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>),
-                                <span class="kw">width</span> <span class="kw">=</span> <span class="fl">1L</span>),
-               <span class="kw">mod</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span>))
-<span class="no">gr2</span></pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rs</span> <span class="op">&lt;-</span> <span class="fu">RNAStringSet</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Sequence"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">)</span>
+<span class="va">gr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1L</span>,<span class="fl">1L</span>,<span class="fl">2L</span>,<span class="fl">3L</span>,<span class="fl">3L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span><span class="op">)</span><span class="op">]</span>,
+               ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span><span class="op">)</span>,
+                                width <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>,
+               mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">gr2</span></code></pre></div>
 <pre><code>## GRanges object with 8 ranges and 1 metadata column:
 ##        seqnames    ranges strand |         mod
 ##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -190,8 +201,9 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   [8] Sequence5         5      * |         m7G
 ##   -------
 ##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">mrs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span>(<span class="no">rs</span>, <span class="no">gr2</span>)
-<span class="no">mrs</span></pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">rs</span>, <span class="va">gr2</span><span class="op">)</span>
+<span class="va">mrs</span></code></pre></div>
 <pre><code>##   A ModRNAStringSet instance of length 5
 ##     width seq                                               names               
 ## [1]     5 ACGD7                                             Sequence1
@@ -200,9 +212,10 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5</code></pre>
 <p>The reverse operation is also available via the function <code><a href="../reference/separate.html">separate()</a></code>, which allows the positions of modifications to be transfered into a tabular format.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">gr3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span>(<span class="no">mrs</span>)
-<span class="no">rs2</span> <span class="kw">&lt;-</span> <span class="fu">RNAStringSet</span>(<span class="no">mrs</span>)
-<span class="no">gr3</span></pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
+<span class="va">rs2</span> <span class="op">&lt;-</span> <span class="fu">RNAStringSet</span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
+<span class="va">gr3</span></code></pre></div>
 <pre><code>## GRanges object with 8 ranges and 1 metadata column:
 ##        seqnames    ranges strand |         mod
 ##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -216,7 +229,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   [8] Sequence5         5      + |         m7G
 ##   -------
 ##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">rs2</span></pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rs2</span></code></pre></div>
 <pre><code>## RNAStringSet object of length 5:
 ##     width seq                                               names               
 ## [1]     5 ACGUG                                             Sequence1
@@ -225,33 +239,40 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 ACGUG                                             Sequence4
 ## [5]     5 ACGUG                                             Sequence5</code></pre>
 <p><code><a href="../reference/modifyNucleotides.html">modifyNucleotides()</a></code> and therefore also <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> requires, that the nucleotides to be modified match the originating base for the modification. The next chunk fails, since the originating base for m7G is of course G.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span>(<span class="no">r</span>,<span class="fl">4L</span>,<span class="st">"m7G"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">4L</span>,<span class="st">"m7G"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error: Modification type does not match the originating base:
 ##  U != G  for  m7G</code></pre>
 <p>Calls for both functions check the sanity for this operation, so that the next bit is always <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">r</span> <span class="kw">&lt;-</span> <span class="fu">RNAString</span>(<span class="st">"ACGUG"</span>)
-<span class="no">mr2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span>(<span class="no">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span>)
-<span class="no">r</span> <span class="kw">==</span> <span class="fu">RNAString</span>(<span class="no">mr2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">RNAString</span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span>
+<span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span>
+<span class="va">r</span> <span class="op">==</span> <span class="fu">RNAString</span><span class="op">(</span><span class="va">mr2</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="comparing-modstring-objects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#comparing-modstring-objects" class="anchor"></a>Comparing <code>ModString</code> objects</h1>
 <p><code>ModString</code> objects can be directly compared to <code>RNAString</code> or <code>DNAString</code> objects depending on the type (<code>ModRNA</code> to <code>RNA</code> and <code>ModDNA</code> to <code>DNA</code>).</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">r</span> <span class="kw">==</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span>(<span class="no">r</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">r</span> <span class="kw">==</span> <span class="no">mr</span></pre></body></html></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r</span> <span class="op">==</span> <span class="va">mr</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">rs</span> <span class="kw">==</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span>(<span class="no">rs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE TRUE TRUE TRUE TRUE</code></pre>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="no">rs</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">mrs</span>[<span class="fl">1L</span>:<span class="fl">3L</span>],<span class="no">rs</span>[<span class="fl">4L</span>:<span class="fl">5L</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">[</span><span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span><span class="op">]</span>,<span class="va">rs</span><span class="op">[</span><span class="fl">4L</span><span class="op">:</span><span class="fl">5L</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
 </div>
 <div id="conversion-of-modstring-objects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#conversion-of-modstring-objects" class="anchor"></a>Conversion of <code>ModString</code> objects</h1>
 <p><code>ModString</code> objects can be converted into each other. However any conversion will remove any information on modifications and revert each nucleotide back to its originating nucleotide.</p>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu">RNAString</span>(<span class="no">mr</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">RNAString</span><span class="op">(</span><span class="va">mr</span><span class="op">)</span></code></pre></div>
 <pre><code>## 5-letter RNAString object
 ## seq: ACGUG</code></pre>
 </div>
@@ -260,10 +281,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#quality-scaled-modstring" class="anchor"></a>Quality scaled <code>ModString</code>
 </h1>
 <p>Quality information can be encoded alongside <code>ModString</code> objects by combining it with a <code>XStringQuality</code> object inside a <code>QualityScaledModStringSet</code> object. Two class are implemented: <code>QualityScaledModRNAStringSet</code> and <code>QualityScaledModDNAStringSet</code>. They are usable as expected from a <code>QualityScaledXStringSet</code> object.</p>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="no">qmrs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">QualityScaledModRNAStringSet</a></span>(<span class="no">mrs</span>,
-                                     <span class="fu">PhredQuality</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,
-                                                    <span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>)))
-<span class="no">qmrs</span></pre></body></html></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">qmrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">QualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="va">mrs</span>,
+                                     <span class="fu">PhredQuality</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,
+                                                    <span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">qmrs</span></code></pre></div>
 <pre><code>##   A QualityScaledModRNAStringSet instance containing:
 ## 
 ##   A ModRNAStringSet instance of length 5
@@ -282,8 +304,9 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4]     5 !!!!h
 ## [5]     5 !!!!h</code></pre>
 <p>They can also be constructed/deconstructed using the functions <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> and <code><a href="../reference/separate.html">separate()</a></code> and use an additional metadata column named <code>quality</code>. For quality information to persist during construction, set the argument <code>with.qualities = TRUE</code>. If a <code>QualityScaledModStringSet</code> is used as an input to separate, the quality information are returned in the <code>quality column</code>. We choose to avoid clashes with the <code>score</code> column and not to recycle it.</p>
-<div class="sourceCode" id="cb42"><html><body><pre class="r"><span class="no">qgr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span>(<span class="no">qmrs</span>)
-<span class="no">qgr</span></pre></body></html></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">qgr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">qmrs</span><span class="op">)</span>
+<span class="va">qgr</span></code></pre></div>
 <pre><code>## GRanges object with 8 ranges and 2 metadata columns:
 ##        seqnames    ranges strand |         mod   quality
 ##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;integer&gt;
@@ -297,7 +320,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ##   [8] Sequence5         5      + |         m7G        71
 ##   -------
 ##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb44"><html><body><pre class="r"><span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span>(<span class="no">mrs</span>,<span class="no">qgr</span>, <span class="kw">with.qualities</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">mrs</span>,<span class="va">qgr</span>, with.qualities <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##   A QualityScaledModRNAStringSet instance containing:
 ## 
 ##   A ModRNAStringSet instance of length 5
@@ -320,11 +344,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#saving-and-reading-modstring-objects-tofrom-file" class="anchor"></a>Saving and reading <code>ModString</code> objects to/from file</h1>
 <p>The nucleotide sequences with modifications can be saved to a <code>fasta</code> or <code>fastq</code> file using the functions <code><a href="../reference/ModStringSet-io.html">writeModStringSet()</a></code>. Reading of these files is achieved using <code><a href="../reference/ModStringSet-io.html">readModRNAStringSet()</a></code> or <code><a href="../reference/ModStringSet-io.html">readModDNAStringSet()</a></code>. In case of <code>fastq</code> files, the sequences can be automatically read as a <code>QualityScaledModRNAStringSet</code> using <code><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet()</a></code> function.</p>
-<div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="fu"><a href="../reference/ModStringSet-io.html">writeModStringSet</a></span>(<span class="no">mrs</span>, <span class="kw">file</span> <span class="kw">=</span> <span class="st">"test.fasta"</span>)
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/ModStringSet-io.html">writeModStringSet</a></span><span class="op">(</span><span class="va">mrs</span>, file <span class="op">=</span> <span class="st">"test.fasta"</span><span class="op">)</span>
 <span class="co"># note the different function name. Otherwise empty qualities will be written</span>
-<span class="fu"><a href="../reference/QualityScaledModStringSet.html">writeQualityScaledModStringSet</a></span>(<span class="no">qmrs</span>, <span class="kw">file</span> <span class="kw">=</span> <span class="st">"test.fastq"</span>)
-<span class="no">mrs2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet-io.html">readModRNAStringSet</a></span>(<span class="st">"test.fasta"</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"fasta"</span>)
-<span class="no">mrs2</span></pre></body></html></div>
+<span class="fu"><a href="../reference/QualityScaledModStringSet.html">writeQualityScaledModStringSet</a></span><span class="op">(</span><span class="va">qmrs</span>, file <span class="op">=</span> <span class="st">"test.fastq"</span><span class="op">)</span>
+<span class="va">mrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet-io.html">readModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fasta"</span>, format <span class="op">=</span> <span class="st">"fasta"</span><span class="op">)</span>
+<span class="va">mrs2</span></code></pre></div>
 <pre><code>##   A ModRNAStringSet instance of length 5
 ##     width seq                                               names               
 ## [1]     5 ACGD7                                             Sequence1
@@ -332,8 +357,9 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [3]     5 ACGD7                                             Sequence3
 ## [4]     5 ACGU7                                             Sequence4
 ## [5]     5 ACGD7                                             Sequence5</code></pre>
-<div class="sourceCode" id="cb48"><html><body><pre class="r"><span class="no">qmrs2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet</a></span>(<span class="st">"test.fastq"</span>)
-<span class="no">qmrs2</span></pre></body></html></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">qmrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fastq"</span><span class="op">)</span>
+<span class="va">qmrs2</span></code></pre></div>
 <pre><code>##   A QualityScaledModRNAStringSet instance containing:
 ## 
 ##   A ModRNAStringSet instance of length 5
@@ -357,13 +383,15 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#pattern-matching" class="anchor"></a>Pattern matching</h1>
 <p>Pattern matching is implemented as well as expected for <code>XString</code> objects.</p>
-<div class="sourceCode" id="cb50"><html><body><pre class="r"><span class="fu">matchPattern</span>(<span class="st">"U7"</span>,<span class="no">mr</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">matchPattern</span><span class="op">(</span><span class="st">"U7"</span>,<span class="va">mr</span><span class="op">)</span></code></pre></div>
 <pre><code>## Views on a 5-letter ModRNAString subject
 ## subject: ACGU7
 ## views:
 ##       start end width
 ##   [1]     4   5     2 [U7]</code></pre>
-<div class="sourceCode" id="cb52"><html><body><pre class="r"><span class="fu">vmatchPattern</span>(<span class="st">"D7"</span>,<span class="no">mrs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">vmatchPattern</span><span class="op">(</span><span class="st">"D7"</span>,<span class="va">mrs</span><span class="op">)</span></code></pre></div>
 <pre><code>## MIndex object of length 5
 ## $Sequence1
 ## IRanges object with 1 range and 0 metadata columns:
@@ -392,8 +420,9 @@ document.addEventListener("DOMContentLoaded", function() {
 ##           start       end     width
 ##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
 ##   [1]         4         5         2</code></pre>
-<div class="sourceCode" id="cb54"><html><body><pre class="r"><span class="no">mrl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">mrs</span>)
-<span class="fu">matchLRPatterns</span>(<span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="no">mrl</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
+<span class="fu">matchLRPatterns</span><span class="op">(</span><span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="va">mrl</span><span class="op">)</span></code></pre></div>
 <pre><code>## Views on a 25-letter ModRNAString subject
 ## subject: ACGD7ACGU7ACGD7ACGU7ACGD7
 ## views:
@@ -409,26 +438,29 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#import-example" class="anchor"></a>Import example</h1>
 <p>This is a quick example showing how sequence information containing modified nucleotides can be imported into an R session using the <code>Modstrings</code> package. The file needs to be UTF-8 encoded.</p>
-<div class="sourceCode" id="cb56"><html><body><pre class="r"><span class="co"># read the lines</span>
-<span class="no">test</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"test.fasta"</span>,<span class="kw">package</span> <span class="kw">=</span> <span class="st">"Modstrings"</span>),
-                      <span class="kw">encoding</span> <span class="kw">=</span> <span class="st">"UTF-8"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">test</span>,<span class="fl">2L</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># read the lines</span>
+<span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,<span class="st">"test.fasta"</span>,package <span class="op">=</span> <span class="st">"Modstrings"</span><span class="op">)</span>,
+                      encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">test</span>,<span class="fl">2L</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "&gt; tRNA | Ala | AGC | Saccharomyces cerevisiae | cytosolic"                                          
 ## [2] "-GGGCGUGUKGCGUAGDC-GGD--AGCGCRCUCCCUUIGCOPGGGAGAG-------------------GDCUCCGGTPCGAUUCCGGACUCGUCCACCA"</code></pre>
-<div class="sourceCode" id="cb58"><html><body><pre class="r"><span class="co"># keep every second line as sequence, the other one as name</span>
-<span class="no">names</span> <span class="kw">&lt;-</span> <span class="no">test</span>[<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="fl">1L</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="fl">104L</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fl">2L</span>)]
-<span class="no">seq</span> <span class="kw">&lt;-</span> <span class="no">test</span>[<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="fl">2L</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="fl">104L</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fl">2L</span>)]
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># keep every second line as sequence, the other one as name</span>
+<span class="va">names</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span>
+<span class="va">seq</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">2L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span>
 <span class="co"># sanitize input. This needs to be adapt to the individual case</span>
-<span class="no">names</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">" "</span>,<span class="st">"_"</span>,
-              <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&gt; "</span>,<span class="st">""</span>,
-                   <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">" \\| "</span>,<span class="st">"-"</span>,
-                        <span class="no">names</span>)))
-<span class="no">seq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"-"</span>,<span class="st">""</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"_"</span>,<span class="st">""</span>,<span class="no">seq</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">seq</span>) <span class="kw">&lt;-</span> <span class="no">names</span></pre></body></html></div>
-<div class="sourceCode" id="cb59"><html><body><pre class="r"><span class="co"># sanitize special characters to Modstrings equivalent</span>
-<span class="no">seq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sanitizeInput.html">sanitizeFromModomics</a></span>(<span class="no">seq</span>)
-<span class="no">seq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span>(<span class="no">seq</span>)
-<span class="no">seq</span></pre></body></html></div>
+<span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" "</span>,<span class="st">"_"</span>,
+              <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"&gt; "</span>,<span class="st">""</span>,
+                   <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" \\| "</span>,<span class="st">"-"</span>,
+                        <span class="va">names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"-"</span>,<span class="st">""</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>,<span class="st">""</span>,<span class="va">seq</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">names</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># sanitize special characters to Modstrings equivalent</span>
+<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sanitizeInput.html">sanitizeFromModomics</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
+<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
+<span class="va">seq</span></code></pre></div>
 <pre><code>##   A ModRNAStringSet instance of length 52
 ##      width seq                                              names               
 ##  [1]    76 GGGCGUGUKGCGUAGDCGGDAGC...PCGAUUCCGGACUCGUCCACCA tRNA-Ala-AGC-Saccha...
@@ -442,45 +474,34 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [50]    90 GGAUGGUUGACUGAGDGGDUUAA...PCAAAUCCUACAUCAUCCGCCA tRNA-Ser-UGA-Saccha...
 ## [51]    73 GUAAAUAUAAUUUAADGGDAAAA...PCAAAUCUUAGUAUUUACACCA tRNA-Thr-UAG-Saccha...
 ## [52]    74 AAGGAUAUAGUUUAADGGDAAAA...PCGAAUCUCUUUAUCCUUGCCA tRNA-Trp-!CA-Saccha...</code></pre>
-<div class="sourceCode" id="cb61"><html><body><pre class="r"><span class="co"># convert the contained modifications into a tabular format</span>
-<span class="fu"><a href="../reference/separate.html">separate</a></span>(<span class="no">seq</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># convert the contained modifications into a tabular format</span>
+<span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span></code></pre></div>
 <pre><code>## GRanges object with 567 ranges and 1 metadata column:
-##                                                    seqnames    ranges strand |
-##                                                       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; |
-##     [1]     tRNA-Ala-AGC-Saccharomyces_cerevisiae-cytosolic         9      + |
-##     [2]     tRNA-Ala-AGC-Saccharomyces_cerevisiae-cytosolic        16      + |
-##     [3]     tRNA-Ala-AGC-Saccharomyces_cerevisiae-cytosolic        20      + |
-##     [4]     tRNA-Ala-AGC-Saccharomyces_cerevisiae-cytosolic        26      + |
-##     [5]     tRNA-Ala-AGC-Saccharomyces_cerevisiae-cytosolic        34      + |
-##     ...                                                 ...       ...    ... .
-##   [563] tRNA-Trp-!CA-Saccharomyces_cerevisiae-mitochondrial        33      + |
-##   [564] tRNA-Trp-!CA-Saccharomyces_cerevisiae-mitochondrial        36      + |
-##   [565] tRNA-Trp-!CA-Saccharomyces_cerevisiae-mitochondrial        38      + |
-##   [566] tRNA-Trp-!CA-Saccharomyces_cerevisiae-mitochondrial        52      + |
-##   [567] tRNA-Trp-!CA-Saccharomyces_cerevisiae-mitochondrial        53      + |
-##                 mod
-##         &lt;character&gt;
-##     [1]         m1G
-##     [2]           D
-##     [3]           D
-##     [4]       m2,2G
-##     [5]           I
-##     ...         ...
-##   [563]      cmnm5U
-##   [564]          xA
-##   [565]           Y
-##   [566]         m5U
-##   [567]           Y
+##                       seqnames    ranges strand |         mod
+##                          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##     [1] tRNA-Ala-AGC-Sacchar..         9      + |         m1G
+##     [2] tRNA-Ala-AGC-Sacchar..        16      + |           D
+##     [3] tRNA-Ala-AGC-Sacchar..        20      + |           D
+##     [4] tRNA-Ala-AGC-Sacchar..        26      + |       m2,2G
+##     [5] tRNA-Ala-AGC-Sacchar..        34      + |           I
+##     ...                    ...       ...    ... .         ...
+##   [563] tRNA-Trp-!CA-Sacchar..        33      + |      cmnm5U
+##   [564] tRNA-Trp-!CA-Sacchar..        36      + |          xA
+##   [565] tRNA-Trp-!CA-Sacchar..        38      + |           Y
+##   [566] tRNA-Trp-!CA-Sacchar..        52      + |         m5U
+##   [567] tRNA-Trp-!CA-Sacchar..        53      + |           Y
 ##   -------
 ##   seqinfo: 47 sequences from an unspecified genome; no seqlengths</code></pre>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>Sessioninfo</h1>
-<div class="sourceCode" id="cb63"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
-<pre><code>## R version 4.0.2 (2020-06-22)
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 18.04.4 LTS
+## Running under: Ubuntu 18.04.5 LTS
 ## 
 ## Matrix products: default
 ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
@@ -497,21 +518,21 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] GenomicRanges_1.40.0 GenomeInfoDb_1.24.2  Modstrings_1.5.1    
-## [4] Biostrings_2.56.0    XVector_0.28.0       IRanges_2.22.2      
-## [7] S4Vectors_0.26.1     BiocGenerics_0.34.0  BiocStyle_2.16.0    
+## [1] GenomicRanges_1.42.0 GenomeInfoDb_1.26.2  Modstrings_1.7.1    
+## [4] Biostrings_2.58.0    XVector_0.30.0       IRanges_2.24.0      
+## [7] S4Vectors_0.28.1     BiocGenerics_0.36.0  BiocStyle_2.18.1    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] knitr_1.29             magrittr_1.5           zlibbioc_1.34.0       
-##  [4] MASS_7.3-51.6          R6_2.4.1               rlang_0.4.7           
-##  [7] stringr_1.4.0          tools_4.0.2            xfun_0.15             
-## [10] htmltools_0.5.0        yaml_2.2.1             assertthat_0.2.1      
-## [13] digest_0.6.25          rprojroot_1.3-2        pkgdown_1.5.1         
-## [16] crayon_1.3.4           bookdown_0.20          GenomeInfoDbData_1.2.3
-## [19] BiocManager_1.30.10    bitops_1.0-6           fs_1.4.2              
-## [22] RCurl_1.98-1.2         memoise_1.1.0          evaluate_0.14         
-## [25] rmarkdown_2.3          stringi_1.4.6          compiler_4.0.2        
-## [28] desc_1.2.0             backports_1.1.8</code></pre>
+##  [1] knitr_1.30             magrittr_2.0.1         zlibbioc_1.36.0       
+##  [4] R6_2.5.0               ragg_0.4.0             rlang_0.4.9           
+##  [7] stringr_1.4.0          tools_4.0.3            xfun_0.19             
+## [10] htmltools_0.5.0        systemfonts_0.3.2      yaml_2.2.1            
+## [13] assertthat_0.2.1       rprojroot_2.0.2        digest_0.6.27         
+## [16] pkgdown_1.6.1          crayon_1.3.4           bookdown_0.21         
+## [19] textshaping_0.2.1      GenomeInfoDbData_1.2.4 BiocManager_1.30.10   
+## [22] bitops_1.0-6           fs_1.5.0               RCurl_1.98-1.2        
+## [25] memoise_1.1.0          evaluate_0.14          rmarkdown_2.5         
+## [28] stringi_1.5.3          compiler_4.0.3         desc_1.2.0</code></pre>
 <p><a name="References"></a></p>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -546,7 +567,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

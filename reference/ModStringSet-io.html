@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -135,35 +135,35 @@
     <p>Functions to read/write an ModStringSet object from/to a file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readModDNAStringSet</span>(
-  <span class='no'>filepath</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"fasta"</span>,
-  <span class='kw'>nrec</span> <span class='kw'>=</span> -<span class='fl'>1L</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0L</span>,
-  <span class='kw'>seek.first.rec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>use.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>with.qualities</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>readModDNAStringSet</span><span class='op'>(</span>
+  <span class='va'>filepath</span>,
+  format <span class='op'>=</span> <span class='st'>"fasta"</span>,
+  nrec <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span>,
+  skip <span class='op'>=</span> <span class='fl'>0L</span>,
+  seek.first.rec <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  with.qualities <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>readModRNAStringSet</span>(
-  <span class='no'>filepath</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"fasta"</span>,
-  <span class='kw'>nrec</span> <span class='kw'>=</span> -<span class='fl'>1L</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0L</span>,
-  <span class='kw'>seek.first.rec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>use.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>with.qualities</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+<span class='fu'>readModRNAStringSet</span><span class='op'>(</span>
+  <span class='va'>filepath</span>,
+  format <span class='op'>=</span> <span class='st'>"fasta"</span>,
+  nrec <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span>,
+  skip <span class='op'>=</span> <span class='fl'>0L</span>,
+  seek.first.rec <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  with.qualities <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>writeModStringSet</span>(
-  <span class='no'>x</span>,
-  <span class='no'>filepath</span>,
-  <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>compression_level</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"fasta"</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>writeModStringSet</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>filepath</span>,
+  append <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  compress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  compression_level <span class='op'>=</span> <span class='cn'>NA</span>,
+  format <span class='op'>=</span> <span class='st'>"fasta"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,12 +183,13 @@
     <p>A <code><a href='ModStringSet.html'>ModStringSet</a></code> of the defined type.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>seqs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fu'><a href='alphabet.html'>alphabet</a></span>(<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span>()), <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>""</span>),
-               <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>,<span class='st'>"G"</span>,<span class='st'>"T"</span>))
-<span class='no'>set</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ModStringSet.html'>ModDNAStringSet</a></span>(<span class='no'>seqs</span>)
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='fu'>writeModStringSet</span>(<span class='no'>set</span>, <span class='no'>file</span>)
-<span class='no'>read</span> <span class='kw'>&lt;-</span> <span class='fu'>readModDNAStringSet</span>(<span class='no'>file</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>seqs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>,
+               <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>,<span class='st'>"G"</span>,<span class='st'>"T"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModStringSet.html'>ModDNAStringSet</a></span><span class='op'>(</span><span class='va'>seqs</span><span class='op'>)</span>
+<span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>writeModStringSet</span><span class='op'>(</span><span class='va'>set</span>, <span class='va'>file</span><span class='op'>)</span>
+<span class='va'>read</span> <span class='op'>&lt;-</span> <span class='fu'>readModDNAStringSet</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -204,7 +205,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

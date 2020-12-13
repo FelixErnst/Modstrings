@@ -73,7 +73,7 @@ to be stored and manipulated." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ to be stored and manipulated." />
 to be stored and manipulated.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ModDNAString</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nchar</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>ModDNAString</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>""</span>, start <span class='op'>=</span> <span class='fl'>1</span>, nchar <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,10 +168,10 @@ calculated as <code>start + nchar - 1</code>.</p></td>
 which is itself based on the <code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>XString</a></code>
 class. Therefore, functions for working with <code>XString</code> classes are 
 inherited.</p>
-<p>The <code><a href='alphabet.html'>alphabet</a></code> of the ModDNAString class consist of the 
+<p>The <code><a href='shortName.html'>alphabet</a></code> of the ModDNAString class consist of the 
 non-extended IUPAC codes "A,G,C,T,N", the gap letter "-", the hard masking 
 letter "+", the not available letter "." and letters for individual 
-modifications: <code><a href='alphabet.html'>alphabet(ModDNAString())</a></code>.</p>
+modifications: <code><a href='shortName.html'>alphabet(ModDNAString())</a></code>.</p>
 <p>Since the special characters are encoded differently depending on the OS and
 encoding settings of the R session, it is not always possible to enter a DNA
 sequence containing modified nucleotides via the R console. The most 
@@ -186,27 +186,31 @@ alphabet, please let us know.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Constructing ModDNAString containing an m6A</span>
-<span class='no'>md1</span> <span class='kw'>&lt;-</span> <span class='fu'>ModDNAString</span>(<span class='st'>"AGCT`"</span>)
+<span class='va'>md1</span> <span class='op'>&lt;-</span> <span class='fu'>ModDNAString</span><span class='op'>(</span><span class='st'>"AGCT`"</span><span class='op'>)</span>
 
 <span class='co'># the alphabet of the ModDNAString class</span>
-<span class='fu'><a href='alphabet.html'>alphabet</a></span>(<span class='no'>md1</span>)</div><div class='output co'>#&gt;  [1] "A"  "C"  "G"  "T"  "N"  "-"  "+"  "."  "p"  "δ"  "O"  "]"  "D"  "J"  "e" 
+<span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='va'>md1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "A"  "C"  "G"  "T"  "N"  "-"  "+"  "."  "p"  "δ"  "O"  "]"  "D"  "J"  "e" 
 #&gt; [16] "g"  "`"  "b"  "U"  "∝"  "π"  "I"  "7"  "6"  "3"  "2"  "1"  "8"  "∉"  "⊆" 
 #&gt; [31] "⊇"  "R"  "α"  "m"  "h"  "×"  "f"  "4"  "ν"  "X"  "'"  "κ"  "o"  "("  ")" 
 #&gt; [46] "η"  "a"  "⇓"  "⇑"  "\"" "√"  "/"  "≡"  "ζ"  "~" </div><div class='input'><span class='co'># due to encoding issues the shortNames can also be used</span>
-<span class='fu'><a href='alphabet.html'>shortName</a></span>(<span class='no'>md1</span>)</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
+<span class='fu'><a href='shortName.html'>shortName</a></span><span class='op'>(</span><span class='va'>md1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
 #&gt;  [9] "dhpU"   "5caU"   "dU"     "DHdU"   "5nmU"   "dI"     "7mG"    "6mG"   
 #&gt; [17] "3mG"    "2mG"    "1mG"    "8oxoG"  "7a7dG"  "12eG"   "23eG"   "2,2mG" 
 #&gt; [25] "2ceG"   "5mC"    "5hmC"   "5gmC"   "5fC"    "5caC"   "4mC"    "34eC"  
 #&gt; [33] "3mC"    "3eC"    "2mC"    "1mC"    "9mA"    "7mA"    "6mA"    "4mA"   
 #&gt; [41] "3mA"    "1mA"    "6haA"   "2mA"    "2a6haA" "6,6mA"  "6ncmA" </div><div class='input'><span class='co'># due to encoding issues the nomenclature can also be used</span>
-<span class='fu'><a href='alphabet.html'>nomenclature</a></span>(<span class='no'>md1</span>)</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
+<span class='fu'><a href='shortName.html'>nomenclature</a></span><span class='op'>(</span><span class='va'>md1</span><span class='op'>)</span> 
+</div><div class='output co'>#&gt;  [1] "5pT"    "3mT"    "O4meT"  "1mT"    "dhT"    "baseJ"  "5fU"    "5hmU"  
 #&gt;  [9] "dhpU"   "5caU"   "dU"     "DHdU"   "5nmU"   "dI"     "7mG"    "6mG"   
 #&gt; [17] "3mG"    "2mG"    "1mG"    "8oxoG"  "7a7dG"  "12eG"   "23eG"   "2,2mG" 
 #&gt; [25] "2ceG"   "5mC"    "5hmC"   "5gmC"   "5fC"    "5caC"   "4mC"    "34eC"  
 #&gt; [33] "3mC"    "3eC"    "2mC"    "1mC"    "9mA"    "7mA"    "6mA"    "4mA"   
 #&gt; [41] "3mA"    "1mA"    "6haA"   "2mA"    "2a6haA" "6,6mA"  "6ncmA" </div><div class='input'>
 <span class='co'># convert to DNAString</span>
-<span class='no'>d1</span> <span class='kw'>&lt;-</span> <span class='fu'>DNAString</span>(<span class='no'>md1</span>)</div></pre>
+<span class='va'>d1</span> <span class='op'>&lt;-</span> <span class='fu'>DNAString</span><span class='op'>(</span><span class='va'>md1</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -222,7 +226,7 @@ alphabet, please let us know.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
