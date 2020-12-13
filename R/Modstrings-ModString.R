@@ -161,10 +161,13 @@ setClass("ModDNAString", contains = "ModString")
 #' @export
 setClass("ModRNAString", contains = "ModString")
 
+#' @rdname Modstrings-internals
 #' @export
 setMethod("seqtype", "ModDNAString", function(x) "ModDNA")
+#' @rdname Modstrings-internals
 #' @export
 setMethod("seqtype", "ModRNAString", function(x) "ModRNA")
+#' @rdname Modstrings-internals
 #' @export
 setReplaceMethod(
   "seqtype", "ModString",

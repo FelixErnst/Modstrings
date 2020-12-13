@@ -7,8 +7,8 @@
 \alias{seqtype,ModDNAString-method}
 \alias{seqtype,ModRNAString-method}
 \alias{seqtype<-,ModString-method}
-\alias{seqtype<-,ModStringSet-method}
 \alias{XString,ModString-method}
+\alias{seqtype<-,ModStringSet-method}
 \alias{XStringSet,ModStringSet-method}
 \alias{modsRNA}
 \alias{modsDNA}
@@ -25,7 +25,15 @@ An object of class \code{DataFrame} with 170 rows and 3 columns.
 An object of class \code{DataFrame} with 60 rows and 3 columns.
 }
 \usage{
+\S4method{seqtype}{ModDNAString}(x)
+
+\S4method{seqtype}{ModRNAString}(x)
+
+\S4method{seqtype}{ModString}(x) <- value
+
 \S4method{XString}{ModString}(seqtype, x, start = NA, end = NA, width = NA)
+
+\S4method{seqtype}{ModStringSet}(x) <- value
 
 \S4method{XStringSet}{ModStringSet}(seqtype, x, start = NA, end = NA, width = NA, use.names = TRUE)
 
@@ -38,7 +46,7 @@ data(MOD_RNA_DICT_MODOMICS)
 data(MOD_RNA_DICT_TRNADB)
 }
 \arguments{
-\item{seqtype, x, start, end, width, use.names}{used internally}
+\item{seqtype, x, start, end, width, use.names, value}{used internally}
 }
 \value{
 a XString* object
@@ -48,4 +56,3 @@ Analog to \code{Biostrings} there are a few functions, which should only
 be used internally. Otherwise take care.
 }
 \keyword{datasets}
-\keyword{internal}

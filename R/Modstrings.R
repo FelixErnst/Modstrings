@@ -37,16 +37,12 @@ NULL
 NULL
 
 #' @name Modstrings-internals
-#' @aliases seqtype,ModDNAString-method seqtype,ModRNAString-method 
-#' seqtype<-,ModString-method seqtype<-,ModStringSet-method
 #' 
 #' @title Modstrings internals
 #' 
-#' @param seqtype,x,start,end,width,use.names used internally
+#' @param seqtype,x,start,end,width,use.names,value used internally
 #' 
 #' @return a XString* object
-#' 
-#' @keywords internal
 #' 
 #' @description 
 #' Analog to \code{Biostrings} there are a few functions, which should only

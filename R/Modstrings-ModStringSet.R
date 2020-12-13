@@ -87,6 +87,7 @@ setClass("ModRNAStringSet",
          )
 )
 
+#' @rdname Modstrings-internals
 #' @export
 setReplaceMethod(
   "seqtype", "ModStringSet",
