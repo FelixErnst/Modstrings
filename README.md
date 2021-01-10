@@ -22,7 +22,7 @@ extending the `BString` class from the `Biostrings` ([Pages et
 al.](#Literature)) package. It can store RNA sequences containing special
 characters of the RNA modification alphabet and thus can store location and 
 identity of modifications. Functions for conversion to a tabular format are 
-implemented as well. A `ModDNAString` class is implemented analogous, which
+implemented as well. A `ModDNAString` class is implemented analogously, which
 is based on the DNA modification alphabet from the Hoffman lab ([Sood et
 al.](#Literature)).
 
