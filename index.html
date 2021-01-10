@@ -49,7 +49,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,7 +78,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/FelixErnst/Modstrings/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -103,7 +103,7 @@
 
 <p>RNA are usually in some form post-transcriptionally modified. Most prominent examples are of course rRNA and tRNA, but in recent years mRNA was also discovered to be post-transcriptionally modified.</p>
 <p>In many resources, like the tRNAdb (<a href="#Literature">Juehling et al. 2009</a>) or the modomics database (<a href="#Literature">Boccaletto et al. 2018</a>), a dictionary for modified nucleotides was published. However, in the Bioconductor universe these information were not directly accessible or representable, since they rely extensively on special characters in the RNA modification alphabet.</p>
-<p>Therefore, the<code>Modstrings</code> package implements the <code>ModRNAString</code> class by extending the <code>BString</code> class from the <code>Biostrings</code> (<a href="#Literature">Pages et al.</a>) package. It can store RNA sequences containing special characters of the RNA modification alphabet and thus can store location and identity of modifications. Functions for conversion to a tabular format are implemented as well. A <code>ModDNAString</code> class is implemented analogous, which is based on the DNA modification alphabet from the Hoffman lab (<a href="#Literature">Sood et al.</a>).</p>
+<p>Therefore, the<code>Modstrings</code> package implements the <code>ModRNAString</code> class by extending the <code>BString</code> class from the <code>Biostrings</code> (<a href="#Literature">Pages et al.</a>) package. It can store RNA sequences containing special characters of the RNA modification alphabet and thus can store location and identity of modifications. Functions for conversion to a tabular format are implemented as well. A <code>ModDNAString</code> class is implemented analogously, which is based on the DNA modification alphabet from the Hoffman lab (<a href="#Literature">Sood et al.</a>).</p>
 <p>The implemented classes inherit most of the functions from the parental <code>BString</code> class and it derivatives, which allows them to behave like the normal <code>XString</code> classes within the bioconductor universe.</p>
 </div>
 <div id="installation" class="section level1">
