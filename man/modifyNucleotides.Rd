@@ -128,7 +128,11 @@ identity of the base nucleotide to be
 \examples{
 # modify nucleotides in a ModDNAString 
 seq <- ModDNAString("AGTC")
+seq
+
 mseq1 <- modifyNucleotides(seq,c(1,2,4),c("1mA","7mG","3mC"))
+mseq1
+
 # This fails since m7G requires a G at the selected position in the sequence
 \dontrun{
 mseq <- modifyNucleotides(seq,c(3),c("7mG"))
@@ -136,7 +140,11 @@ mseq <- modifyNucleotides(seq,c(3),c("7mG"))
 
 # modify nucleotides in a ModRNAString 
 seq <- ModRNAString("AGUC")
+seq
+
 mseq1 <- modifyNucleotides(seq,c(1,2,4),c("m1A","m7G","m3C"))
+mseq1
+
 # This fails since m7G requires a G at the selected position in the sequence
 \dontrun{
 mseq <- modifyNucleotides(seq,c(3),c("m7G"))

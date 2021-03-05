@@ -81,6 +81,7 @@ NULL
 #' @examples
 #' # Constructing ModDNAString containing an m6A
 #' md1 <- ModDNAString("AGCT`")
+#' md1
 #' 
 #' # the alphabet of the ModDNAString class
 #' alphabet(md1)
@@ -91,6 +92,7 @@ NULL
 #' 
 #' # convert to DNAString
 #' d1 <- DNAString(md1)
+#' d1
 NULL
 
 #' @name ModRNAString
@@ -138,6 +140,7 @@ NULL
 #' @examples
 #' # Constructing ModDNAString containing an m6A and a dihydrouridine
 #' mr1 <- ModRNAString("AGCU`D")
+#' mr1
 #' 
 #' # the alphabet of the ModRNAString class
 #' alphabet(mr1)
@@ -148,6 +151,7 @@ NULL
 #' 
 #' # convert to RNAString
 #' r1 <- RNAString(mr1)
+#' r1
 NULL
 
 # derived from Biostrings/R/XString-class.R ------------------------------------

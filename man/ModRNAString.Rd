@@ -51,6 +51,7 @@ alphabet, please let us know.
 \examples{
 # Constructing ModDNAString containing an m6A and a dihydrouridine
 mr1 <- ModRNAString("AGCU`D")
+mr1
 
 # the alphabet of the ModRNAString class
 alphabet(mr1)
@@ -61,4 +62,5 @@ nomenclature(mr1)
 
 # convert to RNAString
 r1 <- RNAString(mr1)
+r1
 }

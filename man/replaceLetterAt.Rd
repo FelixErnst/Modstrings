@@ -58,14 +58,22 @@ behaves exactly like the
 \examples{
 # Replacing the last two letters in a ModDNAString
 seq1 <- ModDNAString("AGTC")
+seq
 seq2 <- replaceLetterAt(seq1,c(3,4),"CT")
+seq2
+
 # Now containg and m3C
 seq2 <- replaceLetterAt(seq1,c(3,4),ModDNAString("/T"))
+seq2
+
 # Replacing the last two letters in a set of sequences
 set1 <- ModDNAStringSet(c("AGTC","AGTC"))
+set1
+
 set2 <- replaceLetterAt(set1,
                           matrix(rep(c(FALSE,FALSE,TRUE,TRUE),2),
                                  nrow = 2,
                                  byrow = TRUE),
                           c("CT","CT"))
+set2
 }

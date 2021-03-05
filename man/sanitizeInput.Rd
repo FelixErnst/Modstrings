@@ -46,6 +46,7 @@ chr <- "AGC@"
 seq <- ModRNAString(chr)
 }
 seq <- ModRNAString(sanitizeFromModomics(chr))
+seq
 
 # tRNAdb
 chr <- "AGC+"
@@ -54,4 +55,5 @@ chr <- "AGC+"
 seq <- ModRNAString(chr)
 }
 seq <- ModRNAString(sanitizeFromtRNAdb(chr))
+seq
 }

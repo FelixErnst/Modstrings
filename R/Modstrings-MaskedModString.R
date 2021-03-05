@@ -20,13 +20,18 @@ NULL
 #' # Mask positions
 #' mask <- Mask(mask.width=5, start=c(2), width=c(3))
 #' mr <- ModRNAString("ACGU7")
+#' mr
+#' 
 #' masks(mr) <- mask
+#' mr
 #' 
 #' # Invert masks
 #' mr <- gaps(mr)
+#' mr
 #' 
 #' # Drop the mask
 #' masks(mr) <- NULL
+#' mr
 NULL
 
 # derived from Biostrings/R/MaskedXString.R ------------------------------------

@@ -51,8 +51,13 @@ Functions to read/write an ModStringSet object from/to a file.
 \examples{
 seqs <- paste0(paste(alphabet(ModDNAString()), collapse = ""),
                c("A","G","T"))
+seqs
+
 set <- ModDNAStringSet(seqs)
+set
+
 file <- tempfile()
 writeModStringSet(set, file)
 read <- readModDNAStringSet(file)
+read
 }

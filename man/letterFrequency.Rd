@@ -89,6 +89,7 @@ aware, that the matices can become quite large, since the alphabet of
 }
 \examples{
 mod <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
+mod
 hasOnlyBaseLetters(mod)
 alphabetFrequency(mod)
 }

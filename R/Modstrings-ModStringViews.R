@@ -25,7 +25,10 @@ NULL
 #' 
 #' @examples
 #' seq <- ModDNAString("AGC6AGC6")
+#' seq
+#' 
 #' v <- Views(seq, start = 3:1, end = 6:8)
+#' v
 NULL
 
 # derived from Biostrings/R/XStringViews-class.R -------------------------------

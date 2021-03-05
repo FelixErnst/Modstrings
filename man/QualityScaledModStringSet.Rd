@@ -70,3 +70,13 @@ a \code{QualityScaledModDNAStringSet} or
 \description{
 title
 }
+\examples{
+seq <- ModRNAString("AGCU7")
+seq
+
+qseq <- PhredQuality(paste0(rep("!", length(seq)), collapse = ""))
+qseq
+
+qset <- QualityScaledModRNAStringSet(seq, qseq)
+qset
+}

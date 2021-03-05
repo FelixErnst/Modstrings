@@ -29,5 +29,8 @@ For the details have a look at the
 }
 \examples{
 seq <- ModDNAString("AGC6AGC6")
+seq
+
 v <- Views(seq, start = 3:1, end = 6:8)
+v
 }

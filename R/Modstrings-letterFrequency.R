@@ -42,6 +42,7 @@ NULL
 #'
 #' @examples
 #' mod <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
+#' mod
 #' hasOnlyBaseLetters(mod)
 #' alphabetFrequency(mod)
 NULL

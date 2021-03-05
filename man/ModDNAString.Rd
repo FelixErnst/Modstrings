@@ -51,6 +51,7 @@ alphabet, please let us know.
 \examples{
 # Constructing ModDNAString containing an m6A
 md1 <- ModDNAString("AGCT`")
+md1
 
 # the alphabet of the ModDNAString class
 alphabet(md1)
@@ -61,4 +62,5 @@ nomenclature(md1)
 
 # convert to DNAString
 d1 <- DNAString(md1)
+d1
 }

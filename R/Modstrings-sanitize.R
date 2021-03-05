@@ -38,6 +38,7 @@ NULL
 #' seq <- ModRNAString(chr)
 #' }
 #' seq <- ModRNAString(sanitizeFromModomics(chr))
+#' seq
 #' 
 #' # tRNAdb
 #' chr <- "AGC+"
@@ -46,6 +47,7 @@ NULL
 #' seq <- ModRNAString(chr)
 #' }
 #' seq <- ModRNAString(sanitizeFromtRNAdb(chr))
+#' seq
 NULL
 
 load("data/MOD_RNA_DICT_MODOMICS.rda")

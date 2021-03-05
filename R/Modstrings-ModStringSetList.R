@@ -19,15 +19,21 @@ NULL
 #' 
 #' @examples 
 #' mrseq <- c("ACGU7","ACGU7","ACGU7","ACGU7")
+#' mrseq
 #' 
 #' # Example: contruction of ModStringSetlist from ModString objects
 #' mr <- ModRNAString("ACGU7")
+#' mr
+#' 
 #' mrs <- ModRNAStringSet(list(mr,mr,mr,mr))
+#' mrs
+#' 
 #' mrsl <- ModRNAStringSetList(mrs,mrs)
+#' mrsl
 #' 
 #' # Example: construction of ModStringSetlist from mixed sources
 #' mrsl2 <- ModRNAStringSetList(mrs,mrseq)
-#' 
+#' mrsl2
 NULL
 
 # derived from Biostrings/R/XStringSetList-class.R -----------------------------

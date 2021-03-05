@@ -19,10 +19,15 @@ NULL
 #' @examples
 #' seqs <- paste0(paste(alphabet(ModDNAString()), collapse = ""),
 #'                c("A","G","T"))
+#' seqs
+#' 
 #' set <- ModDNAStringSet(seqs)
+#' set
+#' 
 #' file <- tempfile()
 #' writeModStringSet(set, file)
 #' read <- readModDNAStringSet(file)
+#' read
 NULL
 
 # derived from Biostrings/R/XStringSet-io.R ------------------------------------

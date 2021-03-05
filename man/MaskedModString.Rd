@@ -21,11 +21,16 @@ a look the \code{\link[Biostrings:MaskedXString-class]{MaskedXString}} class.
 # Mask positions
 mask <- Mask(mask.width=5, start=c(2), width=c(3))
 mr <- ModRNAString("ACGU7")
+mr
+
 masks(mr) <- mask
+mr
 
 # Invert masks
 mr <- gaps(mr)
+mr
 
 # Drop the mask
 masks(mr) <- NULL
+mr
 }

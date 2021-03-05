@@ -162,19 +162,25 @@ library(GenomicRanges)
 # ModDNAString
 seq <- ModDNAString(paste(alphabet(ModDNAString()), collapse = ""))
 seq
+
 gr <- separate(seq)
 gr
+
 seq2 <- combineIntoModstrings(as(seq,"DNAString"),gr)
 seq2
+
 seq == seq2
 # ModRNAString
 seq <- ModRNAString(paste(alphabet(ModRNAString()), collapse = ""))
 seq
+
 gr <- separate(seq)
 gr
+
 # Separating RNA modifications
 gr <- gr[1]
 separate(gr)
+
 # ... and combine them again (both operations work only on a subset of
 # modifications)
 combineModifications(separate(gr))
@@ -183,6 +189,7 @@ combineModifications(separate(gr))
 seq <- RNAString("AGCU")
 gr <- GRanges(c("chr1:1:+","chr1:2:+"),mod="m1A")
 incompatibleModifications(gr,seq)
+
 #
 removeIncompatibleModifications(gr,seq)
 }
