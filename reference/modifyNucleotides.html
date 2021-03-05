@@ -76,7 +76,7 @@ identity of the base nucleotide to be" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -272,7 +272,13 @@ object with the changes applied</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># modify nucleotides in a ModDNAString </span>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"AGTC"</span><span class='op'>)</span>
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; 4-letter ModDNAString object
+#&gt; seq: AGTC</div><div class='input'>
 <span class='va'>mseq1</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1mA"</span>,<span class='st'>"7mG"</span>,<span class='st'>"3mC"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mseq1</span>
+</div><div class='output co'>#&gt; 4-letter ModDNAString object
+#&gt; seq: "7T'</div><div class='input'>
 <span class='co'># This fails since m7G requires a G at the selected position in the sequence</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>mseq</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"7mG"</span><span class='op'>)</span><span class='op'>)</span>
@@ -280,7 +286,13 @@ object with the changes applied</p>
 
 <span class='co'># modify nucleotides in a ModRNAString </span>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='st'>"AGUC"</span><span class='op'>)</span>
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; 4-letter ModRNAString object
+#&gt; seq: AGUC</div><div class='input'>
 <span class='va'>mseq1</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"m1A"</span>,<span class='st'>"m7G"</span>,<span class='st'>"m3C"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mseq1</span>
+</div><div class='output co'>#&gt; 4-letter ModRNAString object
+#&gt; seq: "7U'</div><div class='input'>
 <span class='co'># This fails since m7G requires a G at the selected position in the sequence</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>mseq</span> <span class='op'>&lt;-</span> <span class='fu'>modifyNucleotides</span><span class='op'>(</span><span class='va'>seq</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"m7G"</span><span class='op'>)</span><span class='op'>)</span>

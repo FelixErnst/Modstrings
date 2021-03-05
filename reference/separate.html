@@ -88,7 +88,7 @@ returns the logical vector used for this operation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -320,7 +320,8 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>seq</span>
 </div><div class='output co'>#&gt; 55-letter ModDNAString object
-#&gt; seq: <span style='color: #000000;background-color: #BBBBBB;'>ACGT</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</span><span></div><div class='input'><span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='fu'>separate</span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span>
+#&gt; seq: ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</div><div class='input'>
+<span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='fu'>separate</span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span>
 <span class='va'>gr</span>
 </div><div class='output co'>#&gt; GRanges object with 47 ranges and 1 metadata column:
 #&gt;        seqnames    ranges strand |         mod
@@ -337,15 +338,18 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 #&gt;   [46]        1        54      + |       6,6mA
 #&gt;   [47]        1        55      + |       6ncmA
 #&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'><span class='va'>seq2</span> <span class='op'>&lt;-</span> <span class='fu'>combineIntoModstrings</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>seq</span>,<span class='st'>"DNAString"</span><span class='op'>)</span>,<span class='va'>gr</span><span class='op'>)</span>
+#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'>
+<span class='va'>seq2</span> <span class='op'>&lt;-</span> <span class='fu'>combineIntoModstrings</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>seq</span>,<span class='st'>"DNAString"</span><span class='op'>)</span>,<span class='va'>gr</span><span class='op'>)</span>
 <span class='va'>seq2</span>
 </div><div class='output co'>#&gt; 55-letter ModDNAString object
-#&gt; seq: </span><span style='color: #000000;background-color: #BBBBBB;'>ACGT</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</span><span></div><div class='input'><span class='va'>seq</span> <span class='op'>==</span> <span class='va'>seq2</span>
+#&gt; seq: ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</div><div class='input'>
+<span class='va'>seq</span> <span class='op'>==</span> <span class='va'>seq2</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># ModRNAString</span>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>seq</span>
 </div><div class='output co'>#&gt; 153-letter ModRNAString object
-#&gt; seq: </span><span style='color: #000000;background-color: #BBBBBB;'>ACGU</span><span style='color: #555555;background-color: #BBBBBB;'>N</span><span>-+.</span><span style='color: #00BB00;background-color: #000000;'>œεξα"KO]±Γ}/£ÿ≠≈*∞[ω∏%2:B#≤Z</span><span>...</span><span style='color: #00BB00;background-color: #000000;'>Ϩ≡Ϫ√ΘE=6¿(eDς9⊄«⊆I⊇8y∑WPQšÎ÷H&lt;;ÜVυY€</span><span></div><div class='input'><span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='fu'>separate</span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span>
+#&gt; seq: ACGUN-+.œεξα"KO]±Γ}/£ÿ≠≈*∞[ω∏%2:B#≤Z...Ϩ≡Ϫ√ΘE=6¿(eDς9⊄«⊆I⊇8y∑WPQšÎ÷H&lt;;ÜVυY€</div><div class='input'>
+<span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='fu'>separate</span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span>
 <span class='va'>gr</span>
 </div><div class='output co'>#&gt; GRanges object with 145 ranges and 1 metadata column:
 #&gt;         seqnames    ranges strand |         mod
@@ -362,7 +366,8 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 #&gt;   [144]        1       152      + |          yW
 #&gt;   [145]        1       153      + |         imG
 #&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'><span class='co'># Separating RNA modifications</span>
+#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'>
+<span class='co'># Separating RNA modifications</span>
 <span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='va'>gr</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
 <span class='fu'>separate</span><span class='op'>(</span><span class='va'>gr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 2 ranges and 1 metadata column:
@@ -371,7 +376,8 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 #&gt;   [1]        1         9      + |          Am
 #&gt;   [2]        1         9      + |         m1A
 #&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'><span class='co'># ... and combine them again (both operations work only on a subset of</span>
+#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div><div class='input'>
+<span class='co'># ... and combine them again (both operations work only on a subset of</span>
 <span class='co'># modifications)</span>
 <span class='fu'>combineModifications</span><span class='op'>(</span><span class='fu'>separate</span><span class='op'>(</span><span class='va'>gr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 1 range and 1 metadata column:
@@ -384,14 +390,15 @@ modifications? This settings is passed onto <code><a href='modifyNucleotides.htm
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'>RNAString</span><span class='op'>(</span><span class='st'>"AGCU"</span><span class='op'>)</span>
 <span class='va'>gr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr1:1:+"</span>,<span class='st'>"chr1:2:+"</span><span class='op'>)</span>,mod<span class='op'>=</span><span class='st'>"m1A"</span><span class='op'>)</span>
 <span class='fu'>incompatibleModifications</span><span class='op'>(</span><span class='va'>gr</span>,<span class='va'>seq</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE  TRUE</div><div class='input'><span class='co'>#</span>
+</div><div class='output co'>#&gt; [1] FALSE  TRUE</div><div class='input'>
+<span class='co'>#</span>
 <span class='fu'>removeIncompatibleModifications</span><span class='op'>(</span><span class='va'>gr</span>,<span class='va'>seq</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 1 range and 1 metadata column:
 #&gt;       seqnames    ranges strand |         mod
 #&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
 #&gt;   [1]     chr1         1      + |         m1A
 #&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div></span></pre>
+#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

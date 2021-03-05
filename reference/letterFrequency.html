@@ -77,7 +77,7 @@ ModString objects contains more letters." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -241,7 +241,9 @@ objects or reported per element.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>hasOnlyBaseLetters</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
+<span class='va'>mod</span>
+</div><div class='output co'>#&gt; 55-letter ModDNAString object
+#&gt; seq: ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~</div><div class='input'><span class='fu'>hasOnlyBaseLetters</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>alphabetFrequency</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; A C G T N - + . p δ O ] D J e g ` b U ∝ π I 7 6 3 2 1 8 ∉ ⊆ ⊇ R α m h × f 4 ν X 
 #&gt; 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 

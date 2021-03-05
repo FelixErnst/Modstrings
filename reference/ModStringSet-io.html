@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -185,11 +185,26 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>seqs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='shortName.html'>alphabet</a></span><span class='op'>(</span><span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>,
                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>,<span class='st'>"G"</span>,<span class='st'>"T"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>seqs</span>
+</div><div class='output co'>#&gt; [1] "ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑\"√/≡ζ~A"
+#&gt; [2] "ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑\"√/≡ζ~G"
+#&gt; [3] "ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑\"√/≡ζ~T"</div><div class='input'>
 <span class='va'>set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModStringSet.html'>ModDNAStringSet</a></span><span class='op'>(</span><span class='va'>seqs</span><span class='op'>)</span>
+<span class='va'>set</span>
+</div><div class='output co'>#&gt;   A ModDNAStringSet instance of length 3
+#&gt;     width seq
+#&gt; [1]    56 ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~A
+#&gt; [2]    56 ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~G
+#&gt; [3]    56 ACGTN-+.pδO]DJeg`bU∝πI763218∉⊆⊇Rαmh×f4νX'κo()ηa⇓⇑"√/≡ζ~T</div><div class='input'>
 <span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'>writeModStringSet</span><span class='op'>(</span><span class='va'>set</span>, <span class='va'>file</span><span class='op'>)</span>
 <span class='va'>read</span> <span class='op'>&lt;-</span> <span class='fu'>readModDNAStringSet</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
-</div></pre>
+<span class='va'>read</span>
+</div><div class='output co'>#&gt;   A ModDNAStringSet instance of length 3
+#&gt;     width seq                                               names               
+#&gt; [1]    56 ACGTN-+.pδO]DJeg`bU∝πI7...mh×f4νX'κo()ηa⇓⇑"√/≡ζ~A 
+#&gt; [2]    56 ACGTN-+.pδO]DJeg`bU∝πI7...mh×f4νX'κo()ηa⇓⇑"√/≡ζ~G 
+#&gt; [3]    56 ACGTN-+.pδO]DJeg`bU∝πI7...mh×f4νX'κo()ηa⇓⇑"√/≡ζ~T </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

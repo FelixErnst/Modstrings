@@ -81,7 +81,7 @@ dictionary, which is builtin." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -187,7 +187,9 @@ contructed for exchaning old to new letters.</p></td>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
 <span class='op'>}</span>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='fu'>sanitizeFromModomics</span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span>
-
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; 4-letter ModRNAString object
+#&gt; seq: AGC÷</div><div class='input'>
 <span class='co'># tRNAdb</span>
 <span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='st'>"AGC+"</span>
 <span class='co'># No error but the + has a different meaning in the alphabet</span>
@@ -195,7 +197,9 @@ contructed for exchaning old to new letters.</p></td>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
 <span class='op'>}</span>
 <span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModRNAString.html'>ModRNAString</a></span><span class='op'>(</span><span class='fu'>sanitizeFromtRNAdb</span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; 4-letter ModRNAString object
+#&gt; seq: AGCΘ</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

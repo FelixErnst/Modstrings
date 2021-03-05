@@ -74,7 +74,7 @@ the same sequence (this time a ModString object)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -161,8 +161,18 @@ the same sequence (this time a <code>ModString</code> object).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"AGC6AGC6"</span><span class='op'>)</span>
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; 8-letter ModDNAString object
+#&gt; seq: AGC6AGC6</div><div class='input'>
 <span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'>Views</span><span class='op'>(</span><span class='va'>seq</span>, start <span class='op'>=</span> <span class='fl'>3</span><span class='op'>:</span><span class='fl'>1</span>, end <span class='op'>=</span> <span class='fl'>6</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>)</span>
-</div></pre>
+<span class='va'>v</span>
+</div><div class='output co'>#&gt; Views on a 8-letter ModDNAString subject
+#&gt; subject: AGC6AGC6
+#&gt; views:
+#&gt;       start end width
+#&gt;   [1]     3   6     4 [C6AG]
+#&gt;   [2]     2   7     6 [GC6AGC]
+#&gt;   [3]     1   8     8 [AGC6AGC6]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

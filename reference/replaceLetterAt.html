@@ -77,7 +77,7 @@ behaves exactly like the" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -198,17 +198,36 @@ object with the changes applied</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Replacing the last two letters in a ModDNAString</span>
 <span class='va'>seq1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"AGTC"</span><span class='op'>)</span>
-<span class='va'>seq2</span> <span class='op'>&lt;-</span> <span class='fu'>replaceLetterAt</span><span class='op'>(</span><span class='va'>seq1</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='st'>"CT"</span><span class='op'>)</span>
+<span class='va'>seq</span>
+</div><div class='output co'>#&gt; function (...) 
+#&gt; UseMethod("seq")
+#&gt; &lt;bytecode: 0x563e9c988e60&gt;
+#&gt; &lt;environment: namespace:base&gt;</div><div class='input'><span class='va'>seq2</span> <span class='op'>&lt;-</span> <span class='fu'>replaceLetterAt</span><span class='op'>(</span><span class='va'>seq1</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='st'>"CT"</span><span class='op'>)</span>
+<span class='va'>seq2</span>
+</div><div class='output co'>#&gt; 4-letter ModDNAString object
+#&gt; seq: AGCT</div><div class='input'>
 <span class='co'># Now containg and m3C</span>
 <span class='va'>seq2</span> <span class='op'>&lt;-</span> <span class='fu'>replaceLetterAt</span><span class='op'>(</span><span class='va'>seq1</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span>,<span class='fu'><a href='ModDNAString.html'>ModDNAString</a></span><span class='op'>(</span><span class='st'>"/T"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>seq2</span>
+</div><div class='output co'>#&gt; 4-letter ModDNAString object
+#&gt; seq: AG/T</div><div class='input'>
 <span class='co'># Replacing the last two letters in a set of sequences</span>
 <span class='va'>set1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ModStringSet.html'>ModDNAStringSet</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"AGTC"</span>,<span class='st'>"AGTC"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>set1</span>
+</div><div class='output co'>#&gt;   A ModDNAStringSet instance of length 2
+#&gt;     width seq
+#&gt; [1]     4 AGTC
+#&gt; [2]     4 AGTC</div><div class='input'>
 <span class='va'>set2</span> <span class='op'>&lt;-</span> <span class='fu'>replaceLetterAt</span><span class='op'>(</span><span class='va'>set1</span>,
                           <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>FALSE</span>,<span class='cn'>FALSE</span>,<span class='cn'>TRUE</span>,<span class='cn'>TRUE</span><span class='op'>)</span>,<span class='fl'>2</span><span class='op'>)</span>,
                                  nrow <span class='op'>=</span> <span class='fl'>2</span>,
                                  byrow <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
                           <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CT"</span>,<span class='st'>"CT"</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+<span class='va'>set2</span>
+</div><div class='output co'>#&gt;   A ModDNAStringSet instance of length 2
+#&gt;     width seq
+#&gt; [1]     4 AGCT
+#&gt; [2]     4 AGCT</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
