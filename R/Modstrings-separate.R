@@ -332,7 +332,7 @@ setMethod(
 
 .norm_GRangesList <- function(gr, drop.additional.columns = TRUE)
 {
-  ans <- unlist(gr, use.names = FALSE)
+  ans <- sort(unlist(gr, use.names = FALSE))
   ans <- .norm_GRanges(ans, drop.additional.columns)
   split(ans, seqnames(ans))
 }

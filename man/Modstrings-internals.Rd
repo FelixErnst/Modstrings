@@ -16,13 +16,13 @@
 \alias{MOD_RNA_DICT_TRNADB}
 \title{Modstrings internals}
 \format{
-An object of class \code{DataFrame} with 162 rows and 9 columns.
+An object of class \code{DFrame} with 162 rows and 9 columns.
 
-An object of class \code{DataFrame} with 47 rows and 5 columns.
+An object of class \code{DFrame} with 47 rows and 5 columns.
 
-An object of class \code{DataFrame} with 170 rows and 3 columns.
+An object of class \code{DFrame} with 170 rows and 3 columns.
 
-An object of class \code{DataFrame} with 60 rows and 3 columns.
+An object of class \code{DFrame} with 60 rows and 3 columns.
 }
 \usage{
 \S4method{seqtype}{ModDNAString}(x)

@@ -1,8 +1,8 @@
 Package: Modstrings
 Type: Package
 Title: Working with modified nucleotide sequences 
-Version: 1.13.0
-Date: 2021-11-17
+Version: 1.13.1
+Date: 2022-08-13
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
@@ -71,5 +71,5 @@ Collate:
     'utils.R'
     'zzz.R'
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 BugReports: https://github.com/FelixErnst/Modstrings/issues
