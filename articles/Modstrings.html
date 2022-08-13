@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/Modstrings.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/FelixErnst/Modstrings/">
+  <a href="https://github.com/FelixErnst/Modstrings/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,15 +78,16 @@
 
       
 
-      </header><script src="Modstrings_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Modstrings</h1>
-                        <h4 class="author">Felix G.M. Ernst &amp; Denis L.J. Lafontaine</h4>
+                        <h4 data-toc-skip class="author">Felix G.M.
+Ernst &amp; Denis L.J. Lafontaine</h4>
             
-            <h4 class="date">2021-03-05</h4>
+            <h4 data-toc-skip class="date">2022-08-13</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/FelixErnst/Modstrings/blob/master/vignettes/Modstrings.Rmd"><code>vignettes/Modstrings.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/FelixErnst/Modstrings/blob/HEAD/vignettes/Modstrings.Rmd" class="external-link"><code>vignettes/Modstrings.Rmd</code></a></small>
       <div class="hidden name"><code>Modstrings.Rmd</code></div>
 
     </div>
@@ -98,7 +95,8 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>Classes for DNA and RNA sequences containing modified nucleotides</p>
+      <p>Classes for DNA and RNA sequences containing modified
+      nucleotides</p>
     </div>
     
 <script type="text/javascript">
@@ -112,441 +110,534 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Most nucleic acids, regardless of their being DNA or RNA, contain modified nucleotides, which enhances the normal function of encoding genetic information. They have usually a regulatory function and/or modify folding behavior and molecular interactions.</p>
-<p>RNA are nearly always post-transcriptionally modified. Most prominent examples are of course ribsomal RNA (rRNA) and transfer RNA (tRNA), but in recent years mRNA was also discovered to be post-transcriptionally modified. In addition, many small and long non-coding RNAs are also modified.</p>
-<p>In many resources, like the tRNAdb <span class="citation">(Jühling et al. 2009)</span> or the modomics database <span class="citation">(Boccaletto et al. 2018)</span>, modified nucleotides are repertoried. However in the Bioconductor context these information were not accessible, since they rely extensively on special characters in the RNA modification alphabet.</p>
-<p>Therefore, the <code>ModRNAString</code> class was implemented extending the <code>BString</code> class from the <code>Biostrings</code> <span class="citation">(H. Pagès, P. Aboyoun, R. Gentleman, and S. DebRoy 2017)</span> package. It can store RNA sequences containing special characters of the RNA modification alphabet and thus can store location and identity of modifications. Functions for conversion to a tabular format are implemented as well.</p>
-<p>The implemented classes inherit most of the functions from the parental <code>BString</code> class and it derivatives, which allows them to behave like the normal <code>XString</code> classes within the Bioconductor context. Most of the functionality is directly inherited and derived from the <code>Biostrings</code> package.</p>
-<p>Since a DNA modification alphabet also exists, a <code>ModDNAString</code> class was implemented as well. For details on the available letters have a look at the <a href="ModRNAString-alphabet.html">RNA modification</a> and [DNA modification](ModDNAString-alphabet.html alphabet vignettes.</p>
+</script><div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Most nucleic acids, regardless of their being DNA or RNA, contain
+modified nucleotides, which enhances the normal function of encoding
+genetic information. They have usually a regulatory function and/or
+modify folding behavior and molecular interactions.</p>
+<p>RNA are nearly always post-transcriptionally modified. Most prominent
+examples are of course ribsomal RNA (rRNA) and transfer RNA (tRNA), but
+in recent years mRNA was also discovered to be post-transcriptionally
+modified. In addition, many small and long non-coding RNAs are also
+modified.</p>
+<p>In many resources, like the tRNAdb <span class="citation">(Jühling et
+al. 2009)</span> or the modomics database <span class="citation">(Boccaletto et al. 2018)</span>, modified nucleotides
+are repertoried. However in the Bioconductor context these information
+were not accessible, since they rely extensively on special characters
+in the RNA modification alphabet.</p>
+<p>Therefore, the <code>ModRNAString</code> class was implemented
+extending the <code>BString</code> class from the
+<code>Biostrings</code> <span class="citation">(H. Pagès, P. Aboyoun, R.
+Gentleman, and S. DebRoy 2017)</span> package. It can store RNA
+sequences containing special characters of the RNA modification alphabet
+and thus can store location and identity of modifications. Functions for
+conversion to a tabular format are implemented as well.</p>
+<p>The implemented classes inherit most of the functions from the
+parental <code>BString</code> class and it derivatives, which allows
+them to behave like the normal <code>XString</code> classes within the
+Bioconductor context. Most of the functionality is directly inherited
+and derived from the <code>Biostrings</code> package.</p>
+<p>Since a DNA modification alphabet also exists, a
+<code>ModDNAString</code> class was implemented as well. For details on
+the available letters have a look at the <a href="ModRNAString-alphabet.html">RNA modification</a> and [DNA
+modification](ModDNAString-alphabet.html alphabet vignettes.</p>
 </div>
-<div id="creating-a-modrnastring-object" class="section level1">
-<h1 class="hasAnchor">
-<a href="#creating-a-modrnastring-object" class="anchor"></a>Creating a <code>ModRNAString</code> object</h1>
-<p>In principle <code>ModRNAString</code> and <code>ModDNAString</code> objects can be created as any other <code>XString</code> object. However encoding issue will most certainly come into play, depending on the modification, the operation system and probably the R version. This is not a problem of how the data is internally used, but how the letter is transfered from the console to R and back.</p>
+<div class="section level2">
+<h2 id="creating-a-modrnastring-object">Creating a <code>ModRNAString</code> object<a class="anchor" aria-label="anchor" href="#creating-a-modrnastring-object"></a>
+</h2>
+<p>In principle <code>ModRNAString</code> and <code>ModDNAString</code>
+objects can be created as any other <code>XString</code> object. However
+encoding issue will most certainly come into play, depending on the
+modification, the operation system and probably the R version. This is
+not a problem of how the data is internally used, but how the letter is
+transfered from the console to R and back.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">Modstrings</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges">GenomicRanges</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Modstrings</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges" class="external-link">GenomicRanges</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This works</span>
-<span class="va">mr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU7"</span><span class="op">)</span>
-<span class="co"># This might work on Linux, but does not on Windows</span>
-<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU≈"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGU≈</code></pre>
+<code class="sourceCode R"><span><span class="co"># This works</span></span>
+<span><span class="va">mr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU7"</span><span class="op">)</span></span>
+<span><span class="co"># This might work on Linux, but does not on Windows</span></span>
+<span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGU≈"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">≈</span></span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This cause a misinterpretation on Windows. Omega gets added as O. </span>
-<span class="co"># This modifys the information from yW-72 (7-aminocarboxypropylwyosine) to </span>
-<span class="co"># m1I (1-methylinosine)</span>
-<span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGUΩ"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGUΩ</code></pre>
-<p>To eliminate this issue the function <code>modifyNucleotide()</code> is implemented, which can use short names or the nomenclature of a modification to add it at the desired position.</p>
+<code class="sourceCode R"><span><span class="co"># This cause a misinterpretation on Windows. Omega gets added as O. </span></span>
+<span><span class="co"># This modifys the information from yW-72 (7-aminocarboxypropylwyosine) to </span></span>
+<span><span class="co"># m1I (1-methylinosine)</span></span>
+<span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="st">"ACGUΩ"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">Ω</span></span></span></code></pre>
+<p>To eliminate this issue the function <code>modifyNucleotide()</code>
+is implemented, which can use short names or the nomenclature of a
+modification to add it at the desired position.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/shortName.html">shortName</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "m1Am"    "m1Gm"    "m1Im"    "m1acp3Y" "m1A"     "m1G"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/alphabet.html">shortName</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "m1Am"    "m1Gm"    "m1Im"    "m1acp3Y" "m1A"     "m1G"</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/shortName.html">nomenclature</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "01A"   "01G"   "019A"  "1309U" "1A"    "1G"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/alphabet.html">nomenclature</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "01A"   "01G"   "019A"  "1309U" "1A"    "1G"</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">RNAString</span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span>
-<span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span>
-<span class="va">mr2</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGU7</code></pre>
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html" class="external-link">RNAString</a></span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span></span>
+<span><span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span></span>
+<span><span class="va">mr2</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span></span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"7G"</span>,nc.type <span class="op">=</span> <span class="st">"nc"</span><span class="op">)</span>
-<span class="va">mr3</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGU7</code></pre>
-<p>In addition, one can also use the <code><a href="../reference/shortName.html">alphabet()</a></code> function and subset to the desired modifications.</p>
+<code class="sourceCode R"><span><span class="va">mr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"7G"</span>,nc.type <span class="op">=</span> <span class="st">"nc"</span><span class="op">)</span></span>
+<span><span class="va">mr3</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span></span></span></code></pre>
+<p>In addition, one can also use the <code><a href="../reference/alphabet.html">alphabet()</a></code> function
+and subset to the desired modifications.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mr4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"ACGU"</span>,<span class="fu"><a href="../reference/shortName.html">alphabet</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">33L</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
-<span class="va">mr4</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGUB</code></pre>
+<code class="sourceCode R"><span><span class="va">mr4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"ACGU"</span>,<span class="fu"><a href="../reference/alphabet.html">alphabet</a></span><span class="op">(</span><span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">33L</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mr4</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">B</span></span></span></code></pre>
 </div>
-<div id="streamlining-object-creation-and-modification" class="section level1">
-<h1 class="hasAnchor">
-<a href="#streamlining-object-creation-and-modification" class="anchor"></a>Streamlining object creation and modification</h1>
-<p>To offer a more streamlined functionality, which can take more information as input, the function <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is implemented. It takes a <code>XString</code> object and a <code>GRanges</code> object with a <code>mod</code> column and returns a <code>ModString</code> object. The information in the <code>mod</code> column must match the short name or nomenclature of the particular modification of interest as returned by the <code><a href="../reference/shortName.html">shortName()</a></code> or <code><a href="../reference/shortName.html">nomenclature()</a></code> functions as seen above.</p>
+<div class="section level2">
+<h2 id="streamlining-object-creation-and-modification">Streamlining object creation and modification<a class="anchor" aria-label="anchor" href="#streamlining-object-creation-and-modification"></a>
+</h2>
+<p>To offer a more streamlined functionality, which can take more
+information as input, the function <code><a href="../reference/separate.html">combineIntoModstrings()</a></code>
+is implemented. It takes a <code>XString</code> object and a
+<code>GRanges</code> object with a <code>mod</code> column and returns a
+<code>ModString</code> object. The information in the <code>mod</code>
+column must match the short name or nomenclature of the particular
+modification of interest as returned by the <code><a href="../reference/alphabet.html">shortName()</a></code> or
+<code><a href="../reference/alphabet.html">nomenclature()</a></code> functions as seen above.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"1:5"</span>, mod <span class="op">=</span> <span class="st">"m7G"</span><span class="op">)</span>
-<span class="va">mr5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">gr</span><span class="op">)</span>
-<span class="va">mr5</span></code></pre></div>
-<pre><code>## 5-letter ModRNAString object
-## seq: ACGU7</code></pre>
-<p><code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is also implemented for <code>ModStringSet</code> objects.</p>
+<code class="sourceCode R"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"1:5"</span>, mod <span class="op">=</span> <span class="st">"m7G"</span><span class="op">)</span></span>
+<span><span class="va">mr5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">r</span>, <span class="va">gr</span><span class="op">)</span></span>
+<span><span class="va">mr5</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter ModRNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span></span></span></code></pre>
+<p><code><a href="../reference/separate.html">combineIntoModstrings()</a></code> is also implemented for
+<code>ModStringSet</code> objects.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rs</span> <span class="op">&lt;-</span> <span class="fu">RNAStringSet</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Sequence"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">)</span>
-<span class="va">gr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1L</span>,<span class="fl">1L</span>,<span class="fl">2L</span>,<span class="fl">3L</span>,<span class="fl">3L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span><span class="op">)</span><span class="op">]</span>,
-               ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span><span class="op">)</span>,
-                                width <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>,
-               mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">gr2</span></code></pre></div>
-<pre><code>## GRanges object with 8 ranges and 1 metadata column:
-##        seqnames    ranges strand |         mod
-##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##   [1] Sequence1         4      * |           D
-##   [2] Sequence1         5      * |         m7G
-##   [3] Sequence2         5      * |         m7G
-##   [4] Sequence3         4      * |           D
-##   [5] Sequence3         5      * |         m7G
-##   [6] Sequence4         5      * |         m7G
-##   [7] Sequence5         4      * |           D
-##   [8] Sequence5         5      * |         m7G
-##   -------
-##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
+<code class="sourceCode R"><span><span class="va">rs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html" class="external-link">RNAStringSet</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span>,<span class="va">r</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Sequence"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">gr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>,<span class="fl">1L</span>,<span class="fl">2L</span>,<span class="fl">3L</span>,<span class="fl">3L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>               ranges <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html" class="external-link">IRanges</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span>,<span class="fl">5L</span>,<span class="fl">4L</span>,<span class="fl">5L</span><span class="op">)</span>,</span>
+<span>                                width <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>,</span>
+<span>               mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span>,<span class="st">"m7G"</span>,<span class="st">"D"</span>,<span class="st">"m7G"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">gr2</span></span></code></pre></div>
+<pre><code><span><span class="co">## GRanges object with 8 ranges and 1 metadata column:</span></span>
+<span><span class="co">##        seqnames    ranges strand |         mod</span></span>
+<span><span class="co">##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;</span></span>
+<span><span class="co">##   [1] Sequence1         4      * |           D</span></span>
+<span><span class="co">##   [2] Sequence1         5      * |         m7G</span></span>
+<span><span class="co">##   [3] Sequence2         5      * |         m7G</span></span>
+<span><span class="co">##   [4] Sequence3         4      * |           D</span></span>
+<span><span class="co">##   [5] Sequence3         5      * |         m7G</span></span>
+<span><span class="co">##   [6] Sequence4         5      * |         m7G</span></span>
+<span><span class="co">##   [7] Sequence5         4      * |           D</span></span>
+<span><span class="co">##   [8] Sequence5         5      * |         m7G</span></span>
+<span><span class="co">##   -------</span></span>
+<span><span class="co">##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">rs</span>, <span class="va">gr2</span><span class="op">)</span>
-<span class="va">mrs</span></code></pre></div>
-<pre><code>##   A ModRNAStringSet instance of length 5
-##     width seq                                               names               
-## [1]     5 ACGD7                                             Sequence1
-## [2]     5 ACGU7                                             Sequence2
-## [3]     5 ACGD7                                             Sequence3
-## [4]     5 ACGU7                                             Sequence4
-## [5]     5 ACGD7                                             Sequence5</code></pre>
-<p>The reverse operation is also available via the function <code><a href="../reference/separate.html">separate()</a></code>, which allows the positions of modifications to be transfered into a tabular format.</p>
+<code class="sourceCode R"><span><span class="va">mrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">rs</span>, <span class="va">gr2</span><span class="op">)</span></span>
+<span><span class="va">mrs</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A ModRNAStringSet instance of length 5</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence5</span></span></code></pre>
+<p>The reverse operation is also available via the function
+<code><a href="../reference/separate.html">separate()</a></code>, which allows the positions of modifications to
+be transfered into a tabular format.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
-<span class="va">rs2</span> <span class="op">&lt;-</span> <span class="fu">RNAStringSet</span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
-<span class="va">gr3</span></code></pre></div>
-<pre><code>## GRanges object with 8 ranges and 1 metadata column:
-##        seqnames    ranges strand |         mod
-##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##   [1] Sequence1         4      + |           D
-##   [2] Sequence1         5      + |         m7G
-##   [3] Sequence2         5      + |         m7G
-##   [4] Sequence3         4      + |           D
-##   [5] Sequence3         5      + |         m7G
-##   [6] Sequence4         5      + |         m7G
-##   [7] Sequence5         4      + |           D
-##   [8] Sequence5         5      + |         m7G
-##   -------
-##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
+<code class="sourceCode R"><span><span class="va">gr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span></span>
+<span><span class="va">rs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html" class="external-link">RNAStringSet</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span></span>
+<span><span class="va">gr3</span></span></code></pre></div>
+<pre><code><span><span class="co">## GRanges object with 8 ranges and 1 metadata column:</span></span>
+<span><span class="co">##        seqnames    ranges strand |         mod</span></span>
+<span><span class="co">##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;</span></span>
+<span><span class="co">##   [1] Sequence1         4      + |           D</span></span>
+<span><span class="co">##   [2] Sequence1         5      + |         m7G</span></span>
+<span><span class="co">##   [3] Sequence2         5      + |         m7G</span></span>
+<span><span class="co">##   [4] Sequence3         4      + |           D</span></span>
+<span><span class="co">##   [5] Sequence3         5      + |         m7G</span></span>
+<span><span class="co">##   [6] Sequence4         5      + |         m7G</span></span>
+<span><span class="co">##   [7] Sequence5         4      + |           D</span></span>
+<span><span class="co">##   [8] Sequence5         5      + |         m7G</span></span>
+<span><span class="co">##   -------</span></span>
+<span><span class="co">##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</span></span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rs2</span></code></pre></div>
-<pre><code>## RNAStringSet object of length 5:
-##     width seq                                               names               
-## [1]     5 ACGUG                                             Sequence1
-## [2]     5 ACGUG                                             Sequence2
-## [3]     5 ACGUG                                             Sequence3
-## [4]     5 ACGUG                                             Sequence4
-## [5]     5 ACGUG                                             Sequence5</code></pre>
-<p><code><a href="../reference/modifyNucleotides.html">modifyNucleotides()</a></code> and therefore also <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> requires, that the nucleotides to be modified match the originating base for the modification. The next chunk fails, since the originating base for m7G is of course G.</p>
+<code class="sourceCode R"><span><span class="va">rs2</span></span></code></pre></div>
+<pre><code><span><span class="co">## RNAStringSet object of length 5:</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span>                                             Sequence5</span></span></code></pre>
+<p><code><a href="../reference/modifyNucleotides.html">modifyNucleotides()</a></code> and therefore also
+<code><a href="../reference/separate.html">combineIntoModstrings()</a></code> requires, that the nucleotides to
+be modified match the originating base for the modification. The next
+chunk fails, since the originating base for m7G is of course G.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">4L</span>,<span class="st">"m7G"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error: Modification type does not match the originating base:
-##  U != G  for  m7G</code></pre>
-<p>Calls for both functions check the sanity for this operation, so that the next bit is always <code>TRUE</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">4L</span>,<span class="st">"m7G"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error: Modification type does not match the originating base:</span></span>
+<span><span class="co">##  U != G  for  m7G</span></span></code></pre>
+<p>Calls for both functions check the sanity for this operation, so that
+the next bit is always <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">RNAString</span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span>
-<span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span>
-<span class="va">r</span> <span class="op">==</span> <span class="fu">RNAString</span><span class="op">(</span><span class="va">mr2</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html" class="external-link">RNAString</a></span><span class="op">(</span><span class="st">"ACGUG"</span><span class="op">)</span></span>
+<span><span class="va">mr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/modifyNucleotides.html">modifyNucleotides</a></span><span class="op">(</span><span class="va">r</span>,<span class="fl">5L</span>,<span class="st">"m7G"</span><span class="op">)</span></span>
+<span><span class="va">r</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html" class="external-link">RNAString</a></span><span class="op">(</span><span class="va">mr2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 </div>
-<div id="comparing-modstring-objects" class="section level1">
-<h1 class="hasAnchor">
-<a href="#comparing-modstring-objects" class="anchor"></a>Comparing <code>ModString</code> objects</h1>
-<p><code>ModString</code> objects can be directly compared to <code>RNAString</code> or <code>DNAString</code> objects depending on the type (<code>ModRNA</code> to <code>RNA</code> and <code>ModDNA</code> to <code>DNA</code>).</p>
+<div class="section level2">
+<h2 id="comparing-modstring-objects">Comparing <code>ModString</code> objects<a class="anchor" aria-label="anchor" href="#comparing-modstring-objects"></a>
+</h2>
+<p><code>ModString</code> objects can be directly compared to
+<code>RNAString</code> or <code>DNAString</code> objects depending on
+the type (<code>ModRNA</code> to <code>RNA</code> and
+<code>ModDNA</code> to <code>DNA</code>).</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModRNAString.html">ModRNAString</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r</span> <span class="op">==</span> <span class="va">mr</span></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">==</span> <span class="va">mr</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE TRUE TRUE TRUE TRUE</code></pre>
+<code class="sourceCode R"><span><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">rs</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE TRUE TRUE TRUE TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">[</span><span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span><span class="op">]</span>,<span class="va">rs</span><span class="op">[</span><span class="fl">4L</span><span class="op">:</span><span class="fl">5L</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
+<code class="sourceCode R"><span><span class="va">rs</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">[</span><span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span><span class="op">]</span>,<span class="va">rs</span><span class="op">[</span><span class="fl">4L</span><span class="op">:</span><span class="fl">5L</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] FALSE FALSE FALSE  TRUE  TRUE</span></span></code></pre>
 </div>
-<div id="conversion-of-modstring-objects" class="section level1">
-<h1 class="hasAnchor">
-<a href="#conversion-of-modstring-objects" class="anchor"></a>Conversion of <code>ModString</code> objects</h1>
-<p><code>ModString</code> objects can be converted into each other. However any conversion will remove any information on modifications and revert each nucleotide back to its originating nucleotide.</p>
+<div class="section level2">
+<h2 id="conversion-of-modstring-objects">Conversion of <code>ModString</code> objects<a class="anchor" aria-label="anchor" href="#conversion-of-modstring-objects"></a>
+</h2>
+<p><code>ModString</code> objects can be converted into each other.
+However any conversion will remove any information on modifications and
+revert each nucleotide back to its originating nucleotide.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">RNAString</span><span class="op">(</span><span class="va">mr</span><span class="op">)</span></code></pre></div>
-<pre><code>## 5-letter RNAString object
-## seq: ACGUG</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html" class="external-link">RNAString</a></span><span class="op">(</span><span class="va">mr</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5-letter RNAString object</span></span>
+<span><span class="co">## seq: <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFFFAF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span></span></span></code></pre>
 </div>
-<div id="quality-scaled-modstring" class="section level1">
-<h1 class="hasAnchor">
-<a href="#quality-scaled-modstring" class="anchor"></a>Quality scaled <code>ModString</code>
-</h1>
-<p>Quality information can be encoded alongside <code>ModString</code> objects by combining it with a <code>XStringQuality</code> object inside a <code>QualityScaledModStringSet</code> object. Two class are implemented: <code>QualityScaledModRNAStringSet</code> and <code>QualityScaledModDNAStringSet</code>. They are usable as expected from a <code>QualityScaledXStringSet</code> object.</p>
+<div class="section level2">
+<h2 id="quality-scaled-modstring">Quality scaled <code>ModString</code><a class="anchor" aria-label="anchor" href="#quality-scaled-modstring"></a>
+</h2>
+<p>Quality information can be encoded alongside <code>ModString</code>
+objects by combining it with a <code>XStringQuality</code> object inside
+a <code>QualityScaledModStringSet</code> object. Two class are
+implemented: <code>QualityScaledModRNAStringSet</code> and
+<code>QualityScaledModDNAStringSet</code>. They are usable as expected
+from a <code>QualityScaledXStringSet</code> object.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">qmrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">QualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="va">mrs</span>,
-                                     <span class="fu">PhredQuality</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,
-                                                    <span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">qmrs</span></code></pre></div>
-<pre><code>##   A QualityScaledModRNAStringSet instance containing:
-## 
-##   A ModRNAStringSet instance of length 5
-##     width seq                                               names               
-## [1]     5 ACGD7                                             Sequence1
-## [2]     5 ACGU7                                             Sequence2
-## [3]     5 ACGD7                                             Sequence3
-## [4]     5 ACGU7                                             Sequence4
-## [5]     5 ACGD7                                             Sequence5
-## 
-## PhredQuality object of length 5:
-##     width seq
-## [1]     5 !!!!h
-## [2]     5 !!!!h
-## [3]     5 !!!!h
-## [4]     5 !!!!h
-## [5]     5 !!!!h</code></pre>
-<p>They can also be constructed/deconstructed using the functions <code><a href="../reference/separate.html">combineIntoModstrings()</a></code> and <code><a href="../reference/separate.html">separate()</a></code> and use an additional metadata column named <code>quality</code>. For quality information to persist during construction, set the argument <code>with.qualities = TRUE</code>. If a <code>QualityScaledModStringSet</code> is used as an input to separate, the quality information are returned in the <code>quality column</code>. We choose to avoid clashes with the <code>score</code> column and not to recycle it.</p>
+<code class="sourceCode R"><span><span class="va">qmrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">QualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="va">mrs</span>,</span>
+<span>                                     <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringQuality-class.html" class="external-link">PhredQuality</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span>,</span>
+<span>                                                    <span class="st">"!!!!h"</span>,<span class="st">"!!!!h"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">qmrs</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A QualityScaledModRNAStringSet instance containing:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   A ModRNAStringSet instance of length 5</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence5</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## PhredQuality object of length 5:</span></span>
+<span><span class="co">##     width seq</span></span>
+<span><span class="co">## [1]     5 !!!!h</span></span>
+<span><span class="co">## [2]     5 !!!!h</span></span>
+<span><span class="co">## [3]     5 !!!!h</span></span>
+<span><span class="co">## [4]     5 !!!!h</span></span>
+<span><span class="co">## [5]     5 !!!!h</span></span></code></pre>
+<p>They can also be constructed/deconstructed using the functions
+<code><a href="../reference/separate.html">combineIntoModstrings()</a></code> and <code><a href="../reference/separate.html">separate()</a></code> and use
+an additional metadata column named <code>quality</code>. For quality
+information to persist during construction, set the argument
+<code>with.qualities = TRUE</code>. If a
+<code>QualityScaledModStringSet</code> is used as an input to separate,
+the quality information are returned in the <code>quality column</code>.
+We choose to avoid clashes with the <code>score</code> column and not to
+recycle it.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">qgr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">qmrs</span><span class="op">)</span>
-<span class="va">qgr</span></code></pre></div>
-<pre><code>## GRanges object with 8 ranges and 2 metadata columns:
-##        seqnames    ranges strand |         mod   quality
-##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;integer&gt;
-##   [1] Sequence1         4      + |           D        71
-##   [2] Sequence1         5      + |         m7G         0
-##   [3] Sequence2         5      + |         m7G        71
-##   [4] Sequence3         4      + |           D         0
-##   [5] Sequence3         5      + |         m7G        71
-##   [6] Sequence4         5      + |         m7G         0
-##   [7] Sequence5         4      + |           D        71
-##   [8] Sequence5         5      + |         m7G        71
-##   -------
-##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</code></pre>
+<code class="sourceCode R"><span><span class="va">qgr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">qmrs</span><span class="op">)</span></span>
+<span><span class="va">qgr</span></span></code></pre></div>
+<pre><code><span><span class="co">## GRanges object with 8 ranges and 2 metadata columns:</span></span>
+<span><span class="co">##        seqnames    ranges strand |         mod   quality</span></span>
+<span><span class="co">##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##   [1] Sequence1         4      + |           D        71</span></span>
+<span><span class="co">##   [2] Sequence1         5      + |         m7G         0</span></span>
+<span><span class="co">##   [3] Sequence2         5      + |         m7G        71</span></span>
+<span><span class="co">##   [4] Sequence3         4      + |           D         0</span></span>
+<span><span class="co">##   [5] Sequence3         5      + |         m7G        71</span></span>
+<span><span class="co">##   [6] Sequence4         5      + |         m7G         0</span></span>
+<span><span class="co">##   [7] Sequence5         4      + |           D        71</span></span>
+<span><span class="co">##   [8] Sequence5         5      + |         m7G        71</span></span>
+<span><span class="co">##   -------</span></span>
+<span><span class="co">##   seqinfo: 5 sequences from an unspecified genome; no seqlengths</span></span></code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">mrs</span>,<span class="va">qgr</span>, with.qualities <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>##   A QualityScaledModRNAStringSet instance containing:
-## 
-##   A ModRNAStringSet instance of length 5
-##     width seq                                               names               
-## [1]     5 ACGD7                                             Sequence1
-## [2]     5 ACGU7                                             Sequence2
-## [3]     5 ACGD7                                             Sequence3
-## [4]     5 ACGU7                                             Sequence4
-## [5]     5 ACGD7                                             Sequence5
-## 
-## PhredQuality object of length 5:
-##     width seq
-## [1]     5 !!!h!
-## [2]     5 !!!!h
-## [3]     5 !!!!h
-## [4]     5 !!!!!
-## [5]     5 !!!hh</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/separate.html">combineIntoModstrings</a></span><span class="op">(</span><span class="va">mrs</span>,<span class="va">qgr</span>, with.qualities <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A QualityScaledModRNAStringSet instance containing:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   A ModRNAStringSet instance of length 5</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence5</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## PhredQuality object of length 5:</span></span>
+<span><span class="co">##     width seq</span></span>
+<span><span class="co">## [1]     5 !!!h!</span></span>
+<span><span class="co">## [2]     5 !!!!h</span></span>
+<span><span class="co">## [3]     5 !!!!h</span></span>
+<span><span class="co">## [4]     5 !!!!!</span></span>
+<span><span class="co">## [5]     5 !!!hh</span></span></code></pre>
 </div>
-<div id="saving-and-reading-modstring-objects-tofrom-file" class="section level1">
-<h1 class="hasAnchor">
-<a href="#saving-and-reading-modstring-objects-tofrom-file" class="anchor"></a>Saving and reading <code>ModString</code> objects to/from file</h1>
-<p>The nucleotide sequences with modifications can be saved to a <code>fasta</code> or <code>fastq</code> file using the functions <code><a href="../reference/ModStringSet-io.html">writeModStringSet()</a></code>. Reading of these files is achieved using <code><a href="../reference/ModStringSet-io.html">readModRNAStringSet()</a></code> or <code><a href="../reference/ModStringSet-io.html">readModDNAStringSet()</a></code>. In case of <code>fastq</code> files, the sequences can be automatically read as a <code>QualityScaledModRNAStringSet</code> using <code><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet()</a></code> function.</p>
+<div class="section level2">
+<h2 id="saving-and-reading-modstring-objects-tofrom-file">Saving and reading <code>ModString</code> objects to/from file<a class="anchor" aria-label="anchor" href="#saving-and-reading-modstring-objects-tofrom-file"></a>
+</h2>
+<p>The nucleotide sequences with modifications can be saved to a
+<code>fasta</code> or <code>fastq</code> file using the functions
+<code><a href="../reference/ModStringSet-io.html">writeModStringSet()</a></code>. Reading of these files is achieved
+using <code><a href="../reference/ModStringSet-io.html">readModRNAStringSet()</a></code> or
+<code><a href="../reference/ModStringSet-io.html">readModDNAStringSet()</a></code>. In case of <code>fastq</code> files,
+the sequences can be automatically read as a
+<code>QualityScaledModRNAStringSet</code> using
+<code><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet()</a></code> function.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ModStringSet-io.html">writeModStringSet</a></span><span class="op">(</span><span class="va">mrs</span>, file <span class="op">=</span> <span class="st">"test.fasta"</span><span class="op">)</span>
-<span class="co"># note the different function name. Otherwise empty qualities will be written</span>
-<span class="fu"><a href="../reference/QualityScaledModStringSet.html">writeQualityScaledModStringSet</a></span><span class="op">(</span><span class="va">qmrs</span>, file <span class="op">=</span> <span class="st">"test.fastq"</span><span class="op">)</span>
-<span class="va">mrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet-io.html">readModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fasta"</span>, format <span class="op">=</span> <span class="st">"fasta"</span><span class="op">)</span>
-<span class="va">mrs2</span></code></pre></div>
-<pre><code>##   A ModRNAStringSet instance of length 5
-##     width seq                                               names               
-## [1]     5 ACGD7                                             Sequence1
-## [2]     5 ACGU7                                             Sequence2
-## [3]     5 ACGD7                                             Sequence3
-## [4]     5 ACGU7                                             Sequence4
-## [5]     5 ACGD7                                             Sequence5</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ModStringSet-io.html">writeModStringSet</a></span><span class="op">(</span><span class="va">mrs</span>, file <span class="op">=</span> <span class="st">"test.fasta"</span><span class="op">)</span></span>
+<span><span class="co"># note the different function name. Otherwise empty qualities will be written</span></span>
+<span><span class="fu"><a href="../reference/QualityScaledModStringSet.html">writeQualityScaledModStringSet</a></span><span class="op">(</span><span class="va">qmrs</span>, file <span class="op">=</span> <span class="st">"test.fastq"</span><span class="op">)</span></span>
+<span><span class="va">mrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet-io.html">readModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fasta"</span>, format <span class="op">=</span> <span class="st">"fasta"</span><span class="op">)</span></span>
+<span><span class="va">mrs2</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A ModRNAStringSet instance of length 5</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence5</span></span></code></pre>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">qmrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fastq"</span><span class="op">)</span>
-<span class="va">qmrs2</span></code></pre></div>
-<pre><code>##   A QualityScaledModRNAStringSet instance containing:
-## 
-##   A ModRNAStringSet instance of length 5
-##     width seq                                               names               
-## [1]     5 ACGD7                                             Sequence1
-## [2]     5 ACGU7                                             Sequence2
-## [3]     5 ACGD7                                             Sequence3
-## [4]     5 ACGU7                                             Sequence4
-## [5]     5 ACGD7                                             Sequence5
-## 
-## PhredQuality object of length 5:
-##     width seq
-## [1]     5 !!!!h
-## [2]     5 !!!!h
-## [3]     5 !!!!h
-## [4]     5 !!!!h
-## [5]     5 !!!!h</code></pre>
-<p>Since these functions are specifically designed to work with the modified nucleotides within the sequence, they are slower than the analogous functions from the <code>Biostrings</code> package. This is the result of a purely R based implementation, whereas <code>Biostrings</code> functions are spead up through a C backend. This is a potential improvement for future developments, but currently special sequence files are limited, so it is not a priority.</p>
+<code class="sourceCode R"><span><span class="va">qmrs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QualityScaledModStringSet.html">readQualityScaledModRNAStringSet</a></span><span class="op">(</span><span class="st">"test.fastq"</span><span class="op">)</span></span>
+<span><span class="va">qmrs2</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A QualityScaledModRNAStringSet instance containing:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   A ModRNAStringSet instance of length 5</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence1</span></span>
+<span><span class="co">## [2]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence2</span></span>
+<span><span class="co">## [3]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence3</span></span>
+<span><span class="co">## [4]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">7</span>                                             Sequence4</span></span>
+<span><span class="co">## [5]     5 <span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D7</span>                                             Sequence5</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## PhredQuality object of length 5:</span></span>
+<span><span class="co">##     width seq</span></span>
+<span><span class="co">## [1]     5 !!!!h</span></span>
+<span><span class="co">## [2]     5 !!!!h</span></span>
+<span><span class="co">## [3]     5 !!!!h</span></span>
+<span><span class="co">## [4]     5 !!!!h</span></span>
+<span><span class="co">## [5]     5 !!!!h</span></span></code></pre>
+<p>Since these functions are specifically designed to work with the
+modified nucleotides within the sequence, they are slower than the
+analogous functions from the <code>Biostrings</code> package. This is
+the result of a purely R based implementation, whereas
+<code>Biostrings</code> functions are spead up through a C backend. This
+is a potential improvement for future developments, but currently
+special sequence files are limited, so it is not a priority.</p>
 </div>
-<div id="pattern-matching" class="section level1">
-<h1 class="hasAnchor">
-<a href="#pattern-matching" class="anchor"></a>Pattern matching</h1>
-<p>Pattern matching is implemented as well as expected for <code>XString</code> objects.</p>
+<div class="section level2">
+<h2 id="pattern-matching">Pattern matching<a class="anchor" aria-label="anchor" href="#pattern-matching"></a>
+</h2>
+<p>Pattern matching is implemented as well as expected for
+<code>XString</code> objects.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">matchPattern</span><span class="op">(</span><span class="st">"U7"</span>,<span class="va">mr</span><span class="op">)</span></code></pre></div>
-<pre><code>## Views on a 5-letter ModRNAString subject
-## subject: ACGU7
-## views:
-##       start end width
-##   [1]     4   5     2 [U7]</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/matchPattern.html" class="external-link">matchPattern</a></span><span class="op">(</span><span class="st">"U7"</span>,<span class="va">mr</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Views on a 5-letter ModRNAString subject</span></span>
+<span><span class="co">## subject: ACGU7</span></span>
+<span><span class="co">## views:</span></span>
+<span><span class="co">##       start end width</span></span>
+<span><span class="co">##   [1]     4   5     2 [U7]</span></span></code></pre>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">vmatchPattern</span><span class="op">(</span><span class="st">"D7"</span>,<span class="va">mrs</span><span class="op">)</span></code></pre></div>
-<pre><code>## MIndex object of length 5
-## $Sequence1
-## IRanges object with 1 range and 0 metadata columns:
-##           start       end     width
-##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-##   [1]         4         5         2
-## 
-## $Sequence2
-## IRanges object with 0 ranges and 0 metadata columns:
-##        start       end     width
-##    &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-## 
-## $Sequence3
-## IRanges object with 1 range and 0 metadata columns:
-##           start       end     width
-##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-##   [1]         4         5         2
-## 
-## $Sequence4
-## IRanges object with 0 ranges and 0 metadata columns:
-##        start       end     width
-##    &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-## 
-## $Sequence5
-## IRanges object with 1 range and 0 metadata columns:
-##           start       end     width
-##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-##   [1]         4         5         2</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/matchPattern.html" class="external-link">vmatchPattern</a></span><span class="op">(</span><span class="st">"D7"</span>,<span class="va">mrs</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## MIndex object of length 5</span></span>
+<span><span class="co">## $Sequence1</span></span>
+<span><span class="co">## IRanges object with 1 range and 0 metadata columns:</span></span>
+<span><span class="co">##           start       end     width</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##   [1]         4         5         2</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $Sequence2</span></span>
+<span><span class="co">## IRanges object with 0 ranges and 0 metadata columns:</span></span>
+<span><span class="co">##        start       end     width</span></span>
+<span><span class="co">##    &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $Sequence3</span></span>
+<span><span class="co">## IRanges object with 1 range and 0 metadata columns:</span></span>
+<span><span class="co">##           start       end     width</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##   [1]         4         5         2</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $Sequence4</span></span>
+<span><span class="co">## IRanges object with 0 ranges and 0 metadata columns:</span></span>
+<span><span class="co">##        start       end     width</span></span>
+<span><span class="co">##    &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $Sequence5</span></span>
+<span><span class="co">## IRanges object with 1 range and 0 metadata columns:</span></span>
+<span><span class="co">##           start       end     width</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##   [1]         4         5         2</span></span></code></pre>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span>
-<span class="fu">matchLRPatterns</span><span class="op">(</span><span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="va">mrl</span><span class="op">)</span></code></pre></div>
-<pre><code>## Views on a 25-letter ModRNAString subject
-## subject: ACGD7ACGU7ACGD7ACGU7ACGD7
-## views:
-##       start end width
-##   [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</code></pre>
+<code class="sourceCode R"><span><span class="va">mrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">mrs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/matchLRPatterns.html" class="external-link">matchLRPatterns</a></span><span class="op">(</span><span class="st">"7ACGU"</span>,<span class="st">"U7ACG"</span>,<span class="fl">100L</span>,<span class="va">mrl</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Views on a 25-letter ModRNAString subject</span></span>
+<span><span class="co">## subject: ACGD7ACGU7ACGD7ACGU7ACGD7</span></span>
+<span><span class="co">## views:</span></span>
+<span><span class="co">##       start end width</span></span>
+<span><span class="co">##   [1]     5  23    19 [7ACGU7ACGD7ACGU7ACG]</span></span></code></pre>
 </div>
-<div id="future-development" class="section level1">
-<h1 class="hasAnchor">
-<a href="#future-development" class="anchor"></a>Future development</h1>
-<p>In principle post-translational modifications of proteins could also be implemented. However, a one letter alphabet of post-translational modifications must be developed first. If you are already aware of such an alphabet and want to use it in a Bioconductor context, let us know.</p>
+<div class="section level2">
+<h2 id="future-development">Future development<a class="anchor" aria-label="anchor" href="#future-development"></a>
+</h2>
+<p>In principle post-translational modifications of proteins could also
+be implemented. However, a one letter alphabet of post-translational
+modifications must be developed first. If you are already aware of such
+an alphabet and want to use it in a Bioconductor context, let us
+know.</p>
 </div>
-<div id="import-example" class="section level1">
-<h1 class="hasAnchor">
-<a href="#import-example" class="anchor"></a>Import example</h1>
-<p>This is a quick example showing how sequence information containing modified nucleotides can be imported into an R session using the <code>Modstrings</code> package. The file needs to be UTF-8 encoded.</p>
+<div class="section level2">
+<h2 id="import-example">Import example<a class="anchor" aria-label="anchor" href="#import-example"></a>
+</h2>
+<p>This is a quick example showing how sequence information containing
+modified nucleotides can be imported into an R session using the
+<code>Modstrings</code> package. The file needs to be UTF-8 encoded.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># read the lines</span>
-<span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,<span class="st">"test.fasta"</span>,package <span class="op">=</span> <span class="st">"Modstrings"</span><span class="op">)</span>,
-                      encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">test</span>,<span class="fl">2L</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "&gt; tRNA | Ala | AGC | Saccharomyces cerevisiae | cytosolic"                                          
-## [2] "-GGGCGUGUKGCGUAGDC-GGD--AGCGCRCUCCCUUIGCOPGGGAGAG-------------------GDCUCCGGTPCGAUUCCGGACUCGUCCACCA"</code></pre>
+<code class="sourceCode R"><span><span class="co"># read the lines</span></span>
+<span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,<span class="st">"test.fasta"</span>,package <span class="op">=</span> <span class="st">"Modstrings"</span><span class="op">)</span>,</span>
+<span>                      encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">test</span>,<span class="fl">2L</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "&gt; tRNA | Ala | AGC | Saccharomyces cerevisiae | cytosolic"                                          </span></span>
+<span><span class="co">## [2] "-GGGCGUGUKGCGUAGDC-GGD--AGCGCRCUCCCUUIGCOPGGGAGAG-------------------GDCUCCGGTPCGAUUCCGGACUCGUCCACCA"</span></span></code></pre>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># keep every second line as sequence, the other one as name</span>
-<span class="va">names</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span>
-<span class="va">seq</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">2L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span>
-<span class="co"># sanitize input. This needs to be adapt to the individual case</span>
-<span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" "</span>,<span class="st">"_"</span>,
-              <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"&gt; "</span>,<span class="st">""</span>,
-                   <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" \\| "</span>,<span class="st">"-"</span>,
-                        <span class="va">names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"-"</span>,<span class="st">""</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>,<span class="st">""</span>,<span class="va">seq</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">names</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># keep every second line as sequence, the other one as name</span></span>
+<span><span class="va">names</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">seq</span> <span class="op">&lt;-</span> <span class="va">test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">2L</span>, to <span class="op">=</span> <span class="fl">104L</span>, by <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co"># sanitize input. This needs to be adapt to the individual case</span></span>
+<span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">" "</span>,<span class="st">"_"</span>,</span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"&gt; "</span>,<span class="st">""</span>,</span>
+<span>                   <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">" \\| "</span>,<span class="st">"-"</span>,</span>
+<span>                        <span class="va">names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"-"</span>,<span class="st">""</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>,<span class="st">""</span>,<span class="va">seq</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">names</span></span></code></pre></div>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># sanitize special characters to Modstrings equivalent</span>
-<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sanitizeInput.html">sanitizeFromModomics</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
-<span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
-<span class="va">seq</span></code></pre></div>
-<pre><code>##   A ModRNAStringSet instance of length 52
-##      width seq                                              names               
-##  [1]    76 GGGCGUGUKGCGUAGDCGGDAGC...PCGAUUCCGGACUCGUCCACCA tRNA-Ala-AGC-Saccha...
-##  [2]    75 GCUCGCGUKLCGUAADGGCAACG...PCG"CCCCCAUCGUGAGUGCCA tRNA-Arg-UCU-Saccha...
-##  [3]    76 PUCCUCGUKLCCCAADGGDCACG...PCA"GUCCUGGCGGGGAAGCCA tRNA-Arg-ICG-Saccha...
-##  [4]    77 GACUCCAUGLCCAAGDDGGDDAA...PCA"CCCUCACUGGGGUCGCCA tRNA-Asn-GUU-Saccha...
-##  [5]    75 UCCGUGAUAGUUPAADGGDCAGA...PCAAUUCCCCGUCGCGGAGCCA tRNA-Asp-GUC-Saccha...
-##  ...   ... ...
-## [48]    76 GCUCUCUUAGCUUAADGGDUAAA...PCAAAUCAUGGAGAGAGUACCA tRNA-Arg-NCU-Saccha...
-## [49]    90 GGAUGGUUGACUGAGDGGDUUAA...PCAAAUCCUACAUCAUCCGCCA tRNA-Ser-UGA-Saccha...
-## [50]    90 GGAUGGUUGACUGAGDGGDUUAA...PCAAAUCCUACAUCAUCCGCCA tRNA-Ser-UGA-Saccha...
-## [51]    73 GUAAAUAUAAUUUAADGGDAAAA...PCAAAUCUUAGUAUUUACACCA tRNA-Thr-UAG-Saccha...
-## [52]    74 AAGGAUAUAGUUUAADGGDAAAA...PCGAAUCUCUUUAUCCUUGCCA tRNA-Trp-!CA-Saccha...</code></pre>
+<code class="sourceCode R"><span><span class="co"># sanitize special characters to Modstrings equivalent</span></span>
+<span><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sanitizeInput.html">sanitizeFromModomics</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span></span>
+<span><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ModStringSet.html">ModRNAStringSet</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span></span>
+<span><span class="va">seq</span></span></code></pre></div>
+<pre><code><span><span class="co">##   A ModRNAStringSet instance of length 52</span></span>
+<span><span class="co">##      width seq                                              names               </span></span>
+<span><span class="co">##  [1]    76 <span style="color: #000000; background-color: #AFFFFF;">GGG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">K</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Ala-AGC-Saccha...</span></span>
+<span><span class="co">##  [2]    75 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">KL</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">"</span><span style="color: #000000; background-color: #AFFFAF;">CCCCC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Arg-UCU-Saccha...</span></span>
+<span><span class="co">##  [3]    76 <span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #00FF00; background-color: #3A3A3A;">KL</span><span style="color: #000000; background-color: #AFFFAF;">CCC</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #00FF00; background-color: #3A3A3A;">"</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GGGG</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Arg-ICG-Saccha...</span></span>
+<span><span class="co">##  [4]    77 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">L</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">DD</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">DD</span><span style="color: #000000; background-color: #FFAFAF;">AA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #00FF00; background-color: #3A3A3A;">"</span><span style="color: #000000; background-color: #AFFFAF;">CCC</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">GGGG</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Asn-GUU-Saccha...</span></span>
+<span><span class="co">##  [5]    75 <span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #AFFFAF;">CCCC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Asp-GUC-Saccha...</span></span>
+<span><span class="co">##  ...   ... ...</span></span>
+<span><span class="co">## [48]    76 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Arg-NCU-Saccha...</span></span>
+<span><span class="co">## [49]    90 <span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #FFAFAF;">AA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Ser-UGA-Saccha...</span></span>
+<span><span class="co">## [50]    90 <span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #FFAFAF;">AA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Ser-UGA-Saccha...</span></span>
+<span><span class="co">## [51]    73 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #FFD7AF;">UUU</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFAFAF;">AAAA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">UUU</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Thr-UAG-Saccha...</span></span>
+<span><span class="co">## [52]    74 <span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">UUU</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #00FF00; background-color: #3A3A3A;">D</span><span style="color: #000000; background-color: #FFAFAF;">AAAA</span>...<span style="color: #00FF00; background-color: #3A3A3A;">P</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFD7AF;">UUU</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #FFD7AF;">U</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFD7AF;">UU</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span> tRNA-Trp-!CA-Saccha...</span></span></code></pre>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># convert the contained modifications into a tabular format</span>
-<span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span></code></pre></div>
-<pre><code>## GRanges object with 567 ranges and 1 metadata column:
-##                       seqnames    ranges strand |         mod
-##                          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##     [1] tRNA-Ala-AGC-Sacchar..         9      + |         m1G
-##     [2] tRNA-Ala-AGC-Sacchar..        16      + |           D
-##     [3] tRNA-Ala-AGC-Sacchar..        20      + |           D
-##     [4] tRNA-Ala-AGC-Sacchar..        26      + |       m2,2G
-##     [5] tRNA-Ala-AGC-Sacchar..        34      + |           I
-##     ...                    ...       ...    ... .         ...
-##   [563] tRNA-Trp-!CA-Sacchar..        33      + |      cmnm5U
-##   [564] tRNA-Trp-!CA-Sacchar..        36      + |          xA
-##   [565] tRNA-Trp-!CA-Sacchar..        38      + |           Y
-##   [566] tRNA-Trp-!CA-Sacchar..        52      + |         m5U
-##   [567] tRNA-Trp-!CA-Sacchar..        53      + |           Y
-##   -------
-##   seqinfo: 47 sequences from an unspecified genome; no seqlengths</code></pre>
+<code class="sourceCode R"><span><span class="co"># convert the contained modifications into a tabular format</span></span>
+<span><span class="fu"><a href="../reference/separate.html">separate</a></span><span class="op">(</span><span class="va">seq</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## GRanges object with 567 ranges and 1 metadata column:</span></span>
+<span><span class="co">##                       seqnames    ranges strand |         mod</span></span>
+<span><span class="co">##                          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;</span></span>
+<span><span class="co">##     [1] tRNA-Ala-AGC-Sacchar..         9      + |         m1G</span></span>
+<span><span class="co">##     [2] tRNA-Ala-AGC-Sacchar..        16      + |           D</span></span>
+<span><span class="co">##     [3] tRNA-Ala-AGC-Sacchar..        20      + |           D</span></span>
+<span><span class="co">##     [4] tRNA-Ala-AGC-Sacchar..        26      + |       m2,2G</span></span>
+<span><span class="co">##     [5] tRNA-Ala-AGC-Sacchar..        34      + |           I</span></span>
+<span><span class="co">##     ...                    ...       ...    ... .         ...</span></span>
+<span><span class="co">##   [563] tRNA-Trp-!CA-Sacchar..        33      + |      cmnm5U</span></span>
+<span><span class="co">##   [564] tRNA-Trp-!CA-Sacchar..        36      + |          xA</span></span>
+<span><span class="co">##   [565] tRNA-Trp-!CA-Sacchar..        38      + |           Y</span></span>
+<span><span class="co">##   [566] tRNA-Trp-!CA-Sacchar..        52      + |         m5U</span></span>
+<span><span class="co">##   [567] tRNA-Trp-!CA-Sacchar..        53      + |           Y</span></span>
+<span><span class="co">##   -------</span></span>
+<span><span class="co">##   seqinfo: 47 sequences from an unspecified genome; no seqlengths</span></span></code></pre>
 </div>
-<div id="sessioninfo" class="section level1">
-<h1 class="hasAnchor">
-<a href="#sessioninfo" class="anchor"></a>Sessioninfo</h1>
+<div class="section level2">
+<h2 id="sessioninfo">Sessioninfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
+</h2>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.0.4 (2021-02-15)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 18.04.5 LTS
-## 
-## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
-## LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
-## 
-## locale:
-##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
-##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
-##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-## 
-## attached base packages:
-## [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
-## 
-## other attached packages:
-## [1] GenomicRanges_1.42.0 GenomeInfoDb_1.26.2  Modstrings_1.7.2    
-## [4] Biostrings_2.58.0    XVector_0.30.0       IRanges_2.24.1      
-## [7] S4Vectors_0.28.1     BiocGenerics_0.36.0  BiocStyle_2.18.1    
-## 
-## loaded via a namespace (and not attached):
-##  [1] knitr_1.31             magrittr_2.0.1         zlibbioc_1.36.0       
-##  [4] R6_2.5.0               ragg_1.1.1             rlang_0.4.10          
-##  [7] fastmap_1.1.0          stringr_1.4.0          tools_4.0.4           
-## [10] xfun_0.21              htmltools_0.5.1.1      systemfonts_1.0.1     
-## [13] yaml_2.2.1             assertthat_0.2.1       digest_0.6.27         
-## [16] rprojroot_2.0.2        pkgdown_1.6.1          crayon_1.4.1          
-## [19] bookdown_0.21          textshaping_0.3.1      GenomeInfoDbData_1.2.4
-## [22] BiocManager_1.30.10    bitops_1.0-6           fs_1.5.0              
-## [25] RCurl_1.98-1.2         memoise_2.0.0          cachem_1.0.4          
-## [28] evaluate_0.14          rmarkdown_2.7          stringi_1.5.3         
-## [31] compiler_4.0.4         desc_1.2.0</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Ubuntu 20.04.4 LTS</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">## [8] base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">## [1] GenomicRanges_1.46.1 Modstrings_1.13.1    Biostrings_2.62.0   </span></span>
+<span><span class="co">## [4] GenomeInfoDb_1.30.1  XVector_0.34.0       IRanges_2.28.0      </span></span>
+<span><span class="co">## [7] S4Vectors_0.32.4     BiocGenerics_0.40.0  BiocStyle_2.22.0    </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##  [1] bslib_0.4.0            compiler_4.1.3         BiocManager_1.30.18   </span></span>
+<span><span class="co">##  [4] jquerylib_0.1.4        bitops_1.0-7           tools_4.1.3           </span></span>
+<span><span class="co">##  [7] zlibbioc_1.40.0        digest_0.6.29          jsonlite_1.8.0        </span></span>
+<span><span class="co">## [10] evaluate_0.16          memoise_2.0.1          rlang_1.0.4           </span></span>
+<span><span class="co">## [13] cli_3.3.0              yaml_2.3.5             pkgdown_2.0.6         </span></span>
+<span><span class="co">## [16] xfun_0.32              fastmap_1.1.0          GenomeInfoDbData_1.2.7</span></span>
+<span><span class="co">## [19] stringr_1.4.0          knitr_1.39             desc_1.4.1            </span></span>
+<span><span class="co">## [22] fs_1.5.2               sass_0.4.2             systemfonts_1.0.4     </span></span>
+<span><span class="co">## [25] rprojroot_2.0.3        R6_2.5.1               textshaping_0.3.6     </span></span>
+<span><span class="co">## [28] rmarkdown_2.14         bookdown_0.28          purrr_0.3.4           </span></span>
+<span><span class="co">## [31] magrittr_2.0.3         htmltools_0.5.3        ragg_1.2.2            </span></span>
+<span><span class="co">## [34] stringi_1.7.8          RCurl_1.98-1.8         cachem_1.0.6          </span></span>
+<span><span class="co">## [37] crayon_1.5.1</span></span></code></pre>
 <p><a name="References"></a></p>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-Boccaletto-2018">
-<p>Boccaletto, Pietro, Magdalena A. Machnicka, Elzbieta Purta, Pawel Piatkowski, Blazej Baginski, Tomasz K. Wirecki, Valérie de Crécy-Lagard, et al. 2018. “MODOMICS: A Database of Rna Modification Pathways. 2017 Update.” <em>Nucleic Acids Research</em> 46 (D1): D303–D307. <a href="https://doi.org/10.1093/nar/gkx1030">https://doi.org/10.1093/nar/gkx1030</a>.</p>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Boccaletto.2018" class="csl-entry">
+Boccaletto, Pietro, Magdalena A. Machnicka, Elzbieta Purta, Pawel
+Piatkowski, Blazej Baginski, Tomasz K. Wirecki, Valérie de Crécy-Lagard,
+et al. 2018. <span>“MODOMICS: A Database of RNA Modification Pathways.
+2017 Update.”</span> <em>Nucleic Acids Research</em> 46 (D1): D303–7. <a href="https://doi.org/10.1093/nar/gkx1030" class="external-link">https://doi.org/10.1093/nar/gkx1030</a>.
 </div>
-<div id="ref-Pages-2017">
-<p>H. Pagès, P. Aboyoun, R. Gentleman, and S. DebRoy. 2017. “Biostrings.” Bioconductor. <a href="https://doi.org/10.18129/B9.bioc.Biostrings">https://doi.org/10.18129/B9.bioc.Biostrings</a>.</p>
+<div id="ref-Pages.2017" class="csl-entry">
+H. Pagès, P. Aboyoun, R. Gentleman, and S. DebRoy. 2017.
+<span>“Biostrings.”</span> Bioconductor. <a href="https://doi.org/10.18129/B9.bioc.Biostrings" class="external-link">https://doi.org/10.18129/B9.bioc.Biostrings</a>.
 </div>
-<div id="ref-Juehling-2009">
-<p>Jühling, Frank, Mario Mörl, Roland K. Hartmann, Mathias Sprinzl, Peter F. Stadler, and Joern Pütz. 2009. “TRNAdb 2009: Compilation of tRNA Sequences and tRNA Genes.” <em>Nucleic Acids Research</em> 37: D159–D162. <a href="https://doi.org/10.1093/nar/gkn772">https://doi.org/10.1093/nar/gkn772</a>.</p>
+<div id="ref-Juehling.2009" class="csl-entry">
+Jühling, Frank, Mario Mörl, Roland K. Hartmann, Mathias Sprinzl, Peter
+F. Stadler, and Joern Pütz. 2009. <span>“tRNAdb 2009: Compilation of
+tRNA Sequences and tRNA Genes.”</span> <em>Nucleic Acids Research</em>
+37 (suppl_1): D159–62. <a href="https://doi.org/10.1093/nar/gkn772" class="external-link">https://doi.org/10.1093/nar/gkn772</a>.
 </div>
 </div>
 </div>
@@ -563,11 +654,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       <footer><div class="copyright">
-  <p>Developed by Felix G.M. Ernst, Denis L.J. Lafontaine.</p>
+  <p></p>
+<p>Developed by Felix G.M. Ernst, Denis L.J. Lafontaine.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -575,6 +668,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
 
+
+  
 
   </body>
 </html>

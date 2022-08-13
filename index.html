@@ -29,6 +29,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -41,18 +43,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Modstrings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/Modstrings.html">Get started</a>
 </li>
@@ -60,7 +56,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -77,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/FelixErnst/Modstrings/">
+  <a href="https://github.com/FelixErnst/Modstrings/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -95,9 +91,8 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="modstrings-working-with-modified-nucleotide-sequences-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#modstrings-working-with-modified-nucleotide-sequences-" class="anchor"></a>Modstrings: working with modified nucleotide sequences <img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="200" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="modstrings-working-with-modified-nucleotide-sequences-">Modstrings: working with modified nucleotide sequences <img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="200" align="right"><a class="anchor" aria-label="anchor" href="#modstrings-working-with-modified-nucleotide-sequences-"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -106,26 +101,26 @@
 <p>Therefore, the<code>Modstrings</code> package implements the <code>ModRNAString</code> class by extending the <code>BString</code> class from the <code>Biostrings</code> (<a href="#Literature">Pages et al.</a>) package. It can store RNA sequences containing special characters of the RNA modification alphabet and thus can store location and identity of modifications. Functions for conversion to a tabular format are implemented as well. A <code>ModDNAString</code> class is implemented analogously, which is based on the DNA modification alphabet from the Hoffman lab (<a href="#Literature">Sood et al.</a>).</p>
 <p>The implemented classes inherit most of the functions from the parental <code>BString</code> class and it derivatives, which allows them to behave like the normal <code>XString</code> classes within the bioconductor universe.</p>
 </div>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
 <p>The current version of the <code>Modstrings</code> package is available from Bioconductor.</p>
-<pre class="{r}"><code># Installation
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("Modstrings")
-# Load and attach the package
-library("Modstrings")</code></pre>
+<pre class="{r}"><code><span><span class="co"># Installation</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Modstrings"</span><span class="op">)</span></span>
+<span><span class="co"># Load and attach the package</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"Modstrings"</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="literature" class="section level1">
-<h1 class="hasAnchor">
-<a href="#literature" class="anchor"></a>Literature</h1>
+<div class="section level1">
+<h1 id="literature">Literature<a class="anchor" aria-label="anchor" href="#literature"></a>
+</h1>
 <ul>
-<li>Jühling, Frank; Mörl, Mario; Hartmann, Roland K.; Sprinzl, Mathias; Stadler, Peter F.; Pütz, Joern (2009): “TRNAdb 2009: Compilation of tRNA Sequences and tRNA Genes.” Nucleic Acids Research 37 (suppl_1): D159–D162. <a href="doi:%5B10.1093/nar/gkn772" class="uri">doi:[10.1093/nar/gkn772</a>](<a href="https://doi.org/10.1093/nar/gkn772" class="uri">https://doi.org/10.1093/nar/gkn772</a>).</li>
-<li>Boccaletto, Pietro; Machnicka, Magdalena A.; Purta, Elzbieta; Piatkowski, Pawel; Baginski, Blazej; Wirecki, Tomasz K. et al. (2018): “MODOMICS: a database of RNA modification pathways. 2017 update.” Nucleic Acids Res. 46 (D1), D303-D307. <a href="doi:%5B10.1093/nar/gkx1030" class="uri">doi:[10.1093/nar/gkx1030</a>](<a href="https://doi.org/10.1093/nar/gkx1030" class="uri">https://doi.org/10.1093/nar/gkx1030</a>).</li>
+<li>Jühling, Frank; Mörl, Mario; Hartmann, Roland K.; Sprinzl, Mathias; Stadler, Peter F.; Pütz, Joern (2009): “TRNAdb 2009: Compilation of tRNA Sequences and tRNA Genes.” Nucleic Acids Research 37 (suppl_1): D159–D162. <a href="doi:%5B10.1093/nar/gkn772" class="uri">doi:[10.1093/nar/gkn772</a>](<a href="https://doi.org/10.1093/nar/gkn772" class="external-link uri">https://doi.org/10.1093/nar/gkn772</a>).</li>
+<li>Boccaletto, Pietro; Machnicka, Magdalena A.; Purta, Elzbieta; Piatkowski, Pawel; Baginski, Blazej; Wirecki, Tomasz K. et al. (2018): “MODOMICS: a database of RNA modification pathways. 2017 update.” Nucleic Acids Res. 46 (D1), D303-D307. <a href="doi:%5B10.1093/nar/gkx1030" class="uri">doi:[10.1093/nar/gkx1030</a>](<a href="https://doi.org/10.1093/nar/gkx1030" class="external-link uri">https://doi.org/10.1093/nar/gkx1030</a>).</li>
 <li>Pagès, H.; Aboyoun, P.; Gentleman, R.; DebRoy, S. (2018). “Biostrings: Efficient manipulation of biological strings.” R package version 2.50.1.</li>
-<li>Sood, Ankur Jai, Coby Viner, and Michael M. Hoffman. 2019. “DNAmod: The Dna Modification Database.” Journal of Cheminformatics 11 (1):30. <a href="doi:%5B10.1186/s13321-019-0349-4" class="uri">doi:[10.1186/s13321-019-0349-4</a>](<a href="https://doi.org/10.1186/s13321-019-0349-4" class="uri">https://doi.org/10.1186/s13321-019-0349-4</a>).</li>
+<li>Sood, Ankur Jai, Coby Viner, and Michael M. Hoffman. 2019. “DNAmod: The Dna Modification Database.” Journal of Cheminformatics 11 (1):30. <a href="doi:%5B10.1186/s13321-019-0349-4" class="uri">doi:[10.1186/s13321-019-0349-4</a>](<a href="https://doi.org/10.1186/s13321-019-0349-4" class="external-link uri">https://doi.org/10.1186/s13321-019-0349-4</a>).</li>
 </ul>
 </div>
 
@@ -133,55 +128,59 @@ library("Modstrings")</code></pre>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/Modstrings">https://​www.bioconductor.org/​packages/​Modstrings</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/FelixErnst/Modstrings/">https://​github.com/​FelixErnst/​Modstrings/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/FelixErnst/Modstrings/issues">https://​github.com/​FelixErnst/​Modstrings/​issues</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/Modstrings" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/FelixErnst/Modstrings/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/FelixErnst/Modstrings/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/Artistic-2.0">Artistic-2.0</a></li>
+<li><a href="https://www.r-project.org/Licenses/Artistic-2.0" class="external-link">Artistic-2.0</a></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing Modstrings</a></li>
+<li><a href="authors.html#citation">Citing Modstrings</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Felix G.M. Ernst <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5064-0928" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Felix G.M. Ernst <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5064-0928" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Denis L.J. Lafontaine <br><small class="roles"> Contributor, funder </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/FelixErnst/Modstrings/actions/"><img src="https://github.com/FelixErnst/Modstrings/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/Modstrings/"><img src="https://bioconductor.org/shields/build/devel/bioc/Modstrings.svg" alt="BioC Build"></a></li>
-<li><a href="https://codecov.io/gh/FelixErnst/Modstrings"><img src="https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://doi.org/doi:10.18129/B9.bioc.Modstrings"><img src="https://bioconductor.org/shields/years-in-bioc/Modstrings.svg" alt="BioC Years"></a></li>
+<li><a href="https://github.com/FelixErnst/Modstrings/actions/" class="external-link"><img src="https://github.com/FelixErnst/Modstrings/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/Modstrings/" class="external-link"><img src="https://bioconductor.org/shields/build/devel/bioc/Modstrings.svg" alt="BioC Build"></a></li>
+<li><a href="https://codecov.io/gh/FelixErnst/Modstrings" class="external-link"><img src="https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://doi.org/doi:10.18129/B9.bioc.Modstrings" class="external-link"><img src="https://bioconductor.org/shields/years-in-bioc/Modstrings.svg" alt="BioC Years"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Felix G.M. Ernst, Denis L.J. Lafontaine.</p>
+  <p></p>
+<p>Developed by Felix G.M. Ernst, Denis L.J. Lafontaine.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -189,6 +188,8 @@ library("Modstrings")</code></pre>
 
   
 
+
+  
 
   </body>
 </html>
