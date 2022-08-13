@@ -1,7 +1,7 @@
 # Modstrings: working with modified nucleotide sequences <img src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/Modstrings/Modstrings.png" height="200" align="right">
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/FelixErnst/Modstrings/workflows/R-CMD-check/badge.svg)](https://github.com/FelixErnst/Modstrings/actions/)
+[![R-CMD-check-bioc](https://github.com/FelixErnst/Modstrings/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/FelixErnst/Modstrings/actions/workflows/R-CMD-check.yaml)
 [![BioC Build](https://bioconductor.org/shields/build/devel/bioc/Modstrings.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/Modstrings/)
 [![codecov](https://codecov.io/gh/FelixErnst/Modstrings/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/Modstrings)
 [![BioC Years](https://bioconductor.org/shields/years-in-bioc/Modstrings.svg)](https://doi.org/doi:10.18129/B9.bioc.Modstrings)
