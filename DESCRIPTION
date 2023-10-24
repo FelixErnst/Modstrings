@@ -1,7 +1,7 @@
 Package: Modstrings
 Type: Package
 Title: Working with modified nucleotide sequences 
-Version: 1.18.0
+Version: 1.19.0
 Date: 2022-08-13
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
