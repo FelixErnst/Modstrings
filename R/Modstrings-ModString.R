@@ -363,8 +363,11 @@ make_MODRNA_COLORED_LETTERS <- function()
 }
 
 add_colors <- function(x) UseMethod("add_colors")
+#' @export
 add_colors.default <- identity
+#' @export
 add_colors.ModDNA <- .add_moddna_colors
+#' @export
 add_colors.ModRNA <- .add_modrna_colors
 
 setMethod("show", "ModString",

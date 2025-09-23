@@ -109,12 +109,9 @@ NULL
 #' @param verbose For \code{combineIntoModstrings}: \code{TRUE} or \code{FALSE}
 #' (default): Should verbose information reported on the positions filled with 
 #' modifications? This settings is passed onto \code{\link{modifyNucleotides}}.
-#' @param ... 
-#' \itemize{
-#' \item{\code{default.quality}:} {For \code{combineIntoModstrings}: the 
+#' @param ... \code{default.quality}: for \code{combineIntoModstrings}: the 
 #' \code{default.quality} default value for non-modified positions. (default: 
-#' \code{default.quality = 0L})}
-#' } 
+#' \code{default.quality = 0L})
 #'
 #' @return for \code{separate} a \code{GRanges} object and for 
 #' \code{combineIntoModstrings} a \code{ModString*} object or a 

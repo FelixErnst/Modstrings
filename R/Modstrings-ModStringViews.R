@@ -18,8 +18,8 @@ NULL
 #' For the details have a look at the 
 #' \code{\link[Biostrings:XStringViews-class]{XStringViews}} class.
 #' 
-#' @param subject,start,end,width,names
-#' See \code{\link[Biostrings:XStringViews-class]{XStringViews}}.
+#' @param subject,start,end,width,names See 
+#' \code{\link[Biostrings:XStringViews-class]{XStringViews}}.
 #' 
 #' @return a \code{ModStringViews} object.
 #' 
@@ -48,8 +48,8 @@ setMethod(
   function(subject, start = NULL, end = NULL, width = NULL, 
            names = NULL)
   {
-    .new_Views(subject, start = start, end = end, width = width, names = names,
-               Class = "ModStringViews")
+    .new_Views(subject = subject, start = start, end = end, width = width, 
+               names = names, Class = "ModStringViews")
   }
 )
 

@@ -25,9 +25,11 @@
 #' by the Hoffman lab. Both alphabets were modified to remove some incompatible
 #' characters.
 #'
-#' @docType package
 #' @name Modstrings
 NULL
+
+#' @keywords internal
+"_PACKAGE"
 
 #' @import methods
 #' @import BiocGenerics

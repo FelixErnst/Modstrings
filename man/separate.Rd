@@ -126,11 +126,9 @@ positions?}
 (default): Should verbose information reported on the positions filled with 
 modifications? This settings is passed onto \code{\link{modifyNucleotides}}.}
 
-\item{...}{\itemize{
-\item{\code{default.quality}:} {For \code{combineIntoModstrings}: the 
+\item{...}{\code{default.quality}: for \code{combineIntoModstrings}: the 
 \code{default.quality} default value for non-modified positions. (default: 
 \code{default.quality = 0L})}
-}}
 }
 \value{
 for \code{separate} a \code{GRanges} object and for 

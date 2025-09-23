@@ -13,7 +13,8 @@
 \S4method{Views}{ModString}(subject, start = NULL, end = NULL, width = NULL, names = NULL)
 }
 \arguments{
-\item{subject, start, end, width, names}{See \code{\link[Biostrings:XStringViews-class]{XStringViews}}.}
+\item{subject, start, end, width, names}{See 
+\code{\link[Biostrings:XStringViews-class]{XStringViews}}.}
 }
 \value{
 a \code{ModStringViews} object.
