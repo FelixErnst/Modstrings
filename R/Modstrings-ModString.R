@@ -397,7 +397,7 @@ setMethod("show", "ModString",
   if(!is(e2,"ModString")){
     e2 <- BString(e2)
   }
-  .XString.equal(e1, e2)
+  .Compare_XString_XString(.Generic, e1, e2)
 }
 
 #' @export

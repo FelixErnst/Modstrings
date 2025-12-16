@@ -11,7 +11,7 @@ XStringSetList <- Biostrings:::XStringSetList
 .DNA_BASE_CODES <- Biostrings:::DNA_BASE_CODES
 .RNA_BASE_CODES <- Biostrings:::RNA_BASE_CODES
 .XStringSetAsViews <- Biostrings:::.XStringSetAsViews
-.XString.equal <- Biostrings:::.XString.equal
+.Compare_XString_XString <- Biostrings:::.Compare_XString_XString
 .XStringViews.equal <- Biostrings:::XStringViews.equal
 .QualityScaledXStringSet <- Biostrings:::QualityScaledXStringSet
 .XString.nucleotide_frequency <- Biostrings:::.XString.nucleotide_frequency
