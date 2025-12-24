@@ -284,11 +284,14 @@ setMethod(
          "and a \"", class2, "\" instance ",
          "is not supported")
   }
-  if(!is(e1,"ModStringSet")){
-    e1 <- BStringSet(e1)
+  ## Do NOT use 'as(., "BStringSet")' or 'BStringSet(.)' to coerce
+  ## ModStringSet object 'e1' or 'e2' to BStringSet. See .compare_ModString()
+  ## in Modstrings-ModString.R why.
+  if(is(e1,"ModStringSet")){
+    class(e1) <- class(BStringSet())
   }
-  if(!is(e2,"ModStringSet")){
-    e2 <- BStringSet(e2)
+  if(is(e2,"ModStringSet")){
+    class(e2) <- class(BStringSet())
   }
   pcompare(e1, e2) == 0L
 }

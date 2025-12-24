@@ -1,8 +1,8 @@
 Package: Modstrings
 Type: Package
 Title: Working with modified nucleotide sequences 
-Version: 1.27.1
-Date: 2022-12-16
+Version: 1.27.2
+Date: 2022-12-24
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
@@ -29,7 +29,7 @@ biocViews:
     DataImport, DataRepresentation, Infrastructure, Sequencing, Software
 Depends:
     R (>= 3.6),
-    Biostrings (>= 2.79.2)
+    Biostrings (>= 2.79.3)
 Imports:
     methods,
     BiocGenerics,

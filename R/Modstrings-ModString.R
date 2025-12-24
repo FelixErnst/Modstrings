@@ -391,13 +391,25 @@ setMethod("show", "ModString",
          "and a \"", class2, "\" instance ",
          "is not supported")
   }
-  if(!is(e1,"ModString")){
-    e1 <- BString(e1)
+  ## Do NOT use 'as(., "BString")' or 'BString(.)' to coerce ModString
+  ## object 'e1' or 'e2' to BString because that triggers a complex
+  ## transformation of the original sequence that involves modifying its
+  ## content via some re-encoding.
+  ## For example, if 'e1' is 'ModRNAString("ACGD7")' then 'BString(e1)'
+  ## returns ACGUG. We don't want this in the context of comparing two objects
+  ## because that can lead to false positives e.g. 'RNAString("ACGUG")'
+  ## would then be considered equal to 'ModRNAString("ACGD7")'.
+  ## So instead we use `class<-` to change the class of the ModString object to
+  ## BString. This preserves its content. As a bonus, this is also faster and
+  ## very memory efficient because it doesn't trigger a copy of the sequence
+  ## data.
+  if(is(e1,"ModString")){
+    class(e1) <- class(BString())
   }
-  if(!is(e2,"ModString")){
-    e2 <- BString(e2)
+  if(is(e2,"ModString")){
+    class(e2) <- class(BString())
   }
-  .Compare_XString_XString(.Generic, e1, e2)
+  .Compare_XString_XString("==", e1, e2)
 }
 
 #' @export
